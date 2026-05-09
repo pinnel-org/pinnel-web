@@ -1,3 +1,4 @@
+// Claude workflow works!
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { LandingPage } from '@/pages/Landing/LandingPage'
