@@ -19,16 +19,28 @@ jobs:
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: read
-      issues: read
+      contents: write
+      pull-requests: write
+      issues: write
       id-token: write
-      actions: read # Required for Claude to read CI results on PRs
+      actions: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Project Setup
+        run: |
+          npm install
+          nohup npm run dev > logs.txt 2>&1 &
+          sleep 5
 
       - name: Run Claude Code
         id: claude
@@ -36,15 +48,30 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
-          # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
             actions: read
 
-          # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
-          # prompt: 'Update the pull request description to include a summary of changes.'
+          custom_instructions: |
+            This is Pinnel — a React 18 + Vite + TypeScript trip planner app.
+            All dependencies are already installed. The dev server is running at http://localhost:5173.
+            Server logs are written to logs.txt in the project root.
+            Tech stack: React 18, Vite, TypeScript, React Router v6, CSS Modules, Zustand, TanStack Query v5, Axios, Leaflet/react-leaflet.
+            Design: dark minimal aesthetic — background #0f0f0f, accent lime green #c8ff57, font DM Sans/DM Mono.
+            All components must use CSS Modules, named exports only, no inline styles, no `any` in TypeScript.
+            Use mcp__playwright tools to open a browser and interact with the running app when you need to verify UI changes.
 
-          # Optional: Add claude_args to customize behavior and configuration
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
-          # claude_args: '--allowed-tools Bash(gh pr *)'
+          mcp_config: |
+            {
+              "mcpServers": {
+                "playwright": {
+                  "command": "npx",
+                  "args": [
+                    "@playwright/mcp@latest",
+                    "--allowed-origins",
+                    "localhost:5173"
+                  ]
+                }
+              }
+            }
 
+          allowed_tools: "Bash(npm run *),Bash(npm install *),Bash(cat *),Bash(ls *),Bash(mkdir *),Bash(cp *),Bash(mv *),Bash(rm *),Bash(echo *),Bash(git *),Bash(gh *),mcp__playwright__browser_navigate,mcp__playwright__browser_snapshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_fill_form,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_wait_for,mcp__playwright__browser_evaluate,mcp__playwright__browser_press_key,mcp__playwright__browser_hover,mcp__playwright__browser_select_option,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_resize,mcp__playwright__browser_tabs,mcp__playwright__browser_close"
