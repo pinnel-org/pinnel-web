@@ -42,6 +42,19 @@ jobs:
           nohup npm run dev > logs.txt 2>&1 &
           sleep 5
 
+      - name: Create MCP Config
+        run: |
+          cat > /tmp/mcp-config.json << 'EOF'
+          {
+            "mcpServers": {
+              "playwright": {
+                "command": "npx",
+                "args": ["@playwright/mcp@latest", "--allowed-origins", "localhost:5173"]
+              }
+            }
+          }
+          EOF
+
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
@@ -51,27 +64,7 @@ jobs:
           additional_permissions: |
             actions: read
 
-          custom_instructions: |
-            This is Pinnel — a React 18 + Vite + TypeScript trip planner app.
-            All dependencies are already installed. The dev server is running at http://localhost:5173.
-            Server logs are written to logs.txt in the project root.
-            Tech stack: React 18, Vite, TypeScript, React Router v6, CSS Modules, Zustand, TanStack Query v5, Axios, Leaflet/react-leaflet.
-            Design: dark minimal aesthetic — background #0f0f0f, accent lime green #c8ff57, font DM Sans/DM Mono.
-            All components must use CSS Modules, named exports only, no inline styles, no `any` in TypeScript.
-            Use mcp__playwright tools to open a browser and interact with the running app when you need to verify UI changes.
-
-          mcp_config: |
-            {
-              "mcpServers": {
-                "playwright": {
-                  "command": "npx",
-                  "args": [
-                    "@playwright/mcp@latest",
-                    "--allowed-origins",
-                    "localhost:5173"
-                  ]
-                }
-              }
-            }
-
-          allowed_tools: "Bash(npm run *),Bash(npm install *),Bash(cat *),Bash(ls *),Bash(mkdir *),Bash(cp *),Bash(mv *),Bash(rm *),Bash(echo *),Bash(git *),Bash(gh *),mcp__playwright__browser_navigate,mcp__playwright__browser_snapshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_fill_form,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_wait_for,mcp__playwright__browser_evaluate,mcp__playwright__browser_press_key,mcp__playwright__browser_hover,mcp__playwright__browser_select_option,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_resize,mcp__playwright__browser_tabs,mcp__playwright__browser_close"
+          claude_args: |
+            --system-prompt "All dependencies are pre-installed. Dev server is running at http://localhost:5173. Server logs are in logs.txt. Use mcp__playwright tools to verify UI changes in the browser."
+            --mcp-config /tmp/mcp-config.json
+            --allowedTools "Bash(npm run *),Bash(npm install *),Bash(cat *),Bash(ls *),Bash(mkdir *),Bash(cp *),Bash(mv *),Bash(rm *),Bash(echo *),Bash(git *),Bash(gh *),mcp__playwright__browser_navigate,mcp__playwright__browser_snapshot,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_fill_form,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_wait_for,mcp__playwright__browser_evaluate,mcp__playwright__browser_press_key,mcp__playwright__browser_hover,mcp__playwright__browser_select_option,mcp__playwright__browser_console_messages,mcp__playwright__browser_network_requests,mcp__playwright__browser_resize,mcp__playwright__browser_tabs,mcp__playwright__browser_close"
