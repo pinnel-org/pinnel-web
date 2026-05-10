@@ -25,7 +25,6 @@ yarn-error.log*
 
 # Claude Code temp files
 .playwright-mcp/
-*.png
-*.html
-!public/*.png
-!public/*.html
+*-result.png
+*-landing.png
+*-source.html
