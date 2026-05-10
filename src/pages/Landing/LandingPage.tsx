@@ -1,45 +1,31 @@
 import styles from './LandingPage.module.css'
+import { TopBar } from './sections/TopBar'
+import { HeroSection } from './sections/HeroSection'
+import { AppPreviewSection } from './sections/AppPreviewSection'
+import { FeaturesSection } from './sections/FeaturesSection'
+import { ShareSection } from './sections/ShareSection'
+import { FlowSection } from './sections/FlowSection'
+import { RoadmapSection } from './sections/RoadmapSection'
+import { CtaSection } from './sections/CtaSection'
 
-export const LandingPage = () => {
-  return (
+export const LandingPage = () => (
+  <div className={styles.wrapper}>
     <div className={styles.page}>
-      <section id="hero" className={styles.hero}>
-        <h1>Pinnel</h1>
-        <p>Plan the trip. Fix the chaos. Share the whole thing.</p>
-      </section>
-
-      <section id="features" className={styles.features}>
-        <h2>Features</h2>
-        <ul>
-          <li>Map + card workspace</li>
-          <li>Place cards with photo, rating, price, hours</li>
-          <li>Route optimization</li>
-          <li>Daily schedule builder</li>
-          <li>Mobile view for use during the trip</li>
-          <li>Trip sharing — public trip page</li>
-          <li>One-tap duplicate — Trip Remix</li>
-        </ul>
-      </section>
-
-      <section id="how-it-works" className={styles.howItWorks}>
-        <h2>How it works</h2>
-        <ol>
-          <li>Pick a city — map loads, place cards appear</li>
-          <li>Add cards (museums, food, viewpoints)</li>
-          <li>Hit Finalize — Pinnel reorders stops by proximity</li>
-          <li>Publish — anyone can clone it in one tap</li>
-        </ol>
-      </section>
-
-      <section id="cta" className={styles.cta}>
-        <h2>Ready to plan?</h2>
-        <p>Stop winging it.</p>
-        <a href="/dashboard">Get started</a>
-      </section>
-
+      <TopBar />
+      <HeroSection />
+      <div className={styles.divider}>§ 01 &nbsp; Inside the app</div>
+      <AppPreviewSection />
+      <div className={styles.divider}>§ 02 &nbsp; What's inside</div>
+      <FeaturesSection />
+      <ShareSection />
+      <div className={styles.divider}>§ 03 &nbsp; How it flows</div>
+      <FlowSection />
+      <RoadmapSection />
+      <CtaSection />
       <footer className={styles.footer}>
-        <p>&copy; {new Date().getFullYear()} Pinnel</p>
+        <div>© 2026 Pinnel · Plan · Route · Share</div>
+        <div>Milan · Paris · Tokyo · Your city next</div>
       </footer>
     </div>
-  )
-}
+  </div>
+)

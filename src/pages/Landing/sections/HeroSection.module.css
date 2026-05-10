@@ -1,0 +1,107 @@
+.hero {
+  padding: 80px 0 60px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  align-items: end;
+}
+
+.brandmark {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--lp-stone);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--lp-ember);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1.5px;
+  background: var(--lp-ember);
+}
+
+.title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: var(--lp-ink);
+}
+
+.titleLine {
+  display: block;
+  overflow: hidden;
+}
+
+.titleLine > span {
+  display: inline-block;
+}
+
+.accentSun {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--lp-sunset);
+}
+
+.accentTeal {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--lp-teal);
+}
+
+.right {
+  padding-bottom: 12px;
+}
+
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--lp-ink);
+  max-width: 380px;
+}
+
+.lede em {
+  color: var(--lp-ember);
+  font-style: italic;
+}
+
+.coords {
+  margin-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--lp-stone);
+  line-height: 1.8;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 0 32px;
+  }
+  .brandmark {
+    display: none;
+  }
+}
