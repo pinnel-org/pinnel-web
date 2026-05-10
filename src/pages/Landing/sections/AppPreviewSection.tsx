@@ -36,6 +36,7 @@ const cards: CardData[] = [
   },
 ]
 
+// Static SVG illustration — not a real map, just a visual for the landing page demo
 const MapSvg = () => (
   <svg className={styles.mapSvg} viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice">
     <defs>
