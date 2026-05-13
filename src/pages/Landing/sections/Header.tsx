@@ -40,7 +40,7 @@ export const Header = () => {
           <button className={styles.navBtn} onClick={() => navigate('/explore')}>
             EXPLORE TRIPS
           </button>
-          <button className={styles.navBtnSignIn} onClick={() => setShowSignIn(true)}>
+          <button className={styles.navBtn} onClick={() => setShowSignIn(true)}>
             SIGN IN
           </button>
         </nav>
