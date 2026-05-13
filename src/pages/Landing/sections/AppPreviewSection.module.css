@@ -7,7 +7,7 @@
   grid-template-columns: 2fr 1fr;
   gap: 48px;
   margin-bottom: 40px;
-  align-items: end;
+  align-items: center;
 }
 
 .h2 {
@@ -37,6 +37,8 @@
   box-shadow: 10px 10px 0 var(--lp-ink);
   overflow: hidden;
   border-radius: 6px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .chrome {
@@ -250,7 +252,7 @@
 
 .mapArea {
   position: relative;
-  background: linear-gradient(135deg, #e8e0cf 0%, #d9cfb8 100%);
+  background: #e8e8e8;
   overflow: hidden;
 }
 

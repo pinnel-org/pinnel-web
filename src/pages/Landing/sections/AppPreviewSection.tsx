@@ -36,32 +36,82 @@ const cards: CardData[] = [
   },
 ]
 
-// Static SVG illustration — not a real map, just a visual for the landing page demo
+// Static SVG city-map illustration — non-interactive visual for the landing page
 const MapSvg = () => (
   <svg className={styles.mapSvg} viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice">
-    <defs>
-      <pattern id="mapGrid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(26,20,16,0.08)" strokeWidth="0.5" />
-      </pattern>
-    </defs>
-    <rect width="600" height="520" fill="url(#mapGrid)" />
-    <path d="M 50 80 Q 200 100, 350 200 T 560 340" stroke="#b8a988" strokeWidth="8" fill="none" opacity="0.5" strokeLinecap="round" />
-    <path d="M 50 80 Q 200 100, 350 200 T 560 340" stroke="#f4ede1" strokeWidth="5" fill="none" strokeLinecap="round" />
-    <path d="M 100 450 Q 220 380, 340 400 T 580 440" stroke="#b8a988" strokeWidth="6" fill="none" opacity="0.5" strokeLinecap="round" />
-    <path d="M 100 450 Q 220 380, 340 400 T 580 440" stroke="#f4ede1" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-    <path d="M 280 40 L 290 510" stroke="#b8a988" strokeWidth="5" fill="none" opacity="0.4" strokeLinecap="round" />
-    <path d="M 280 40 L 290 510" stroke="#f4ede1" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-    <path d="M 20 280 L 580 270" stroke="#b8a988" strokeWidth="5" fill="none" opacity="0.4" strokeLinecap="round" />
-    <path d="M 20 280 L 580 270" stroke="#f4ede1" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-    <ellipse cx="130" cy="200" rx="60" ry="40" fill="#c9d8b5" opacity="0.7" />
-    <ellipse cx="450" cy="160" rx="50" ry="35" fill="#c9d8b5" opacity="0.7" />
-    <ellipse cx="420" cy="430" rx="55" ry="30" fill="#c9d8b5" opacity="0.7" />
-    <rect x="200" y="220" width="30" height="25" fill="#d4c8b0" opacity="0.6" />
-    <rect x="240" y="210" width="25" height="30" fill="#d4c8b0" opacity="0.6" />
-    <rect x="320" y="240" width="35" height="20" fill="#d4c8b0" opacity="0.6" />
-    <rect x="360" y="300" width="28" height="28" fill="#d4c8b0" opacity="0.6" />
-    <rect x="180" y="340" width="22" height="32" fill="#d4c8b0" opacity="0.6" />
-    <path d="M 300 270 L 340 250 L 380 290 L 260 420" stroke="#e8471c" strokeWidth="2.5" fill="none" strokeDasharray="6 5" opacity="0.7" />
+    {/* Base map background */}
+    <rect width="600" height="520" fill="#e8e8e8" />
+
+    {/* City blocks */}
+    <rect x="0" y="0" width="120" height="80" fill="#dcdcdc" />
+    <rect x="140" y="0" width="130" height="80" fill="#dcdcdc" />
+    <rect x="290" y="0" width="90" height="80" fill="#dcdcdc" />
+    <rect x="400" y="0" width="200" height="80" fill="#dcdcdc" />
+
+    <rect x="0" y="100" width="80" height="100" fill="#dcdcdc" />
+    <rect x="100" y="100" width="160" height="100" fill="#dcdcdc" />
+    <rect x="280" y="100" width="100" height="45" fill="#dcdcdc" />
+    <rect x="400" y="100" width="200" height="100" fill="#dcdcdc" />
+
+    <rect x="0" y="220" width="80" height="80" fill="#dcdcdc" />
+    <rect x="100" y="220" width="160" height="80" fill="#dcdcdc" />
+    <rect x="280" y="165" width="100" height="135" fill="#dcdcdc" />
+    <rect x="400" y="220" width="90" height="80" fill="#dcdcdc" />
+    <rect x="510" y="220" width="90" height="80" fill="#dcdcdc" />
+
+    <rect x="0" y="320" width="80" height="80" fill="#dcdcdc" />
+    <rect x="100" y="320" width="70" height="80" fill="#dcdcdc" />
+    <rect x="190" y="320" width="70" height="80" fill="#dcdcdc" />
+    <rect x="280" y="320" width="100" height="80" fill="#dcdcdc" />
+    <rect x="400" y="320" width="200" height="80" fill="#dcdcdc" />
+
+    <rect x="0" y="420" width="120" height="100" fill="#dcdcdc" />
+    <rect x="140" y="420" width="120" height="100" fill="#dcdcdc" />
+    <rect x="280" y="420" width="100" height="100" fill="#dcdcdc" />
+    <rect x="400" y="420" width="200" height="100" fill="#dcdcdc" />
+
+    {/* Green areas (parks) */}
+    <rect x="100" y="165" width="160" height="35" fill="#c8d8b0" opacity="0.8" />
+    <rect x="400" y="165" width="90" height="35" fill="#c8d8b0" opacity="0.8" />
+    <rect x="510" y="165" width="90" height="35" fill="#c8d8b0" opacity="0.8" />
+    <rect x="100" y="420" width="160" height="100" fill="#c8d8b0" opacity="0.7" />
+
+    {/* Main roads — horizontal (white lines) */}
+    <rect x="0" y="88" width="600" height="10" fill="white" />
+    <rect x="0" y="208" width="600" height="10" fill="white" />
+    <rect x="0" y="308" width="600" height="10" fill="white" />
+    <rect x="0" y="408" width="600" height="10" fill="white" />
+
+    {/* Main roads — vertical (white lines) */}
+    <rect x="88" y="0" width="10" height="520" fill="white" />
+    <rect x="268" y="0" width="10" height="520" fill="white" />
+    <rect x="388" y="0" width="10" height="520" fill="white" />
+    <rect x="498" y="0" width="10" height="520" fill="white" />
+
+    {/* Secondary roads — horizontal */}
+    <rect x="0" y="158" width="600" height="6" fill="#f0f0f0" />
+    <rect x="0" y="358" width="260" height="6" fill="#f0f0f0" />
+    <rect x="398" y="358" width="202" height="6" fill="#f0f0f0" />
+
+    {/* Secondary roads — vertical */}
+    <rect x="178" y="0" width="6" height="300" fill="#f0f0f0" />
+    <rect x="178" y="318" width="6" height="202" fill="#f0f0f0" />
+
+    {/* Diagonal boulevard */}
+    <path d="M 268 0 L 388 208" stroke="white" strokeWidth="8" fill="none" />
+    <path d="M 388 208 L 268 308" stroke="white" strokeWidth="8" fill="none" />
+
+    {/* Route path through the city */}
+    <path
+      d="M 230 180 L 310 180 L 310 260 L 430 260 L 430 350 L 230 420"
+      stroke="#e8471c"
+      strokeWidth="3"
+      fill="none"
+      strokeDasharray="8 6"
+      opacity="0.85"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 )
 
@@ -110,14 +160,10 @@ export const AppPreviewSection = () => (
             <div className={`${styles.mapBtn} ${styles.mapBtnActive}`}>Map</div>
             <div className={styles.mapBtn}>Satellite</div>
           </div>
-          <div className={styles.mapZoom}>
-            <div className={styles.zoomBtn}>+</div>
-            <div className={styles.zoomBtn}>−</div>
-          </div>
-          <div className={styles.mapPin} style={{ left: '50%', top: '52%' }}><div className={styles.pinBody}><span>1</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinAmber}`} style={{ left: '57%', top: '48%' }}><div className={styles.pinBody}><span>2</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinTeal}`} style={{ left: '63%', top: '56%' }}><div className={styles.pinBody}><span>3</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinInk}`} style={{ left: '43%', top: '80%' }}><div className={styles.pinBody}><span>4</span></div></div>
+          <div className={styles.mapPin} style={{ left: '38%', top: '35%' }}><div className={styles.pinBody}><span>1</span></div></div>
+          <div className={`${styles.mapPin} ${styles.mapPinTeal}`} style={{ left: '52%', top: '50%' }}><div className={styles.pinBody}><span>2</span></div></div>
+          <div className={`${styles.mapPin} ${styles.mapPinAmber}`} style={{ left: '62%', top: '42%' }}><div className={styles.pinBody}><span>3</span></div></div>
+          <div className={`${styles.mapPin} ${styles.mapPinInk}`} style={{ left: '42%', top: '68%' }}><div className={styles.pinBody}><span>4</span></div></div>
           <div className={styles.mapInfo}>
             <div className={styles.mapInfoLabel}>Optimized Route</div>
             <div className={styles.mapInfoTitle}>4 stops · 1 day</div>
