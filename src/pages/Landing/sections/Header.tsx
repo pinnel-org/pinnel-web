@@ -1,0 +1,50 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styles from './Header.module.css'
+import { SignInModal } from '@/components/SignInModal/SignInModal'
+
+const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
+
+export const Header = () => {
+  const navigate = useNavigate()
+  const [showSignIn, setShowSignIn] = useState(false)
+
+  const scrollToHowItWorks = () => {
+    const el = document.getElementById('how-it-works')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <>
+      <header className={styles.header}>
+        <div className={styles.logo}>
+          <img
+            src={LOGO_URL}
+            alt="Pinnel logo"
+            className={styles.logoImage}
+          />
+          <div className={styles.logoText}>
+            <span className={styles.brand}>pinnel</span>
+            <span className={styles.tagline}>PLAN · TRAVEL · SHARE</span>
+          </div>
+        </div>
+
+        <nav className={styles.nav}>
+          <button className={styles.navBtn} onClick={scrollToHowItWorks}>
+            HOW IT WORKS
+          </button>
+          <button className={styles.navBtn} onClick={() => navigate('/explore')}>
+            EXPLORE TRIPS
+          </button>
+          <button className={styles.navBtn} onClick={() => setShowSignIn(true)}>
+            SIGN IN
+          </button>
+        </nav>
+      </header>
+
+      {showSignIn && <SignInModal onClose={() => setShowSignIn(false)} />}
+    </>
+  )
+}

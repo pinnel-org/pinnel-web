@@ -1,0 +1,195 @@
+/* ── Overlay ────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 20, 16, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeOverlay 0.2s ease forwards;
+}
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Modal box ──────────────────────────── */
+.modal {
+  --modal-bg: #f4ede1;
+  --modal-ink: #1a1410;
+  --modal-stone: #8a7a66;
+  --modal-teal: #0c4a4a;
+  --modal-sunset: #e8471c;
+  --modal-border: rgba(26, 20, 16, 0.18);
+
+  background: var(--modal-bg);
+  border: 1.5px solid var(--modal-border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 380px;
+  padding: 44px 40px 36px;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin: 16px;
+  box-shadow: 0 8px 48px rgba(26, 20, 16, 0.14), 0 2px 8px rgba(26, 20, 16, 0.08);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Close button ───────────────────────── */
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--modal-stone);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: var(--modal-ink);
+  background: rgba(26, 20, 16, 0.07);
+}
+
+/* ── Content ────────────────────────────── */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ── Logo row ───────────────────────────── */
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.logoImage {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.logoName {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--modal-teal);
+  line-height: 1;
+}
+
+/* ── Headings ───────────────────────────── */
+.title {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--modal-ink);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-stone);
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+/* ── Divider ────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(26, 20, 16, 0.12);
+  margin-bottom: 24px;
+}
+
+/* ── Google button ──────────────────────── */
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+  background: #ffffff;
+  border: 1.5px solid rgba(26, 20, 16, 0.2);
+  border-radius: 8px;
+  color: var(--modal-ink);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 20px;
+}
+
+.googleBtn:hover {
+  background: #f9f3eb;
+  border-color: rgba(26, 20, 16, 0.36);
+  box-shadow: 0 2px 8px rgba(26, 20, 16, 0.08);
+}
+
+.googleBtn:active {
+  background: #f0e9dc;
+}
+
+/* ── Terms ──────────────────────────────── */
+.terms {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  color: var(--modal-stone);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.link {
+  color: var(--modal-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s ease;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 440px) {
+  .modal {
+    padding: 36px 24px 28px;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}

@@ -1,5 +1,5 @@
 import styles from './LandingPage.module.css'
-import { TopBar } from './sections/TopBar'
+import { Header } from './sections/Header'
 import { HeroSection } from './sections/HeroSection'
 import { AppPreviewSection } from './sections/AppPreviewSection'
 import { FeaturesSection } from './sections/FeaturesSection'
@@ -11,14 +11,14 @@ import { CtaSection } from './sections/CtaSection'
 export const LandingPage = () => (
   <div className={styles.wrapper}>
     <div className={styles.page}>
-      <TopBar />
+      <Header />
       <HeroSection />
       <div className={styles.divider}>§ 01 &nbsp; Inside the app</div>
       <AppPreviewSection />
       <div className={styles.divider}>§ 02 &nbsp; What's inside</div>
       <FeaturesSection />
       <ShareSection />
-      <div className={styles.divider}>§ 03 &nbsp; How it flows</div>
+      <div id="how-it-works" className={styles.divider}>§ 03 &nbsp; How it flows</div>
       <FlowSection />
       <RoadmapSection />
       <CtaSection />
