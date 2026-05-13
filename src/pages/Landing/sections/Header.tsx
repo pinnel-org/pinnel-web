@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
 import { SignInModal } from '@/components/SignInModal/SignInModal'
 
-// Logo image — replace with local asset path once downloaded
-const LOGO_URL = 'https://github.com/user-attachments/assets/6544a9c4-1e13-48fd-83fd-da8106bb09ae'
+const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
 
 export const Header = () => {
   const navigate = useNavigate()

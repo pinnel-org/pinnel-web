@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import styles from './SignInModal.module.css'
 
+const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
+
 interface SignInModalProps {
   onClose: () => void
 }
@@ -65,13 +67,7 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
 
         <div className={styles.content}>
           <div className={styles.logoRow}>
-            <svg width="20" height="26" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M14 0C6.268 0 0 6.268 0 14c0 9.941 14 22 14 22S28 23.941 28 14C28 6.268 21.732 0 14 0z"
-                fill="#c8ff57"
-              />
-              <circle cx="14" cy="14" r="5" fill="#0f0f0f" />
-            </svg>
+            <img src={LOGO_URL} alt="Pinnel logo" className={styles.logoImage} />
             <span className={styles.logoName}>pinnel</span>
           </div>
 
@@ -79,6 +75,8 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
           <p className={styles.subtitle}>
             Sign in to plan, save and share trips.
           </p>
+
+          <div className={styles.divider} />
 
           <button className={styles.googleBtn} onClick={handleGoogleSignIn}>
             <GoogleIcon />
