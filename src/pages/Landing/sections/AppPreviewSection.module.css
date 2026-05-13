@@ -252,7 +252,7 @@
 
 .mapArea {
   position: relative;
-  background: #e8e8e8;
+  background: #f2ebe0;
   overflow: hidden;
 }
 
@@ -320,44 +320,40 @@
   transform: translate(-50%, -100%);
   z-index: 2;
   cursor: pointer;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
 }
 
-.mapPin::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 16px;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  filter: blur(2px);
-}
-
+/* Google Maps-style pin — teardrop shape built from a rotated square */
 .pinBody {
-  width: 30px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: var(--lp-sunset);
-  border: 2px solid var(--lp-paper);
+  border: 2.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .pinBody span {
   transform: rotate(45deg);
-  color: var(--lp-paper);
+  color: #fff;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  width: 18px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mapPinAmber .pinBody { background: var(--lp-amber); }
-.mapPinAmber .pinBody span { color: var(--lp-ink); }
+.mapPinAmber .pinBody span { color: var(--lp-ink); background: rgba(0, 0, 0, 0.12); }
 .mapPinTeal .pinBody { background: var(--lp-teal); }
 .mapPinInk .pinBody { background: var(--lp-ink); }
 

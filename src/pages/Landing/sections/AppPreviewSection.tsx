@@ -36,82 +36,128 @@ const cards: CardData[] = [
   },
 ]
 
-// Static SVG city-map illustration — non-interactive visual for the landing page
+// Static Google Maps-style SVG of central Milan — non-interactive visual for the landing page
 const MapSvg = () => (
   <svg className={styles.mapSvg} viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice">
-    {/* Base map background */}
-    <rect width="600" height="520" fill="#e8e8e8" />
+    {/* Base land — Google Maps warm off-white */}
+    <rect width="600" height="520" fill="#f2ebe0" />
 
-    {/* City blocks */}
-    <rect x="0" y="0" width="120" height="80" fill="#dcdcdc" />
-    <rect x="140" y="0" width="130" height="80" fill="#dcdcdc" />
-    <rect x="290" y="0" width="90" height="80" fill="#dcdcdc" />
-    <rect x="400" y="0" width="200" height="80" fill="#dcdcdc" />
+    {/* === PARKS === */}
+    {/* Parco Sempione — large park, top-left */}
+    <path d="M 0,18 L 148,18 L 148,188 Q 74,194 0,188 Z" fill="#b8d898" />
+    <path d="M 6,24 L 142,24 L 142,183 Q 71,188 6,183 Z" fill="#a8c888" />
 
-    <rect x="0" y="100" width="80" height="100" fill="#dcdcdc" />
-    <rect x="100" y="100" width="160" height="100" fill="#dcdcdc" />
-    <rect x="280" y="100" width="100" height="45" fill="#dcdcdc" />
-    <rect x="400" y="100" width="200" height="100" fill="#dcdcdc" />
+    {/* Giardini Pubblici Indro Montanelli — top-right */}
+    <rect x="492" y="0" width="108" height="128" rx="10" fill="#c0da9c" />
+    <rect x="498" y="5" width="97" height="118" rx="8" fill="#b0cc8c" />
 
-    <rect x="0" y="220" width="80" height="80" fill="#dcdcdc" />
-    <rect x="100" y="220" width="160" height="80" fill="#dcdcdc" />
-    <rect x="280" y="165" width="100" height="135" fill="#dcdcdc" />
-    <rect x="400" y="220" width="90" height="80" fill="#dcdcdc" />
-    <rect x="510" y="220" width="90" height="80" fill="#dcdcdc" />
+    {/* Small ornamental garden near Cordusio */}
+    <ellipse cx="250" cy="178" rx="26" ry="18" fill="#d0e8b4" />
 
-    <rect x="0" y="320" width="80" height="80" fill="#dcdcdc" />
-    <rect x="100" y="320" width="70" height="80" fill="#dcdcdc" />
-    <rect x="190" y="320" width="70" height="80" fill="#dcdcdc" />
-    <rect x="280" y="320" width="100" height="80" fill="#dcdcdc" />
-    <rect x="400" y="320" width="200" height="80" fill="#dcdcdc" />
+    {/* === WATER === */}
+    {/* Naviglio Grande canal — horizontal at bottom */}
+    <path d="M -4,396 Q 90,390 205,394 Q 285,398 295,393 Q 385,387 500,393 Q 555,396 604,392 L 604,410 Q 555,414 500,410 Q 385,404 295,410 Q 285,415 205,411 Q 90,407 -4,413 Z" fill="#9dc8e2" />
+    {/* Naviglio Pavese — vertical canal south */}
+    <path d="M 290,396 Q 282,448 276,520 L 299,520 Q 305,448 313,396 Z" fill="#9dc8e2" opacity="0.85" />
 
-    <rect x="0" y="420" width="120" height="100" fill="#dcdcdc" />
-    <rect x="140" y="420" width="120" height="100" fill="#dcdcdc" />
-    <rect x="280" y="420" width="100" height="100" fill="#dcdcdc" />
-    <rect x="400" y="420" width="200" height="100" fill="#dcdcdc" />
+    {/* === BUILDING BLOCKS === */}
+    {/* Top row */}
+    <rect x="158" y="2" width="84" height="62" rx="3" fill="#e3d9c6" />
+    <rect x="254" y="2" width="90" height="62" rx="3" fill="#e3d9c6" />
+    <rect x="356" y="2" width="88" height="62" rx="3" fill="#e3d9c6" />
+    <rect x="456" y="2" width="28" height="62" rx="3" fill="#e3d9c6" />
 
-    {/* Green areas (parks) */}
-    <rect x="100" y="165" width="160" height="35" fill="#c8d8b0" opacity="0.8" />
-    <rect x="400" y="165" width="90" height="35" fill="#c8d8b0" opacity="0.8" />
-    <rect x="510" y="165" width="90" height="35" fill="#c8d8b0" opacity="0.8" />
-    <rect x="100" y="420" width="160" height="100" fill="#c8d8b0" opacity="0.7" />
+    {/* Second row */}
+    <rect x="158" y="80" width="84" height="78" rx="3" fill="#e3d9c6" />
+    <rect x="254" y="80" width="90" height="78" rx="3" fill="#e3d9c6" />
+    <rect x="356" y="80" width="88" height="78" rx="3" fill="#e3d9c6" />
+    <rect x="456" y="80" width="28" height="78" rx="3" fill="#e3d9c6" />
+    <rect x="496" y="80" width="104" height="78" rx="3" fill="#e3d9c6" />
 
-    {/* Main roads — horizontal (white lines) */}
-    <rect x="0" y="88" width="600" height="10" fill="white" />
-    <rect x="0" y="208" width="600" height="10" fill="white" />
-    <rect x="0" y="308" width="600" height="10" fill="white" />
-    <rect x="0" y="408" width="600" height="10" fill="white" />
+    {/* Left side column */}
+    <rect x="0" y="210" width="82" height="76" rx="3" fill="#e3d9c6" />
+    <rect x="0" y="304" width="82" height="84" rx="3" fill="#e3d9c6" />
 
-    {/* Main roads — vertical (white lines) */}
-    <rect x="88" y="0" width="10" height="520" fill="white" />
-    <rect x="268" y="0" width="10" height="520" fill="white" />
-    <rect x="388" y="0" width="10" height="520" fill="white" />
-    <rect x="498" y="0" width="10" height="520" fill="white" />
+    {/* Blocks around Duomo area */}
+    <rect x="158" y="178" width="68" height="58" rx="3" fill="#e3d9c6" />
+    <rect x="238" y="178" width="58" height="58" rx="3" fill="#e3d9c6" />
+    <rect x="374" y="178" width="48" height="58" rx="3" fill="#e3d9c6" />
+    <rect x="434" y="178" width="50" height="58" rx="3" fill="#e3d9c6" />
+    <rect x="498" y="178" width="102" height="58" rx="3" fill="#e3d9c6" />
 
-    {/* Secondary roads — horizontal */}
-    <rect x="0" y="158" width="600" height="6" fill="#f0f0f0" />
-    <rect x="0" y="358" width="260" height="6" fill="#f0f0f0" />
-    <rect x="398" y="358" width="202" height="6" fill="#f0f0f0" />
+    {/* Piazza del Duomo — open square */}
+    <rect x="312" y="232" width="54" height="46" rx="4" fill="#ece4d0" />
 
-    {/* Secondary roads — vertical */}
-    <rect x="178" y="0" width="6" height="300" fill="#f0f0f0" />
-    <rect x="178" y="318" width="6" height="202" fill="#f0f0f0" />
+    <rect x="158" y="248" width="68" height="64" rx="3" fill="#e3d9c6" />
+    <rect x="238" y="248" width="58" height="64" rx="3" fill="#e3d9c6" />
+    <rect x="374" y="248" width="48" height="48" rx="3" fill="#e3d9c6" />
+    <rect x="434" y="248" width="50" height="48" rx="3" fill="#e3d9c6" />
+    <rect x="498" y="248" width="102" height="48" rx="3" fill="#e3d9c6" />
 
-    {/* Diagonal boulevard */}
-    <path d="M 268 0 L 388 208" stroke="white" strokeWidth="8" fill="none" />
-    <path d="M 388 208 L 268 308" stroke="white" strokeWidth="8" fill="none" />
+    {/* Lower center blocks */}
+    <rect x="158" y="330" width="68" height="60" rx="3" fill="#e3d9c6" />
+    <rect x="238" y="330" width="58" height="60" rx="3" fill="#e3d9c6" />
+    <rect x="310" y="314" width="56" height="76" rx="3" fill="#e3d9c6" />
+    <rect x="378" y="306" width="48" height="84" rx="3" fill="#e3d9c6" />
+    <rect x="438" y="306" width="50" height="84" rx="3" fill="#e3d9c6" />
+    <rect x="500" y="306" width="100" height="84" rx="3" fill="#e3d9c6" />
 
-    {/* Route path through the city */}
+    {/* Navigli area blocks */}
+    <rect x="90" y="304" width="60" height="84" rx="3" fill="#e3d9c6" />
+    <rect x="162" y="304" width="68" height="84" rx="3" fill="#e3d9c6" />
+    <rect x="0" y="420" width="82" height="100" rx="3" fill="#e3d9c6" />
+    <rect x="90" y="422" width="60" height="98" rx="3" fill="#e3d9c6" />
+    <rect x="162" y="420" width="68" height="100" rx="3" fill="#e3d9c6" />
+    <rect x="316" y="420" width="56" height="100" rx="3" fill="#e3d9c6" />
+    <rect x="438" y="420" width="52" height="100" rx="3" fill="#e3d9c6" />
+    <rect x="502" y="420" width="98" height="100" rx="3" fill="#e3d9c6" />
+
+    {/* === MAIN ROADS (white) === */}
+    {/* Horizontal arteries */}
+    <rect x="0" y="66" width="600" height="12" fill="white" />
+    <rect x="148" y="168" width="452" height="10" fill="white" />
+    <rect x="0" y="228" width="600" height="14" fill="white" />
+    <rect x="0" y="296" width="600" height="8" fill="white" />
+    <rect x="0" y="390" width="600" height="8" fill="white" />
+
+    {/* Vertical arteries */}
+    <rect x="148" y="0" width="10" height="520" fill="white" />
+    <rect x="242" y="0" width="10" height="520" fill="white" />
+    <rect x="366" y="0" width="9" height="296" fill="white" />
+    <rect x="366" y="304" width="9" height="216" fill="white" />
+    <rect x="430" y="0" width="8" height="520" fill="white" />
+    <rect x="496" y="0" width="8" height="390" fill="white" />
+
+    {/* Via Torino — diagonal route Duomo → Navigli */}
+    <path d="M 304,228 L 292,296 Q 272,344 250,390"
+      stroke="white" strokeWidth="10" fill="none" strokeLinecap="round" />
+
+    {/* === SECONDARY ROADS (light tan) === */}
+    <line x1="0" y1="198" x2="600" y2="198" stroke="#f0e8d8" strokeWidth="5" />
+    <line x1="0" y1="264" x2="600" y2="264" stroke="#f0e8d8" strokeWidth="5" />
+    <line x1="148" y1="354" x2="600" y2="354" stroke="#f0e8d8" strokeWidth="5" />
+    <line x1="180" y1="66" x2="180" y2="228" stroke="#f0e8d8" strokeWidth="4" />
+    <line x1="314" y1="168" x2="314" y2="228" stroke="#f0e8d8" strokeWidth="4" />
+    <line x1="400" y1="168" x2="400" y2="296" stroke="#f0e8d8" strokeWidth="4" />
+
+    {/* === WALKING ROUTE (Google blue dashed) === */}
+    {/* Galleria → Luini → Duomo → Via Torino → Navigli */}
     <path
-      d="M 230 180 L 310 180 L 310 260 L 430 260 L 430 350 L 230 420"
-      stroke="#e8471c"
-      strokeWidth="3"
+      d="M 352,183 L 295,193 L 340,255 Q 308,330 244,390"
+      stroke="#4285f4"
+      strokeWidth="4.5"
       fill="none"
-      strokeDasharray="8 6"
-      opacity="0.85"
+      strokeDasharray="12 7"
+      opacity="0.9"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
+
+    {/* === STREET LABELS === */}
+    <text x="250" y="224" fill="#888" fontSize="7.5" fontFamily="Arial,sans-serif" opacity="0.85" fontWeight="500">Corso Vittorio Emanuele II</text>
+    <text x="172" y="163" fill="#888" fontSize="7" fontFamily="Arial,sans-serif" opacity="0.8">Via Dante</text>
+    <text x="262" y="288" fill="#888" fontSize="7" fontFamily="Arial,sans-serif" opacity="0.8">Via Torino</text>
+    <text x="14" y="407" fill="#5b8ca8" fontSize="7.5" fontFamily="Arial,sans-serif" opacity="0.9" fontWeight="500">Naviglio Grande</text>
   </svg>
 )
 
@@ -160,10 +206,14 @@ export const AppPreviewSection = () => (
             <div className={`${styles.mapBtn} ${styles.mapBtnActive}`}>Map</div>
             <div className={styles.mapBtn}>Satellite</div>
           </div>
-          <div className={styles.mapPin} style={{ left: '38%', top: '35%' }}><div className={styles.pinBody}><span>1</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinTeal}`} style={{ left: '52%', top: '50%' }}><div className={styles.pinBody}><span>2</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinAmber}`} style={{ left: '62%', top: '42%' }}><div className={styles.pinBody}><span>3</span></div></div>
-          <div className={`${styles.mapPin} ${styles.mapPinInk}`} style={{ left: '42%', top: '68%' }}><div className={styles.pinBody}><span>4</span></div></div>
+          {/* Pin 1 — Duomo (center of Piazza del Duomo) */}
+          <div className={styles.mapPin} style={{ left: '57%', top: '49%' }}><div className={styles.pinBody}><span>1</span></div></div>
+          {/* Pin 2 — Luini Panzerotti (Via Santa Radegonda, just north-west of Duomo) */}
+          <div className={`${styles.mapPin} ${styles.mapPinTeal}`} style={{ left: '49%', top: '37%' }}><div className={styles.pinBody}><span>2</span></div></div>
+          {/* Pin 3 — Galleria Vittorio Emanuele II (just north of Duomo) */}
+          <div className={`${styles.mapPin} ${styles.mapPinAmber}`} style={{ left: '59%', top: '35%' }}><div className={styles.pinBody}><span>3</span></div></div>
+          {/* Pin 4 — Navigli District (along the Naviglio Grande canal) */}
+          <div className={`${styles.mapPin} ${styles.mapPinInk}`} style={{ left: '41%', top: '83%' }}><div className={styles.pinBody}><span>4</span></div></div>
           <div className={styles.mapInfo}>
             <div className={styles.mapInfoLabel}>Optimized Route</div>
             <div className={styles.mapInfoTitle}>4 stops · 1 day</div>
