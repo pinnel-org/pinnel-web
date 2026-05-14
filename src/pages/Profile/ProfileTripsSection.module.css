@@ -1,0 +1,87 @@
+.section {
+  padding: 32px 40px;
+}
+
+/* Header row */
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(26, 20, 16, 0.12);
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: 'Fraunces', serif;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--lp-ink);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.em {
+  font-style: italic;
+  color: var(--lp-sunset);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--lp-stone);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab:hover {
+  background: var(--lp-paper-deep);
+  color: var(--lp-ink);
+}
+
+.activeTab {
+  background: var(--lp-ink);
+  color: var(--lp-paper);
+}
+
+.activeTab:hover {
+  background: var(--lp-ink);
+  color: var(--lp-paper);
+}
+
+.tabCount {
+  opacity: 0.7;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* Empty */
+.empty {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--lp-stone);
+  padding: 40px 0;
+  text-align: center;
+}

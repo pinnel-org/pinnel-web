@@ -1,11 +1,5 @@
 import { create } from 'zustand'
 
-interface CognitoSession {
-  cognitoId: string
-  cognitoEmail: string
-  cognitoUsername: string
-}
-
 interface AuthStore {
   cognitoId: string | null
   cognitoEmail: string | null
