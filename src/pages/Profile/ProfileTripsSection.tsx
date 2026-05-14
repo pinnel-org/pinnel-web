@@ -1,32 +1,20 @@
 import { useState } from 'react'
-import { Trip } from '@/types'
+import { TripSummary } from '@/types'
 import { ProfileTripCard } from './ProfileTripCard'
 import styles from './ProfileTripsSection.module.css'
 
-type TabId = 'all' | 'planned' | 'drafts' | 'past'
+type TabId = 'all'
 
 interface Props {
-  trips: Trip[]
+  trips: TripSummary[]
 }
 
 export const ProfileTripsSection = ({ trips }: Props) => {
-  const [tab, setTab] = useState<TabId>('all')
-
-  const planned = trips.filter((t) => t.isPublic)
-  const drafts = trips.filter((t) => !t.isPublic)
+  const [tab] = useState<TabId>('all')
 
   const tabs: { id: TabId; label: string; count: number }[] = [
     { id: 'all', label: 'ALL', count: trips.length },
-    { id: 'planned', label: 'PLANNED', count: planned.length },
-    { id: 'drafts', label: 'DRAFTS', count: drafts.length },
-    { id: 'past', label: 'PAST', count: 0 },
   ]
-
-  const filtered: Trip[] =
-    tab === 'all' ? trips :
-    tab === 'planned' ? planned :
-    tab === 'drafts' ? drafts :
-    []
 
   return (
     <section className={styles.section}>
@@ -39,7 +27,6 @@ export const ProfileTripsSection = ({ trips }: Props) => {
             <button
               key={t.id}
               className={`${styles.tab} ${tab === t.id ? styles.activeTab : ''}`}
-              onClick={() => setTab(t.id)}
             >
               {t.label}
               <span className={styles.tabCount}>{t.count}</span>
@@ -48,11 +35,11 @@ export const ProfileTripsSection = ({ trips }: Props) => {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {trips.length === 0 ? (
         <p className={styles.empty}>No trips here yet.</p>
       ) : (
         <div className={styles.grid}>
-          {filtered.map((trip, i) => (
+          {trips.map((trip, i) => (
             <ProfileTripCard key={trip.id} trip={trip} index={i} />
           ))}
         </div>

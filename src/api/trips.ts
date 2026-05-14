@@ -1,5 +1,5 @@
 import { apiClient } from './client'
-import { Trip, CreateTripDto } from '@/types'
+import { Trip, TripSummary, CreateTripDto } from '@/types'
 
 export const tripsApi = {
   getTrip: (id: string) =>
@@ -9,7 +9,7 @@ export const tripsApi = {
     apiClient.get<Trip>(`/trips/slug/${slug}`).then((r) => r.data),
 
   getUserTrips: () =>
-    apiClient.get<Trip[]>('/trips/me').then((r) => r.data),
+    apiClient.get<TripSummary[]>('/trips').then((r) => r.data),
 
   searchTrips: (city: string, mood?: string) =>
     apiClient.get<Trip[]>('/trips', { params: { city, mood } }).then((r) => r.data),
