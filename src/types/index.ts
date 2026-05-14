@@ -34,8 +34,19 @@ export interface Place {
 
 export interface User {
   id: string
+  cognitoId: string
   email: string
-  name: string
+  username: string
+  displayName: string | null
+  bio: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface UpdateUserDto {
+  username?: string
+  displayName?: string
+  bio?: string
 }
 
 export interface CreateTripDto {
