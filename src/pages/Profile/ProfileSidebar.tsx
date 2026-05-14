@@ -21,7 +21,9 @@ const getInitials = (user: User): string => {
   if (user.displayName) {
     return user.displayName.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
   }
-  return (user.username ?? user.email).slice(0, 2).toUpperCase()
+  const fallback = user.username ?? user.email
+  if (!fallback) return '?'
+  return fallback.slice(0, 2).toUpperCase()
 }
 
 const splitName = (displayName: string | null, fallback: string): [string, string] => {
