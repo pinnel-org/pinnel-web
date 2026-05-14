@@ -19,8 +19,8 @@ export const ProfilePage = () => {
 
   if (!user) return null
 
-  const placesCount = trips.reduce((sum, t) => sum + (t.places?.length ?? 0), 0)
-  const countriesCount = new Set(trips.map((t) => t.country).filter(Boolean)).size
+  const pinsCount = trips.reduce((sum, t) => sum + (t.pinIds?.length ?? 0), 0)
+  const citiesCount = new Set(trips.flatMap((t) => t.cityIds ?? [])).size
 
   return (
     <div className={styles.wrapper}>
@@ -30,11 +30,11 @@ export const ProfilePage = () => {
         <main className={styles.main}>
           <div className={styles.mapWidget}>
             <div className={styles.mapStatsBadge}>
-              {placesCount} PINS · {countriesCount} COUNTRIES
+              {pinsCount} PINS · {citiesCount} CITIES
             </div>
             <div className={styles.mapCanvas}>
               <div className={styles.mapDots}>
-                {Array.from({ length: Math.min(countriesCount, 12) }).map((_, i) => (
+                {Array.from({ length: Math.min(citiesCount, 12) }).map((_, i) => (
                   <span key={i} className={styles.mapDot} style={{
                     left: `${15 + (i * 67) % 72}%`,
                     top: `${20 + (i * 43) % 55}%`,

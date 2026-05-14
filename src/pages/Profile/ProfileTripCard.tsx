@@ -1,4 +1,4 @@
-import { Trip } from '@/types'
+import { TripSummary } from '@/types'
 import styles from './ProfileTripCard.module.css'
 
 const GRADIENTS = [
@@ -10,31 +10,27 @@ const GRADIENTS = [
   'linear-gradient(140deg, #2a5a3a 0%, #12301e 100%)',
 ]
 
-const getStatus = (trip: Trip): 'PLANNED' | 'DRAFT' => (trip.isPublic ? 'PLANNED' : 'DRAFT')
-
 interface Props {
-  trip: Trip
+  trip: TripSummary
   index: number
 }
 
 export const ProfileTripCard = ({ trip, index }: Props) => {
-  const status = getStatus(trip)
   const gradient = GRADIENTS[index % GRADIENTS.length]
-  const placeCount = trip.places?.length ?? 0
+  const pinCount = trip.pinIds?.length ?? 0
+  const cityCount = trip.cityIds?.length ?? 0
 
   return (
     <div className={styles.card}>
       <div className={styles.image} style={{ background: gradient }}>
-        <span className={`${styles.badge} ${styles[status.toLowerCase() as 'planned' | 'draft']}`}>
-          {status}
-        </span>
-        <span className={styles.pinCount}>{placeCount}</span>
+        <span className={styles.pinCount}>{pinCount}</span>
       </div>
       <div className={styles.body}>
-        <div className={styles.city}>{trip.city}</div>
-        <div className={styles.country}>{trip.country.toUpperCase()}</div>
-        <div className={styles.sep} />
-        <div className={styles.meta}>{trip.days}d · {placeCount} places</div>
+        <div className={styles.city}>{trip.name}</div>
+        <div className={styles.meta}>{cityCount} cities · {pinCount} pins</div>
+        {trip.budget != null && (
+          <div className={styles.budget}>Budget: {trip.budget}</div>
+        )}
       </div>
     </div>
   )

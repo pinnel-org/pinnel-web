@@ -49,6 +49,18 @@ export interface UpdateUserDto {
   bio?: string
 }
 
+// Matches backend TripDto — used for user's own trip list (GET /api/trips)
+export interface TripSummary {
+  id: number
+  name: string
+  budget: number | null
+  userId: number
+  cityIds: number[]
+  pinIds: number[]
+  createdAt: string
+  updatedAt: string
+}
+
 export interface CreateTripDto {
   title: string
   city: string
