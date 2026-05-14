@@ -1,0 +1,156 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--color-text2);
+  font-family: var(--font-sans);
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  padding: var(--spacing-xl);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: #0f0f0f;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.displayName {
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.username {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text2);
+  margin: 0;
+}
+
+.bio {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--color-text2);
+  margin: var(--spacing-xs) 0 0;
+  line-height: 1.5;
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--spacing-md) 0;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text3);
+  letter-spacing: 0.06em;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.email {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text3);
+  margin: var(--spacing-lg) 0 0;
+}
+
+/* Main */
+
+.main {
+  flex: 1;
+  padding: var(--spacing-xl);
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-lg);
+}
+
+.empty {
+  color: var(--color-text2);
+  font-family: var(--font-sans);
+  font-size: 14px;
+}
+
+.tripList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.tripRow {
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tripName {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.tripMeta {
+  display: flex;
+  gap: var(--spacing-md);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text2);
+}
