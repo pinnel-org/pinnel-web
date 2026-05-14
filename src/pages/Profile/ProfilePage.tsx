@@ -2,7 +2,7 @@ import styles from './ProfilePage.module.css'
 import { useCurrentUser, useMyTrips } from '@/hooks/useUser'
 import { Trip } from '@/types'
 
-const getInitials = (displayName: string | null, username: string): string => {
+const getInitials = (displayName: string | null, username: string | null): string => {
   if (displayName) {
     return displayName
       .split(' ')
@@ -11,11 +11,15 @@ const getInitials = (displayName: string | null, username: string): string => {
       .slice(0, 2)
       .toUpperCase()
   }
-  return username.slice(0, 2).toUpperCase()
+  if (username) return username.slice(0, 2).toUpperCase()
+  return '?'
 }
 
-const formatMemberSince = (dateStr: string): string =>
-  new Date(dateStr).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+const formatMemberSince = (dateStr: string | null): string => {
+  if (!dateStr) return '—'
+  const d = new Date(dateStr)
+  return isNaN(d.getTime()) ? '—' : d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+}
 
 const TripRow = ({ trip }: { trip: Trip }) => (
   <div className={styles.tripRow}>
@@ -32,7 +36,8 @@ const TripRow = ({ trip }: { trip: Trip }) => (
 
 export const ProfilePage = () => {
   const { data: user, isLoading } = useCurrentUser()
-  const { data: trips = [] } = useMyTrips()
+  const { data: tripsData } = useMyTrips()
+  const trips = Array.isArray(tripsData) ? tripsData : []
 
   if (isLoading) return <div className={styles.loading}>Loading...</div>
   if (!user) return null
@@ -45,9 +50,9 @@ export const ProfilePage = () => {
         </div>
 
         <h1 className={styles.displayName}>
-          {user.displayName ?? user.username}
+          {user.displayName ?? user.username ?? user.email}
         </h1>
-        <p className={styles.username}>@{user.username}</p>
+        {user.username && <p className={styles.username}>@{user.username}</p>}
 
         {user.bio && <p className={styles.bio}>{user.bio}</p>}
 
