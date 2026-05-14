@@ -1,8 +1,17 @@
-.page {
-  display: flex;
+.wrapper {
+  --lp-ink: #1a1410;
+  --lp-paper: #f4ede1;
+  --lp-paper-deep: #ebe1cf;
+  --lp-sunset: #e8471c;
+  --lp-ember: #c2380f;
+  --lp-amber: #f0a830;
+  --lp-teal: #0c4a4a;
+  --lp-stone: #8a7a66;
+
   min-height: 100vh;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--lp-paper);
+  color: var(--lp-ink);
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 .loading {
@@ -10,147 +19,79 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  color: var(--color-text2);
-  font-family: var(--font-sans);
-}
-
-/* Sidebar */
-
-.sidebar {
-  width: 280px;
-  flex-shrink: 0;
-  padding: var(--spacing-xl);
-  border-right: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-md);
-  background: var(--color-accent);
-  color: #0f0f0f;
-  font-family: var(--font-mono);
-  font-size: 22px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--spacing-sm);
-}
-
-.displayName {
-  font-family: var(--font-sans);
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.username {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-text2);
-  margin: 0;
-}
-
-.bio {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: var(--color-text2);
-  margin: var(--spacing-xs) 0 0;
-  line-height: 1.5;
-}
-
-.divider {
-  height: 1px;
-  background: var(--color-border);
-  margin: var(--spacing-md) 0;
-}
-
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.statLabel {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text3);
-  letter-spacing: 0.06em;
-}
-
-.statValue {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  color: var(--color-accent);
-}
-
-.email {
-  font-family: var(--font-mono);
+  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  color: var(--color-text3);
-  margin: var(--spacing-lg) 0 0;
+  letter-spacing: 0.1em;
+  color: var(--lp-stone);
 }
 
-/* Main */
+/* Two-column layout */
+.layout {
+  display: flex;
+  align-items: flex-start;
+}
 
 .main {
   flex: 1;
-  padding: var(--spacing-xl);
-}
-
-.sectionTitle {
-  font-family: var(--font-sans);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-lg);
-}
-
-.empty {
-  color: var(--color-text2);
-  font-family: var(--font-sans);
-  font-size: 14px;
-}
-
-.tripList {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
 }
 
-.tripRow {
-  padding: var(--spacing-md);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* World map widget */
+.mapWidget {
+  position: relative;
+  margin: 24px 40px 0;
+  border: 1.5px solid rgba(26, 20, 16, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 200px;
+  background: var(--lp-paper-deep);
 }
 
-.tripName {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text);
+.mapStatsBadge {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--lp-stone);
+  background: var(--lp-paper);
+  border: 1px solid rgba(26, 20, 16, 0.12);
+  padding: 5px 12px;
+  border-radius: 6px;
 }
 
-.tripMeta {
-  display: flex;
-  gap: var(--spacing-md);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text2);
+.mapCanvas {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Decorative landmass blobs */
+.mapDots {
+  position: absolute;
+  inset: 0;
+}
+
+.mapDot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lp-sunset);
+  opacity: 0.7;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .mapWidget {
+    margin: 16px 16px 0;
+  }
 }
