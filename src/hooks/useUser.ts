@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { usersApi } from '@/api/users'
+import { tripsApi } from '@/api/trips'
 import { UpdateUserDto } from '@/types'
 
 export const useCurrentUser = () =>
@@ -15,3 +16,9 @@ export const useUpdateUser = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['me'] }),
   })
 }
+
+export const useMyTrips = () =>
+  useQuery({
+    queryKey: ['trips', 'me'],
+    queryFn: tripsApi.getUserTrips,
+  })
