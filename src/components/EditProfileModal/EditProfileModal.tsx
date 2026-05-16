@@ -21,6 +21,7 @@ export const EditProfileModal = ({
   const [displayName, setDisplayName] = useState(currentDisplayName ?? '')
   const [bio, setBio] = useState(currentBio ?? '')
 
+  const [validationError, setValidationError] = useState<string | null>(null)
   const { mutate, isPending, error, reset } = useUpdateUser()
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export const EditProfileModal = ({
     setUsername(currentUsername)
     setDisplayName(currentDisplayName ?? '')
     setBio(currentBio ?? '')
+    setValidationError(null)
     reset()
   }, [isOpen, currentUsername, currentDisplayName, currentBio, reset])
 
@@ -48,8 +50,19 @@ export const EditProfileModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const trimmedUsername = username.trim()
+    const trimmedDisplayName = displayName.trim()
+    if (!trimmedUsername) {
+      setValidationError('Username is required.')
+      return
+    }
+    if (!trimmedDisplayName) {
+      setValidationError('Display name is required.')
+      return
+    }
+    setValidationError(null)
     mutate(
-      { username: username.trim(), displayName: displayName.trim(), bio: bio.trim() },
+      { username: trimmedUsername, displayName: trimmedDisplayName, bio: bio.trim() },
       { onSuccess: onClose },
     )
   }
@@ -79,6 +92,7 @@ export const EditProfileModal = ({
               onChange={(e) => setDisplayName(e.target.value)}
               maxLength={100}
               placeholder="Your name"
+              required
               autoFocus
             />
           </div>
@@ -118,8 +132,10 @@ export const EditProfileModal = ({
             />
           </div>
 
-          {error && (
-            <p className={styles.error}>Failed to save. Please try again.</p>
+          {(validationError ?? error) && (
+            <p className={styles.error}>
+              {validationError ?? 'Failed to save. Please try again.'}
+            </p>
           )}
 
           <div className={styles.actions}>
