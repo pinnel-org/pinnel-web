@@ -1,0 +1,130 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Drop zone ──────────────────────────── */
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 20px;
+  border: 1.5px dashed rgba(26, 20, 16, 0.22);
+  border-radius: 10px;
+  color: var(--modal-stone);
+  background: rgba(255, 255, 255, 0.3);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dropZone.dragOver {
+  border-color: var(--modal-teal);
+  background: rgba(12, 74, 74, 0.06);
+}
+
+.dropLabel {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: var(--modal-stone);
+  margin: 0;
+}
+
+.browseBtn {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--modal-teal);
+  background: none;
+  border: 1.5px solid rgba(12, 74, 74, 0.3);
+  border-radius: 7px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.browseBtn:hover {
+  background: rgba(12, 74, 74, 0.07);
+  border-color: var(--modal-teal);
+}
+
+.dropHint {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(138, 122, 102, 0.6);
+  margin: 0;
+}
+
+/* ── Preview ────────────────────────────── */
+.preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border: 1.5px solid rgba(26, 20, 16, 0.14);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.previewImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid rgba(26, 20, 16, 0.1);
+}
+
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.fileName {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--modal-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+}
+
+.fileMeta {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  color: var(--modal-stone);
+}
+
+.removeBtn {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  color: var(--modal-stone);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+  text-align: left;
+}
+
+.removeBtn:hover {
+  color: #c0392b;
+}
+
+/* ── Error ──────────────────────────────── */
+.fileError {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  color: #c0392b;
+  margin: 0;
+}
+
+.hiddenInput {
+  display: none;
+}

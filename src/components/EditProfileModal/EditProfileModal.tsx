@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useUpdateUser } from '@/hooks/useUser'
+import { PhotoUpload } from './PhotoUpload'
 import styles from './EditProfileModal.module.css'
 
 interface EditProfileModalProps {
@@ -76,6 +77,8 @@ export const EditProfileModal = ({
 
         <h2 className={styles.title}>Edit profile</h2>
         <p className={styles.subtitle}>Update your public profile details.</p>
+
+        <PhotoUpload />
 
         <div className={styles.divider} />
 
