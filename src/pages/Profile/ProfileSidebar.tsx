@@ -32,7 +32,7 @@ interface ProfileSidebarProps {
 }
 
 const PencilIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.929-3.25c.081-.286.235-.547.445-.757l8.61-8.61ZM12.073 2.48a.25.25 0 0 0-.354 0L10.62 3.579l1.802 1.8 1.099-1.098a.25.25 0 0 0 0-.353L12.073 2.48Zm-1.55 4.001-1.802-1.8L3.44 9.913a.25.25 0 0 0-.065.108l-.647 2.261 2.261-.647a.25.25 0 0 0 .108-.065l5.427-5.09Z"
       fill="currentColor"
@@ -51,13 +51,6 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
     <aside className={styles.sidebar}>
       <div className={styles.avatarWrapper}>
         <div className={styles.avatar}>{getInitials(user)}</div>
-        <button
-          className={styles.editBtn}
-          onClick={() => setIsEditOpen(true)}
-          aria-label="Edit profile"
-        >
-          <PencilIcon />
-        </button>
       </div>
 
       <div className={styles.nameRow}>
@@ -69,6 +62,15 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
 
       {user.username && <p className={styles.handle}>@{user.username}</p>}
       {user.bio && <p className={styles.bio}>{user.bio}</p>}
+
+      <button
+        className={styles.editProfileBtn}
+        onClick={() => setIsEditOpen(true)}
+        aria-label="Edit profile"
+      >
+        <PencilIcon />
+        <span>Edit profile</span>
+      </button>
 
       <EditProfileModal
         isOpen={isEditOpen}
