@@ -5,12 +5,10 @@
 /* Header row */
 .header {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  align-items: center;
+  flex-wrap: nowrap;
   margin-bottom: 28px;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 0;
 }
 
 .title {
@@ -20,7 +18,6 @@
   color: var(--lp-ink);
   line-height: 1;
   white-space: nowrap;
-  padding-bottom: 12px;
 }
 
 .em {
@@ -28,9 +25,19 @@
   color: var(--lp-sunset);
 }
 
+/* Connector line between title and tabs */
+.connector {
+  flex: 1;
+  height: 1px;
+  background: rgba(26, 20, 16, 0.15);
+  margin: 0 20px;
+  min-width: 24px;
+}
+
 /* Tabs */
 .tabs {
   display: flex;
+  align-items: center;
   gap: 4px;
 }
 
@@ -40,25 +47,42 @@
   gap: 5px;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  padding: 8px 10px;
-  margin-bottom: -1px;
+  padding: 6px 10px;
+  position: relative;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--lp-stone);
   cursor: pointer;
-  transition: color 0.15s, border-bottom-color 0.15s;
+  transition: color 0.18s ease;
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--lp-sunset);
+  transition: width 0.2s ease;
 }
 
 .tab:hover {
   color: var(--lp-ink);
 }
 
+.tab:hover::after {
+  width: 100%;
+}
+
 .activeTab {
   color: var(--lp-ink);
-  border-bottom-color: var(--lp-sunset);
+}
+
+.activeTab::after {
+  width: 100%;
 }
 
 .tabCount {

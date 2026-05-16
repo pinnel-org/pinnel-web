@@ -44,6 +44,7 @@ export const ProfileTripsSection = ({ trips, counts }: Props) => {
         <h2 className={styles.title}>
           My <em className={styles.em}>trips.</em>
         </h2>
+        <div className={styles.connector} aria-hidden="true" />
         <div className={styles.tabs}>
           {tabs.map((t) => (
             <button
