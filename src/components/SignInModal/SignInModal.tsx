@@ -46,7 +46,7 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
     const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID ?? ''
     const region = userPoolId.split('_')[0] ?? 'eu-central-1'
     const domain = import.meta.env.VITE_COGNITO_DOMAIN
-    const redirectUri = encodeURIComponent(window.location.origin + '/dashboard')
+    const redirectUri = encodeURIComponent(window.location.origin + '/profile')
 
     if (domain) {
       window.location.href = `https://${domain}/oauth2/authorize?identity_provider=Google&redirect_uri=${redirectUri}&response_type=code&client_id=${clientId}&scope=email+openid+profile`
