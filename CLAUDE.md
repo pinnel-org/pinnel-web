@@ -74,6 +74,7 @@ Package manager: **npm**
 - Base URL (production): `https://api.pinnel.app`
 - Base URL (local dev): `http://localhost:8080/api`
 - All endpoints require `Authorization: Bearer <jwt>` except public ones
+- **Local backend source:** `C:\Projects\pinnel-api` — always check controllers/DTOs there before building API calls on the frontend. Don't assume endpoint shape; read the actual Java code.
 
 Public endpoints (no auth):
 - `GET /trips/:id` — view public trips
@@ -438,6 +439,22 @@ VITE_NOMINATIM_URL=https://nominatim.openstreetmap.org
 ```
 
 All variables must start with `VITE_`.
+
+---
+
+## Workflow
+
+Before starting any feature or fix:
+1. Create GitHub issues for all planned tasks (`gh issue create`)
+2. Add every issue to the **frontend** project board (`gh project item-add 2 --owner pinnel-org --url <issue-url>`)
+3. Create a dedicated branch for the issue: `git checkout -b feat/issue-<number>-short-description`
+4. Implement on that branch — one issue per branch, never commit directly to `master`
+5. Open a PR when done, link it to the issue
+
+Project boards:
+- `frontend` — project ID 2 (`PVT_kwDOELXXNs4BWnWP`)
+- `backend` — project ID 3 (`PVT_kwDOELXXNs4BWnW1`)
+- `big picture` — project ID 1 (`PVT_kwDOELXXNs4BWnVr`)
 
 ---
 
