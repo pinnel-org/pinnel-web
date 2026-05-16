@@ -44,9 +44,9 @@ export interface User {
 }
 
 export interface UpdateUserDto {
-  username?: string
-  displayName?: string
-  bio?: string
+  username: string
+  displayName: string
+  bio: string
 }
 
 // Matches backend TripDto — used for user's own trip list (GET /api/trips)

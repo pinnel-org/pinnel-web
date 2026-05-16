@@ -1,0 +1,273 @@
+/* ── Overlay ────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 20, 16, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeOverlay 0.2s ease forwards;
+}
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal box ──────────────────────────── */
+.modal {
+  --modal-bg:     #f4ede1;
+  --modal-ink:    #1a1410;
+  --modal-stone:  #8a7a66;
+  --modal-teal:   #0c4a4a;
+  --modal-border: rgba(26, 20, 16, 0.18);
+
+  background: var(--modal-bg);
+  border: 1.5px solid var(--modal-border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 460px;
+  padding: 44px 40px 36px;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin: 16px;
+  box-shadow: 0 8px 48px rgba(26, 20, 16, 0.14), 0 2px 8px rgba(26, 20, 16, 0.08);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Close button ───────────────────────── */
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--modal-stone);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: var(--modal-ink);
+  background: rgba(26, 20, 16, 0.07);
+}
+
+/* ── Headings ───────────────────────────── */
+.title {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--modal-ink);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-stone);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ── Divider ────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(26, 20, 16, 0.12);
+  margin-bottom: 24px;
+}
+
+/* ── Form ───────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--modal-stone);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── Inputs ─────────────────────────────── */
+.input,
+.textarea {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-ink);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(26, 20, 16, 0.3);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--modal-teal);
+  box-shadow: 0 0 0 3px rgba(12, 74, 74, 0.1);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+/* ── Username prefix wrapper ────────────── */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--modal-teal);
+  box-shadow: 0 0 0 3px rgba(12, 74, 74, 0.1);
+}
+
+.inputPrefix {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-stone);
+  padding-left: 14px;
+  user-select: none;
+}
+
+.inputWithPrefix {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-ink);
+  background: none;
+  border: none;
+  padding: 10px 14px 10px 4px;
+  flex: 1;
+  outline: none;
+}
+
+.inputWithPrefix::placeholder {
+  color: rgba(26, 20, 16, 0.3);
+}
+
+/* ── Error ──────────────────────────────── */
+.error {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: #c0392b;
+  background: rgba(192, 57, 43, 0.08);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* ── Actions ────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 6px;
+}
+
+.cancelBtn {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--modal-stone);
+  background: none;
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.cancelBtn:hover {
+  color: var(--modal-ink);
+  border-color: rgba(26, 20, 16, 0.36);
+}
+
+.saveBtn {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f4ede1;
+  background: var(--modal-teal);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.saveBtn:hover:not(:disabled) {
+  background: #0a3a3a;
+}
+
+.saveBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 440px) {
+  .modal {
+    padding: 36px 24px 28px;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
