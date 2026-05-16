@@ -27,12 +27,39 @@
 }
 
 /* Name */
+.nameRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .nameBlock {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-bottom: 4px;
   line-height: 1.1;
+}
+
+.editBtn {
+  flex-shrink: 0;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  padding: 5px;
+  border-radius: 6px;
+  color: var(--lp-stone);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.editBtn:hover {
+  color: var(--lp-ink);
+  background: rgba(26, 20, 16, 0.07);
 }
 
 .firstName {
