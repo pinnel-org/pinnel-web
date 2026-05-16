@@ -49,13 +49,8 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.avatar}>{getInitials(user)}</div>
-
-      <div className={styles.nameRow}>
-        <div className={styles.nameBlock}>
-          <span className={styles.firstName}>{firstName}</span>
-          {lastName && <em className={styles.lastName}>{lastName}.</em>}
-        </div>
+      <div className={styles.avatarWrapper}>
+        <div className={styles.avatar}>{getInitials(user)}</div>
         <button
           className={styles.editBtn}
           onClick={() => setIsEditOpen(true)}
@@ -63,6 +58,13 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
         >
           <PencilIcon />
         </button>
+      </div>
+
+      <div className={styles.nameRow}>
+        <div className={styles.nameBlock}>
+          <span className={styles.firstName}>{firstName}</span>
+          {lastName && <em className={styles.lastName}>{lastName}.</em>}
+        </div>
       </div>
 
       {user.username && <p className={styles.handle}>@{user.username}</p>}
