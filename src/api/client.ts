@@ -6,9 +6,11 @@ export const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
+  const idToken = localStorage.getItem('idToken')
   const cognitoId = localStorage.getItem('cognitoId')
   const cognitoEmail = localStorage.getItem('cognitoEmail')
   const cognitoUsername = localStorage.getItem('cognitoUsername')
+  if (idToken) config.headers.Authorization = `Bearer ${idToken}`
   if (cognitoId) {
     config.headers['X-Cognito-Id'] = cognitoId
     config.headers['X-Cognito-Email'] = cognitoEmail ?? ''

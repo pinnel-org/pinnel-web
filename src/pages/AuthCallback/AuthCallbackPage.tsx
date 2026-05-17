@@ -70,6 +70,7 @@ export const AuthCallbackPage = () => {
         cognitoId: payload.sub,
         email: payload.email,
         username: payload['cognito:username'] ?? payload.email,
+        idToken: tokens.id_token,
       })
 
       navigate('/profile', { replace: true })
