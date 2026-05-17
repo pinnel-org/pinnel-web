@@ -1,4 +1,3 @@
-// Claude workflow works!
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { LandingPage } from '@/pages/Landing/LandingPage'
@@ -7,11 +6,13 @@ import { TripPlannerPage } from '@/pages/TripPlanner/TripPlannerPage'
 import { PublicTripPage } from '@/pages/PublicTrip/PublicTripPage'
 import { ExplorePage } from '@/pages/Explore/ExplorePage'
 import { ProfilePage } from '@/pages/Profile/ProfilePage'
+import { AuthCallbackPage } from '@/pages/AuthCallback/AuthCallbackPage'
 
 export const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/t/:slug" element={<PublicTripPage />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
