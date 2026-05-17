@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import styles from './SignInModal.module.css'
+import { generateCodeVerifier, generateCodeChallenge } from '@/utils/pkce'
 
 const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
 
@@ -41,21 +42,30 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
     }
   }, [onClose])
 
-  const handleGoogleSignIn = () => {
-    const userPoolId = import.meta.env.VITE_COGNITO_USER_POOL_ID ?? ''
-    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID ?? ''
-    const region = userPoolId.split('_')[0] ?? 'eu-central-1'
+  const handleGoogleSignIn = async () => {
     const domain = import.meta.env.VITE_COGNITO_DOMAIN
-    const redirectUri = encodeURIComponent(window.location.origin + '/profile')
+    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID ?? ''
 
-    if (domain) {
-      window.location.href = `https://${domain}/oauth2/authorize?identity_provider=Google&redirect_uri=${redirectUri}&response_type=code&client_id=${clientId}&scope=email+openid+profile`
-    } else if (userPoolId && clientId) {
-      window.location.href = `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/oauth2/authorize?identity_provider=Google&redirect_uri=${redirectUri}&response_type=code&client_id=${clientId}&scope=email+openid+profile`
-    } else {
-      // Dev fallback — log intent
-      console.info('[SignIn] Google OAuth — Cognito env vars not configured yet')
+    if (!domain || !clientId) {
+      console.info('[SignIn] Google OAuth — VITE_COGNITO_DOMAIN / VITE_COGNITO_CLIENT_ID not configured')
+      return
     }
+
+    const codeVerifier = generateCodeVerifier()
+    const codeChallenge = await generateCodeChallenge(codeVerifier)
+    sessionStorage.setItem('pkce_code_verifier', codeVerifier)
+
+    const redirectUri = encodeURIComponent(window.location.origin + '/auth/callback')
+    window.location.href = [
+      `https://${domain}/oauth2/authorize`,
+      `?identity_provider=Google`,
+      `&redirect_uri=${redirectUri}`,
+      `&response_type=code`,
+      `&client_id=${clientId}`,
+      `&scope=email+openid+profile`,
+      `&code_challenge=${codeChallenge}`,
+      `&code_challenge_method=S256`,
+    ].join('')
   }
 
   return (
@@ -78,7 +88,7 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
 
           <div className={styles.divider} />
 
-          <button className={styles.googleBtn} onClick={handleGoogleSignIn}>
+          <button className={styles.googleBtn} onClick={() => void handleGoogleSignIn()}>
             <GoogleIcon />
             <span>Continue with Google</span>
           </button>
