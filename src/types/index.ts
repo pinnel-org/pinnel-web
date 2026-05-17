@@ -39,6 +39,7 @@ export interface User {
   username: string
   displayName: string | null
   bio: string | null
+  photoUrl: string | null
   createdAt: string
   updatedAt: string
 }
