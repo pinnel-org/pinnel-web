@@ -12,3 +12,42 @@
   font-size: 14px;
   letter-spacing: 0.05em;
 }
+
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 600px;
+  padding: var(--spacing-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+}
+
+.errorTitle {
+  color: var(--color-error);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.errorDetail {
+  color: var(--color-text2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+.backBtn {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid var(--color-border2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+}
