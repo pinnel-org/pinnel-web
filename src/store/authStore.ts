@@ -31,5 +31,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
     localStorage.removeItem(LS_COGNITO_EMAIL)
     localStorage.removeItem(LS_COGNITO_USERNAME)
     set({ cognitoId: null, cognitoEmail: null, cognitoUsername: null, isAuthenticated: false })
+
+    const domain = import.meta.env.VITE_COGNITO_DOMAIN as string | undefined
+    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID as string | undefined
+    if (domain && clientId) {
+      const logoutUri = encodeURIComponent(window.location.origin)
+      window.location.href = `https://${domain}/logout?client_id=${clientId}&logout_uri=${logoutUri}`
+    } else {
+      window.location.href = '/'
+    }
   },
 }))
