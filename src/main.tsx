@@ -5,7 +5,7 @@ import { App } from './App'
 import { useAuthStore } from './store/authStore'
 import './styles/globals.css'
 
-if (!localStorage.getItem('cognitoId')) {
+if (import.meta.env.DEV && !localStorage.getItem('cognitoId')) {
   useAuthStore.getState().setCognitoSession({
     cognitoId: 'dev-user-001',
     email: 'dev@pinnel.app',
