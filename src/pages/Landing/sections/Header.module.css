@@ -88,6 +88,32 @@
   width: 100%;
 }
 
+/* ── Profile button ─────────────────────── */
+.profileBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lp-ink);
+  transition: opacity 0.18s ease;
+}
+
+.profileBtn:hover {
+  opacity: 0.75;
+}
+
+.profilePhoto {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--lp-sunset);
+  display: block;
+}
+
 /* ── Responsive ──────────────────────────── */
 @media (max-width: 980px) {
   .header {
