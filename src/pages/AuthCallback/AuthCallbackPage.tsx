@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import styles from './AuthCallbackPage.module.css'
@@ -17,13 +17,21 @@ const decodeIdToken = (idToken: string): CognitoIdTokenPayload => {
 export const AuthCallbackPage = () => {
   const navigate = useNavigate()
   const setCognitoSession = useAuthStore((s) => s.setCognitoSession)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code')
+    const errorParam = params.get('error')
+    const errorDescription = params.get('error_description')
+
+    if (errorParam) {
+      setError(`Cognito error: ${errorParam} — ${errorDescription ?? ''}`)
+      return
+    }
 
     if (!code) {
-      navigate('/', { replace: true })
+      setError('No authorization code in URL. Expected ?code=... from Cognito.')
       return
     }
 
@@ -35,6 +43,11 @@ export const AuthCallbackPage = () => {
       const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID as string
       const redirectUri = window.location.origin + '/auth/callback'
 
+      if (!domain || !clientId) {
+        setError(`Missing env vars — VITE_COGNITO_DOMAIN: "${domain}", VITE_COGNITO_CLIENT_ID: "${clientId}"`)
+        return
+      }
+
       const body = new URLSearchParams({ grant_type: 'authorization_code', code, client_id: clientId, redirect_uri: redirectUri })
       if (codeVerifier) body.set('code_verifier', codeVerifier)
 
@@ -45,7 +58,8 @@ export const AuthCallbackPage = () => {
       })
 
       if (!res.ok) {
-        navigate('/', { replace: true })
+        const text = await res.text()
+        setError(`Token exchange failed — ${res.status} ${res.statusText}: ${text}`)
         return
       }
 
@@ -61,8 +75,23 @@ export const AuthCallbackPage = () => {
       navigate('/profile', { replace: true })
     }
 
-    exchangeCode().catch(() => navigate('/', { replace: true }))
+    exchangeCode().catch((e: unknown) => {
+      const msg = e instanceof Error ? e.message : String(e)
+      setError(`Unexpected error: ${msg}`)
+    })
   }, [navigate, setCognitoSession])
+
+  if (error) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.errorBox}>
+          <p className={styles.errorTitle}>Sign-in failed</p>
+          <pre className={styles.errorDetail}>{error}</pre>
+          <button className={styles.backBtn} onClick={() => navigate('/')}>Back to home</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.page}>
