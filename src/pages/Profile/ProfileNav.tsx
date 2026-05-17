@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './ProfileNav.module.css'
 import { useCurrentUser } from '@/hooks/useUser'
+import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
 
 const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
@@ -18,6 +19,7 @@ export const ProfileNav = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { data: user } = useCurrentUser()
+  const logout = useAuthStore((s) => s.logout)
 
   const isActive = (path: string) => location.pathname === path
 
@@ -72,6 +74,11 @@ export const ProfileNav = () => {
           <div className={styles.avatar} onClick={() => navigate('/profile')}>
             {getInitials(user)}
           </div>
+        )}
+        {user && (
+          <button className={styles.logoutBtn} onClick={logout}>
+            LOG OUT
+          </button>
         )}
       </div>
     </header>
