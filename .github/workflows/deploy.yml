@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'master'
+        description: 'Branch to deploy (leave empty to deploy the branch selected above)'
+        required: false
+        default: ''
         type: string
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch || github.ref }}
+          ref: ${{ inputs.branch || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
