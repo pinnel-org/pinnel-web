@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Header.module.css'
 import { SignInModal } from '@/components/SignInModal/SignInModal'
@@ -11,7 +11,21 @@ export const Header = () => {
   const navigate = useNavigate()
   const [showSignIn, setShowSignIn] = useState(false)
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+  const syncFromStorage = useAuthStore((s) => s.syncFromStorage)
   const { data: currentUser } = useCurrentUser()
+
+  // When browser restores page from bfcache (back button after SSO redirect),
+  // close any open modal and re-sync auth state from localStorage.
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setShowSignIn(false)
+        syncFromStorage()
+      }
+    }
+    window.addEventListener('pageshow', handlePageShow)
+    return () => window.removeEventListener('pageshow', handlePageShow)
+  }, [syncFromStorage])
 
   const scrollToHowItWorks = () => {
     const el = document.getElementById('how-it-works')

@@ -7,6 +7,7 @@ interface AuthStore {
   idToken: string | null
   isAuthenticated: boolean
   setCognitoSession: (session: { cognitoId: string; email: string; username: string; idToken: string }) => void
+  syncFromStorage: () => void
   logout: () => void
 }
 
@@ -29,6 +30,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
     localStorage.setItem(LS_ID_TOKEN, idToken)
     set({ cognitoId, cognitoEmail: email, cognitoUsername: username, idToken, isAuthenticated: true })
   },
+
+  syncFromStorage: () => set({
+    cognitoId: localStorage.getItem(LS_COGNITO_ID),
+    cognitoEmail: localStorage.getItem(LS_COGNITO_EMAIL),
+    cognitoUsername: localStorage.getItem(LS_COGNITO_USERNAME),
+    idToken: localStorage.getItem(LS_ID_TOKEN),
+    isAuthenticated: !!localStorage.getItem(LS_COGNITO_ID),
+  }),
 
   logout: () => {
     localStorage.removeItem(LS_COGNITO_ID)
