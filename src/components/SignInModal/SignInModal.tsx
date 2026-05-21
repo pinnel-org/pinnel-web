@@ -56,7 +56,7 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
     sessionStorage.setItem('pkce_code_verifier', codeVerifier)
 
     const redirectUri = encodeURIComponent(window.location.origin + '/auth/callback')
-    window.location.href = [
+    window.location.replace([
       `https://${domain}/oauth2/authorize`,
       `?identity_provider=Google`,
       `&redirect_uri=${redirectUri}`,
@@ -65,7 +65,7 @@ export const SignInModal = ({ onClose }: SignInModalProps) => {
       `&scope=email+openid+profile`,
       `&code_challenge=${codeChallenge}`,
       `&code_challenge_method=S256`,
-    ].join('')
+    ].join(''))
   }
 
   return (
