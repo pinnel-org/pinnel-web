@@ -3,17 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './ProfileNav.module.css'
 import { useCurrentUser } from '@/hooks/useUser'
 import { useAuthStore } from '@/store/authStore'
-import { User } from '@/types'
 import { ComingSoonModal } from '@/components/ComingSoonModal/ComingSoonModal'
 
-const getInitials = (user: User): string => {
-  if (user.displayName) {
-    return user.displayName.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
-  }
-  const fallback = user.username ?? user.email
-  if (!fallback) return '?'
-  return fallback.slice(0, 2).toUpperCase()
-}
+const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
 
 export const ProfileNav = () => {
   const navigate = useNavigate()
@@ -28,6 +20,7 @@ export const ProfileNav = () => {
     <>
       <header className={styles.nav}>
         <div className={styles.logo} onClick={() => navigate('/')}>
+          <img src={LOGO_URL} alt="Pinnel" className={styles.logoImg} />
           <div className={styles.logoText}>
             <span className={styles.brand}>pinnel</span>
             <span className={styles.tagline}>PLAN · TRAVEL · SHARE</span>
@@ -71,11 +64,6 @@ export const ProfileNav = () => {
           <button className={styles.planBtn} onClick={() => navigate('/dashboard')}>
             + PLAN A TRIP
           </button>
-          {user && (
-            <div className={styles.avatar} onClick={() => navigate('/profile')}>
-              {getInitials(user)}
-            </div>
-          )}
           {user && (
             <button className={styles.logoutBtn} onClick={logout}>
               LOG OUT
