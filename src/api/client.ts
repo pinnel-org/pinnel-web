@@ -22,7 +22,13 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401) window.location.href = '/'
+    if (error.response?.status === 401 && localStorage.getItem('idToken')) {
+      localStorage.removeItem('cognitoId')
+      localStorage.removeItem('cognitoEmail')
+      localStorage.removeItem('cognitoUsername')
+      localStorage.removeItem('idToken')
+      window.location.href = '/'
+    }
     return Promise.reject(error)
   }
 )
