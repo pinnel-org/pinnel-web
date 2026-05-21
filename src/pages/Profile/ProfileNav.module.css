@@ -118,7 +118,7 @@
 }
 
 .planBtn {
-  background: var(--lp-sunset);
+  background: var(--lp-teal);
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -132,7 +132,7 @@
 }
 
 .planBtn:hover {
-  background: var(--lp-ember);
+  background: #093c3c;
 }
 
 .avatar {
@@ -151,20 +151,19 @@
 }
 
 .logoutBtn {
-  background: none;
-  border: 1.5px solid var(--lp-stone);
-  padding: 6px 12px;
-  border-radius: 7px;
+  background: var(--lp-sunset);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--lp-stone);
+  letter-spacing: 0.1em;
+  color: #fff;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: background 0.15s;
 }
 
 .logoutBtn:hover {
-  border-color: var(--lp-ink);
-  color: var(--lp-ink);
+  background: var(--lp-ember);
 }
