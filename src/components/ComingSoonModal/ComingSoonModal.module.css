@@ -1,0 +1,115 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 20, 16, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  animation: fadeOverlay 0.2s ease forwards;
+}
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  --modal-bg: #f4ede1;
+  --modal-ink: #1a1410;
+  --modal-stone: #8a7a66;
+  --modal-teal: #0c4a4a;
+  --modal-border: rgba(26, 20, 16, 0.18);
+
+  background: var(--modal-bg);
+  border: 1.5px solid var(--modal-border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 380px;
+  padding: 44px 40px 40px;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin: 16px;
+  box-shadow: 0 8px 48px rgba(26, 20, 16, 0.14), 0 2px 8px rgba(26, 20, 16, 0.08);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--modal-stone);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  color: var(--modal-ink);
+  background: rgba(26, 20, 16, 0.07);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.iconWrapper {
+  color: var(--modal-teal);
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: var(--modal-ink);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: var(--modal-stone);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.subtitle strong {
+  color: var(--modal-teal);
+  font-weight: 600;
+}
+
+@media (max-width: 440px) {
+  .modal {
+    padding: 36px 24px 32px;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+}
