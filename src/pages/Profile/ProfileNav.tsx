@@ -6,8 +6,6 @@ import { useAuthStore } from '@/store/authStore'
 import { User } from '@/types'
 import { ComingSoonModal } from '@/components/ComingSoonModal/ComingSoonModal'
 
-const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
-
 const getInitials = (user: User): string => {
   if (user.displayName) {
     return user.displayName.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
@@ -30,7 +28,6 @@ export const ProfileNav = () => {
     <>
       <header className={styles.nav}>
         <div className={styles.logo} onClick={() => navigate('/')}>
-          <img src={LOGO_URL} alt="Pinnel" className={styles.logoImg} />
           <div className={styles.logoText}>
             <span className={styles.brand}>pinnel</span>
             <span className={styles.tagline}>PLAN · TRAVEL · SHARE</span>
