@@ -11,21 +11,14 @@ export const Header = () => {
   const navigate = useNavigate()
   const [showSignIn, setShowSignIn] = useState(false)
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
-  const syncFromStorage = useAuthStore((s) => s.syncFromStorage)
   const { data: currentUser } = useCurrentUser()
 
-  // When browser restores page from bfcache (back button after SSO redirect),
-  // close any open modal and re-sync auth state from localStorage.
+  // Close modal as soon as the user is authenticated.
+  // This handles both the bfcache case (module-level pageshow in main.tsx syncs
+  // auth state, triggering this effect) and normal SPA navigation.
   useEffect(() => {
-    const handlePageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) {
-        setShowSignIn(false)
-        syncFromStorage()
-      }
-    }
-    window.addEventListener('pageshow', handlePageShow)
-    return () => window.removeEventListener('pageshow', handlePageShow)
-  }, [syncFromStorage])
+    if (isAuthenticated) setShowSignIn(false)
+  }, [isAuthenticated])
 
   const scrollToHowItWorks = () => {
     const el = document.getElementById('how-it-works')
