@@ -83,6 +83,7 @@ export interface CityDto {
 export interface CreateTripDto {
   name: string
   cityIds?: number[]
+  pinIds?: number[]
 }
 
 export interface CreatePlaceDto {
