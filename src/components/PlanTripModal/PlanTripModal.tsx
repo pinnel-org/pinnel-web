@@ -5,20 +5,30 @@ import { useCreateTrip } from '@/hooks/useUser'
 import { CityDto } from '@/types'
 import styles from './PlanTripModal.module.css'
 
-const countryToFlag = (country: string): string => {
-  const code = ({
-    'Italy': 'IT', 'France': 'FR', 'Spain': 'ES', 'Germany': 'DE',
-    'United Kingdom': 'GB', 'Portugal': 'PT', 'Netherlands': 'NL',
-    'Greece': 'GR', 'Japan': 'JP', 'United States': 'US', 'USA': 'US',
-    'Thailand': 'TH', 'Croatia': 'HR', 'Austria': 'AT', 'Switzerland': 'CH',
-    'Czech Republic': 'CZ', 'Poland': 'PL', 'Hungary': 'HU', 'Turkey': 'TR',
-    'Morocco': 'MA', 'Mexico': 'MX', 'Colombia': 'CO', 'Brazil': 'BR',
-    'Argentina': 'AR', 'Australia': 'AU', 'Canada': 'CA', 'India': 'IN',
-    'Indonesia': 'ID', 'Vietnam': 'VN', 'Singapore': 'SG', 'UAE': 'AE',
-  } as Record<string, string>)[country]
-  if (!code) return '📍'
-  return code.split('').map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join('')
+const ISO_TO_NAME: Record<string, string> = {
+  AF: 'Afghanistan', AL: 'Albania', DZ: 'Algeria', AR: 'Argentina', AU: 'Australia',
+  AT: 'Austria', AZ: 'Azerbaijan', BE: 'Belgium', BR: 'Brazil', BG: 'Bulgaria',
+  CA: 'Canada', CL: 'Chile', CN: 'China', CO: 'Colombia', HR: 'Croatia',
+  CZ: 'Czech Republic', DK: 'Denmark', EG: 'Egypt', FI: 'Finland', FR: 'France',
+  DE: 'Germany', GH: 'Ghana', GR: 'Greece', HU: 'Hungary', IN: 'India',
+  ID: 'Indonesia', IR: 'Iran', IQ: 'Iraq', IE: 'Ireland', IL: 'Israel',
+  IT: 'Italy', JP: 'Japan', JO: 'Jordan', KZ: 'Kazakhstan', KE: 'Kenya',
+  KR: 'South Korea', KW: 'Kuwait', LB: 'Lebanon', MY: 'Malaysia', MX: 'Mexico',
+  MA: 'Morocco', NL: 'Netherlands', NZ: 'New Zealand', NG: 'Nigeria', NO: 'Norway',
+  PK: 'Pakistan', PE: 'Peru', PH: 'Philippines', PL: 'Poland', PT: 'Portugal',
+  RO: 'Romania', RU: 'Russia', SA: 'Saudi Arabia', SG: 'Singapore', ZA: 'South Africa',
+  ES: 'Spain', SE: 'Sweden', CH: 'Switzerland', TW: 'Taiwan', TH: 'Thailand',
+  TR: 'Turkey', UA: 'Ukraine', AE: 'UAE', GB: 'United Kingdom', US: 'United States',
+  UZ: 'Uzbekistan', VN: 'Vietnam', MZ: 'Mozambique', RS: 'Serbia', SK: 'Slovakia',
+  SI: 'Slovenia', BA: 'Bosnia', MK: 'North Macedonia', ME: 'Montenegro', XK: 'Kosovo',
 }
+
+const isoToFlag = (iso: string): string => {
+  if (!iso || iso.length !== 2) return '📍'
+  return iso.toUpperCase().split('').map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join('')
+}
+
+const isoToName = (iso: string): string => ISO_TO_NAME[iso.toUpperCase()] ?? iso
 
 const TRAVEL_STYLES: { id: string; emoji: string; label: string }[] = [
   { id: 'food',        emoji: '🍽️', label: 'Food' },
@@ -151,7 +161,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
 
           <div className={styles.cityCard} ref={dropdownRef}>
             <div className={styles.cityInputWrap}>
-              {selectedCity && <span className={styles.cityFlag}>{countryToFlag(selectedCity.country)}</span>}
+              {selectedCity && <span className={styles.cityFlag}>{isoToFlag(selectedCity.country)}</span>}
               <input
                 className={styles.cityInput}
                 type="text"
@@ -162,7 +172,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
                 autoFocus
               />
               {selectedCity && (
-                <span className={styles.cityCountryLabel}>{selectedCity.country.toUpperCase()}</span>
+                <span className={styles.cityCountryLabel}>{isoToName(selectedCity.country)}</span>
               )}
             </div>
             {showDropdown && (
@@ -174,7 +184,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
                     onMouseDown={() => handleCitySelect(city)}
                   >
                     <span className={styles.dropCityName}>{city.name}</span>
-                    <span className={styles.dropCityCountry}>{city.country}</span>
+                    <span className={styles.dropCityCountry}>{isoToFlag(city.country)}</span>
                   </li>
                 ))}
               </ul>
