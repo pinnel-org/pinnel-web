@@ -2,16 +2,33 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { citiesApi } from '@/api/cities'
 import { useCreateTrip } from '@/hooks/useUser'
-import { CityDto, TripMood } from '@/types'
+import { CityDto } from '@/types'
 import styles from './PlanTripModal.module.css'
 
-const TRAVEL_STYLES: { id: TripMood; label: string }[] = [
-  { id: 'foodie', label: 'Foodie' },
-  { id: 'budget', label: 'Budget' },
-  { id: 'luxury', label: 'Luxury' },
-  { id: 'architecture', label: 'Architecture' },
-  { id: 'hidden-gems', label: 'Hidden Gems' },
-  { id: 'slow-travel', label: 'Slow Travel' },
+const countryToFlag = (country: string): string => {
+  const code = ({
+    'Italy': 'IT', 'France': 'FR', 'Spain': 'ES', 'Germany': 'DE',
+    'United Kingdom': 'GB', 'Portugal': 'PT', 'Netherlands': 'NL',
+    'Greece': 'GR', 'Japan': 'JP', 'United States': 'US', 'USA': 'US',
+    'Thailand': 'TH', 'Croatia': 'HR', 'Austria': 'AT', 'Switzerland': 'CH',
+    'Czech Republic': 'CZ', 'Poland': 'PL', 'Hungary': 'HU', 'Turkey': 'TR',
+    'Morocco': 'MA', 'Mexico': 'MX', 'Colombia': 'CO', 'Brazil': 'BR',
+    'Argentina': 'AR', 'Australia': 'AU', 'Canada': 'CA', 'India': 'IN',
+    'Indonesia': 'ID', 'Vietnam': 'VN', 'Singapore': 'SG', 'UAE': 'AE',
+  } as Record<string, string>)[country]
+  if (!code) return '📍'
+  return code.split('').map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join('')
+}
+
+const TRAVEL_STYLES: { id: string; emoji: string; label: string }[] = [
+  { id: 'food',        emoji: '🍽️', label: 'Food' },
+  { id: 'art',         emoji: '🌸', label: 'Art & Museums' },
+  { id: 'nature',      emoji: '🌿', label: 'Nature' },
+  { id: 'nightlife',   emoji: '🎵', label: 'Nightlife' },
+  { id: 'shopping',    emoji: '🛍️', label: 'Shopping' },
+  { id: 'history',     emoji: '🏛️', label: 'History' },
+  { id: 'beach',       emoji: '⚓', label: 'Beach' },
+  { id: 'adventure',   emoji: '▲', label: 'Adventure' },
 ]
 
 interface Props {
@@ -28,7 +45,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
   const [suggestions, setSuggestions] = useState<CityDto[]>([])
   const [showDropdown, setShowDropdown] = useState(false)
   const [tripName, setTripName] = useState('')
-  const [activeStyles, setActiveStyles] = useState<Set<TripMood>>(new Set())
+  const [activeStyles, setActiveStyles] = useState<Set<string>>(new Set())
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -72,9 +89,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
         setShowDropdown(false)
       }
     }, 300)
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current)
-    }
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   }, [cityQuery, selectedCity])
 
   useEffect(() => {
@@ -91,7 +106,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
 
   const handleCitySelect = (city: CityDto) => {
     setSelectedCity(city)
-    setCityQuery(`${city.name}, ${city.country}`)
+    setCityQuery(city.name)
     setShowDropdown(false)
     setSuggestions([])
   }
@@ -101,7 +116,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
     if (selectedCity) setSelectedCity(null)
   }
 
-  const toggleStyle = (id: TripMood) => {
+  const toggleStyle = (id: string) => {
     setActiveStyles((prev) => {
       const next = new Set(prev)
       next.has(id) ? next.delete(id) : next.add(id)
@@ -126,16 +141,19 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&#x2715;</button>
 
-        <h2 className={styles.title}>Plan a trip.</h2>
-        <p className={styles.subtitle}>Where are you headed?</p>
+        <div className={styles.decorNumber}>01</div>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor="pt-city">City</label>
-            <div className={styles.autocompleteWrap} ref={dropdownRef}>
+        <div className={styles.header}>
+          <p className={styles.step}>STEP 01 · WHERE TO</p>
+          <h2 className={styles.title}>
+            Pick a <em className={styles.titleAccent}>city.</em>
+          </h2>
+
+          <div className={styles.cityCard} ref={dropdownRef}>
+            <div className={styles.cityInputWrap}>
+              {selectedCity && <span className={styles.cityFlag}>{countryToFlag(selectedCity.country)}</span>}
               <input
-                id="pt-city"
-                className={styles.input}
+                className={styles.cityInput}
                 type="text"
                 value={cityQuery}
                 onChange={(e) => handleCityChange(e.target.value)}
@@ -143,53 +161,60 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
                 autoComplete="off"
                 autoFocus
               />
-              {showDropdown && (
-                <ul className={styles.dropdown}>
-                  {suggestions.map((city) => (
-                    <li
-                      key={city.id}
-                      className={styles.dropdownItem}
-                      onMouseDown={() => handleCitySelect(city)}
-                    >
-                      <span className={styles.cityName}>{city.name}</span>
-                      <span className={styles.cityCountry}>{city.country}</span>
-                    </li>
-                  ))}
-                </ul>
+              {selectedCity && (
+                <span className={styles.cityCountryLabel}>{selectedCity.country.toUpperCase()}</span>
               )}
             </div>
+            {showDropdown && (
+              <ul className={styles.dropdown}>
+                {suggestions.map((city) => (
+                  <li
+                    key={city.id}
+                    className={styles.dropdownItem}
+                    onMouseDown={() => handleCitySelect(city)}
+                  >
+                    <span className={styles.dropCityName}>{city.name}</span>
+                    <span className={styles.dropCityCountry}>{city.country}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+        </div>
 
-          <div className={styles.field}>
-            <label className={styles.label} htmlFor="pt-name">
-              Trip name
-              <span className={styles.charCount}>{tripName.length} / 120</span>
-            </label>
-            <input
-              id="pt-name"
-              className={styles.input}
-              type="text"
-              value={tripName}
-              onChange={(e) => setTripName(e.target.value)}
-              maxLength={120}
-              placeholder="e.g. Milan Weekend"
-              required
-            />
-          </div>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formColumns}>
+            <div className={styles.colLeft}>
+              <label className={styles.label} htmlFor="pt-name">
+                TRIP NAME <span className={styles.required}>*</span>
+              </label>
+              <input
+                id="pt-name"
+                className={styles.nameInput}
+                type="text"
+                value={tripName}
+                onChange={(e) => setTripName(e.target.value)}
+                maxLength={120}
+                placeholder="e.g. Milan Weekend"
+              />
+              <p className={styles.hint}>Something memorable — you'll see this on your home page.</p>
+            </div>
 
-          <div className={styles.field}>
-            <span className={styles.label}>Travel style</span>
-            <div className={styles.chips}>
-              {TRAVEL_STYLES.map(({ id, label }) => (
-                <button
-                  key={id}
-                  type="button"
-                  className={`${styles.chip} ${activeStyles.has(id) ? styles.chipActive : ''}`}
-                  onClick={() => toggleStyle(id)}
-                >
-                  {label}
-                </button>
-              ))}
+            <div className={styles.colRight}>
+              <span className={styles.label}>TRAVEL STYLE</span>
+              <div className={styles.chips}>
+                {TRAVEL_STYLES.map(({ id, emoji, label }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    className={`${styles.chip} ${activeStyles.has(id) ? styles.chipActive : ''}`}
+                    onClick={() => toggleStyle(id)}
+                  >
+                    <span className={styles.chipEmoji}>{emoji}</span>
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -197,13 +222,18 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
             <p className={styles.error}>Failed to create trip. Please try again.</p>
           )}
 
-          <div className={styles.actions}>
-            <button type="button" className={styles.cancelBtn} onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className={styles.startBtn} disabled={isSubmitDisabled}>
-              {isPending ? 'Creating…' : 'Start Planning'}
-            </button>
+          <div className={styles.footer}>
+            <span className={styles.readyLabel}>
+              {canSubmit && '✓ READY TO PLAN'}
+            </span>
+            <div className={styles.actions}>
+              <button type="button" className={styles.cancelBtn} onClick={onClose}>
+                CANCEL
+              </button>
+              <button type="submit" className={styles.startBtn} disabled={isSubmitDisabled}>
+                {isPending ? 'CREATING…' : 'START PLANNING →'}
+              </button>
+            </div>
           </div>
         </form>
       </div>
