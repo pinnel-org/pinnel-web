@@ -1,13 +1,13 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(26, 20, 16, 0.55);
+  background: rgba(0, 0, 0, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(3px);
-  animation: fadeOverlay 0.2s ease forwards;
+  backdrop-filter: blur(4px);
+  animation: fadeOverlay 0.18s ease forwards;
 }
 
 @keyframes fadeOverlay {
@@ -16,29 +16,22 @@
 }
 
 .modal {
-  --m-bg:     #f4ede1;
-  --m-ink:    #1a1410;
-  --m-stone:  #8a7a66;
-  --m-teal:   #0c4a4a;
-  --m-border: rgba(26, 20, 16, 0.18);
-  --m-accent: #e8471c;
-
-  background: var(--m-bg);
-  border: 1.5px solid var(--m-border);
-  border-radius: 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border2);
+  border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 480px;
-  padding: 44px 40px 36px;
+  max-width: 520px;
+  padding: 40px 40px 36px;
   position: relative;
-  animation: slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: slideUp 0.26s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   margin: 16px;
-  box-shadow: 0 8px 48px rgba(26, 20, 16, 0.14), 0 2px 8px rgba(26, 20, 16, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.97);
+    transform: translateY(16px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -52,12 +45,12 @@
   right: 14px;
   background: none;
   border: none;
-  color: var(--m-stone);
-  font-size: 15px;
+  color: var(--color-text3);
+  font-size: 14px;
   line-height: 1;
   cursor: pointer;
   padding: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   transition: color 0.15s ease, background 0.15s ease;
   display: flex;
   align-items: center;
@@ -65,26 +58,25 @@
 }
 
 .closeBtn:hover {
-  color: var(--m-ink);
-  background: rgba(26, 20, 16, 0.07);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .title {
-  font-family: 'Fraunces', serif;
-  font-size: 26px;
-  font-weight: 300;
-  letter-spacing: -0.03em;
-  color: var(--m-ink);
-  margin-bottom: 6px;
-  line-height: 1.1;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 14px;
-  color: var(--m-stone);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text2);
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .form {
@@ -100,12 +92,12 @@
 }
 
 .label {
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--m-stone);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--color-text2);
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -113,7 +105,6 @@
 
 .charCount {
   font-weight: 400;
-  font-size: 11px;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -124,13 +115,13 @@
 }
 
 .input {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
-  color: var(--m-ink);
-  background: rgba(255, 255, 255, 0.6);
-  border: 1.5px solid rgba(26, 20, 16, 0.18);
-  border-radius: 8px;
-  padding: 10px 14px;
+  color: var(--color-text);
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
   width: 100%;
   box-sizing: border-box;
   outline: none;
@@ -138,12 +129,12 @@
 }
 
 .input::placeholder {
-  color: rgba(26, 20, 16, 0.3);
+  color: var(--color-text3);
 }
 
 .input:focus {
-  border-color: var(--m-teal);
-  box-shadow: 0 0 0 3px rgba(12, 74, 74, 0.1);
+  border-color: var(--color-border2);
+  box-shadow: 0 0 0 3px rgba(200, 255, 87, 0.08);
 }
 
 .dropdown {
@@ -151,10 +142,10 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: var(--m-bg);
-  border: 1.5px solid var(--m-border);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(26, 20, 16, 0.12);
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border2);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   list-style: none;
   z-index: 10;
   overflow: hidden;
@@ -170,19 +161,19 @@
 }
 
 .dropdownItem:hover {
-  background: rgba(26, 20, 16, 0.06);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .cityName {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
-  color: var(--m-ink);
+  color: var(--color-text);
 }
 
 .cityCountry {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 12px;
-  color: var(--m-stone);
+  color: var(--color-text2);
 }
 
 /* ── Travel style chips ─────────────────── */
@@ -193,12 +184,12 @@
 }
 
 .chip {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
-  color: var(--m-stone);
-  background: rgba(26, 20, 16, 0.05);
-  border: 1.5px solid rgba(26, 20, 16, 0.14);
+  color: var(--color-text2);
+  background: none;
+  border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 5px 13px;
   cursor: pointer;
@@ -206,24 +197,24 @@
 }
 
 .chip:hover {
-  color: var(--m-ink);
-  border-color: rgba(26, 20, 16, 0.28);
+  color: var(--color-text);
+  border-color: var(--color-border2);
 }
 
 .chipActive {
-  color: var(--m-teal);
-  background: rgba(12, 74, 74, 0.08);
-  border-color: var(--m-teal);
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 /* ── Error ──────────────────────────────── */
 .error {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 13px;
-  color: #c0392b;
-  background: rgba(192, 57, 43, 0.08);
-  border: 1px solid rgba(192, 57, 43, 0.2);
-  border-radius: 8px;
+  color: var(--color-error);
+  background: rgba(255, 92, 92, 0.08);
+  border: 1px solid rgba(255, 92, 92, 0.2);
+  border-radius: var(--radius-md);
   padding: 10px 14px;
 }
 
@@ -236,52 +227,47 @@
 }
 
 .cancelBtn {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
-  color: var(--m-stone);
+  color: var(--color-text2);
   background: none;
-  border: 1.5px solid rgba(26, 20, 16, 0.18);
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   padding: 10px 20px;
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .cancelBtn:hover {
-  color: var(--m-ink);
-  border-color: rgba(26, 20, 16, 0.36);
+  color: var(--color-text);
+  border-color: var(--color-border2);
 }
 
 .startBtn {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
-  color: #f4ede1;
-  background: var(--m-teal);
+  color: var(--color-bg);
+  background: var(--color-accent);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 10px 24px;
   cursor: pointer;
-  transition: background 0.15s ease, opacity 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 
 .startBtn:hover:not(:disabled) {
-  background: #0a3a3a;
+  opacity: 0.88;
 }
 
 .startBtn:disabled {
-  opacity: 0.45;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
-@media (max-width: 440px) {
+@media (max-width: 480px) {
   .modal {
-    padding: 36px 24px 28px;
-    border-radius: 10px;
-  }
-
-  .title {
-    font-size: 22px;
+    padding: 32px 20px 28px;
   }
 }
