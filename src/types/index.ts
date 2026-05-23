@@ -62,14 +62,18 @@ export interface TripSummary {
   updatedAt: string
 }
 
-export interface CreateTripDto {
-  title: string
-  city: string
+export interface CityDto {
+  id: number
+  name: string
   country: string
-  days: number
-  mood: TripMood[]
-  budgetPerDay?: number
-  currency?: string
+  latitude: number
+  longitude: number
+  population: number
+}
+
+export interface CreateTripDto {
+  name: string
+  cityIds?: number[]
 }
 
 export interface CreatePlaceDto {
