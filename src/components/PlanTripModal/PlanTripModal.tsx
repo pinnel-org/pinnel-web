@@ -141,7 +141,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
     e.preventDefault()
     if (!canSubmit) return
     createTrip(
-      { name: tripName.trim(), cityIds: [selectedCity!.id] },
+      { name: tripName.trim(), cityIds: [selectedCity!.id], pinIds: [] },
       { onSuccess: (trip) => navigate(`/trip/${trip.id}`) },
     )
   }
