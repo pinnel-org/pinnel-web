@@ -16,7 +16,7 @@
 }
 
 .modal {
-  --m-bg:       #f0e8d8;
+  --m-bg:       #f5ece0;
   --m-bg-deep:  #e8dfc8;
   --m-ink:      #1a1410;
   --m-stone:    #8a7a66;
@@ -81,14 +81,14 @@
 
 /* ── Header ─────────────────────────────── */
 .header {
-  padding: 36px 40px 24px;
+  padding: 36px 40px 32px;
 }
 
 .step {
   font-family: 'Instrument Sans', sans-serif;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 400;
+  letter-spacing: 0.12em;
   color: var(--m-sunset);
   margin-bottom: 8px;
 }
@@ -96,7 +96,7 @@
 .title {
   font-family: 'Fraunces', serif;
   font-size: 68px;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--m-ink);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -107,20 +107,21 @@
   color: var(--m-sunset);
 }
 
-/* ── City row ───────────────────────────── */
-.cityRow {
+/* ── City card ──────────────────────────── */
+.cityCard {
   position: relative;
-  margin: 0 0 2px;
+  margin-top: 24px;
   background: var(--m-white);
-  border-top: 1px solid var(--m-border);
-  border-bottom: 1px solid var(--m-border);
+  border: 1px solid rgba(26, 20, 16, 0.18);
+  border-radius: 10px;
+  overflow: visible;
 }
 
 .cityInputWrap {
   display: flex;
   align-items: center;
-  padding: 0 40px;
-  height: 58px;
+  padding: 0 20px;
+  height: 56px;
   gap: 12px;
 }
 
@@ -155,12 +156,12 @@
 /* ── City dropdown ──────────────────────── */
 .dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
   background: var(--m-white);
-  border: 1px solid var(--m-border);
-  border-top: none;
+  border: 1px solid rgba(26, 20, 16, 0.18);
+  border-radius: 10px;
   list-style: none;
   z-index: 10;
   overflow: hidden;
@@ -171,7 +172,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 40px;
+  padding: 12px 20px;
   cursor: pointer;
   transition: background 0.12s ease;
 }
@@ -215,7 +216,7 @@
   display: block;
   font-family: 'Instrument Sans', sans-serif;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--m-stone);
   margin-bottom: 10px;
@@ -230,12 +231,13 @@
   font-family: 'Instrument Sans', sans-serif;
   font-size: 15px;
   color: var(--m-ink);
-  background: none;
-  border: none;
-  border-bottom: 1.5px solid rgba(26, 20, 16, 0.25);
+  background: var(--m-white);
+  border: 1px solid rgba(26, 20, 16, 0.22);
+  border-radius: 8px;
   outline: none;
   width: 100%;
-  padding: 6px 0;
+  padding: 10px 14px;
+  box-sizing: border-box;
   transition: border-color 0.15s ease;
 }
 
@@ -244,7 +246,7 @@
 }
 
 .nameInput:focus {
-  border-bottom-color: var(--m-ink);
+  border-color: rgba(26, 20, 16, 0.5);
 }
 
 .hint {
@@ -266,16 +268,17 @@
 .chip {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-family: 'Instrument Sans', sans-serif;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: var(--m-ink);
   background: var(--m-white);
-  border: 1.5px solid var(--m-border);
+  border: 1px solid rgba(26, 20, 16, 0.2);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
@@ -318,8 +321,9 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--m-stone);
-  min-width: 120px;
+  min-width: 140px;
 }
 
 .actions {
@@ -331,19 +335,20 @@
 .cancelBtn {
   font-family: 'Instrument Sans', sans-serif;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--m-ink);
   background: none;
-  border: 1.5px solid var(--m-border);
+  border: 2px solid rgba(26, 20, 16, 0.35);
   border-radius: 6px;
-  padding: 11px 24px;
+  padding: 13px 28px;
   cursor: pointer;
   transition: border-color 0.15s ease;
 }
 
 .cancelBtn:hover {
-  border-color: rgba(26, 20, 16, 0.4);
+  border-color: rgba(26, 20, 16, 0.7);
 }
 
 .startBtn {
@@ -351,22 +356,26 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: #ffffff;
   background: var(--m-sunset);
-  border: none;
+  border: 2px solid var(--m-ink);
   border-radius: 6px;
-  padding: 11px 24px;
+  padding: 13px 28px;
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  box-shadow: 3px 3px 0 var(--m-ink);
+  transition: box-shadow 0.12s ease, transform 0.12s ease, opacity 0.15s ease;
 }
 
 .startBtn:hover:not(:disabled) {
-  opacity: 0.88;
+  box-shadow: 1px 1px 0 var(--m-ink);
+  transform: translate(2px, 2px);
 }
 
 .startBtn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 @media (max-width: 640px) {

@@ -5,15 +5,30 @@ import { useCreateTrip } from '@/hooks/useUser'
 import { CityDto } from '@/types'
 import styles from './PlanTripModal.module.css'
 
+const countryToFlag = (country: string): string => {
+  const code = ({
+    'Italy': 'IT', 'France': 'FR', 'Spain': 'ES', 'Germany': 'DE',
+    'United Kingdom': 'GB', 'Portugal': 'PT', 'Netherlands': 'NL',
+    'Greece': 'GR', 'Japan': 'JP', 'United States': 'US', 'USA': 'US',
+    'Thailand': 'TH', 'Croatia': 'HR', 'Austria': 'AT', 'Switzerland': 'CH',
+    'Czech Republic': 'CZ', 'Poland': 'PL', 'Hungary': 'HU', 'Turkey': 'TR',
+    'Morocco': 'MA', 'Mexico': 'MX', 'Colombia': 'CO', 'Brazil': 'BR',
+    'Argentina': 'AR', 'Australia': 'AU', 'Canada': 'CA', 'India': 'IN',
+    'Indonesia': 'ID', 'Vietnam': 'VN', 'Singapore': 'SG', 'UAE': 'AE',
+  } as Record<string, string>)[country]
+  if (!code) return '📍'
+  return code.split('').map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join('')
+}
+
 const TRAVEL_STYLES: { id: string; emoji: string; label: string }[] = [
   { id: 'food',        emoji: '🍽️', label: 'Food' },
-  { id: 'art',         emoji: '🎨', label: 'Art & Museums' },
+  { id: 'art',         emoji: '🌸', label: 'Art & Museums' },
   { id: 'nature',      emoji: '🌿', label: 'Nature' },
-  { id: 'nightlife',   emoji: '🎶', label: 'Nightlife' },
-  { id: 'shopping',    emoji: '👜', label: 'Shopping' },
+  { id: 'nightlife',   emoji: '🎵', label: 'Nightlife' },
+  { id: 'shopping',    emoji: '🛍️', label: 'Shopping' },
   { id: 'history',     emoji: '🏛️', label: 'History' },
-  { id: 'beach',       emoji: '🏖️', label: 'Beach' },
-  { id: 'adventure',   emoji: '⛰️', label: 'Adventure' },
+  { id: 'beach',       emoji: '⚓', label: 'Beach' },
+  { id: 'adventure',   emoji: '▲', label: 'Adventure' },
 ]
 
 interface Props {
@@ -133,12 +148,10 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
           <h2 className={styles.title}>
             Pick a <em className={styles.titleAccent}>city.</em>
           </h2>
-        </div>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.cityRow} ref={dropdownRef}>
+          <div className={styles.cityCard} ref={dropdownRef}>
             <div className={styles.cityInputWrap}>
-              {selectedCity && <span className={styles.cityFlag}>📍</span>}
+              {selectedCity && <span className={styles.cityFlag}>{countryToFlag(selectedCity.country)}</span>}
               <input
                 className={styles.cityInput}
                 type="text"
@@ -167,7 +180,9 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
               </ul>
             )}
           </div>
+        </div>
 
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formColumns}>
             <div className={styles.colLeft}>
               <label className={styles.label} htmlFor="pt-name">
