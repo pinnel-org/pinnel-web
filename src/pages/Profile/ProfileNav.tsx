@@ -4,6 +4,7 @@ import styles from './ProfileNav.module.css'
 import { useCurrentUser } from '@/hooks/useUser'
 import { useAuthStore } from '@/store/authStore'
 import { ComingSoonModal } from '@/components/ComingSoonModal/ComingSoonModal'
+import { PlanTripModal } from '@/components/PlanTripModal/PlanTripModal'
 
 const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
 
@@ -13,6 +14,7 @@ export const ProfileNav = () => {
   const { data: user } = useCurrentUser()
   const logout = useAuthStore((s) => s.logout)
   const [comingSoonFeature, setComingSoonFeature] = useState<string | null>(null)
+  const [planModalOpen, setPlanModalOpen] = useState(false)
 
   const isActive = (path: string) => location.pathname === path
 
@@ -61,7 +63,7 @@ export const ProfileNav = () => {
               <path d="M6.5 13a1.5 1.5 0 0 0 3 0" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </button>
-          <button className={styles.planBtn} onClick={() => navigate('/dashboard')}>
+          <button className={styles.planBtn} onClick={() => setPlanModalOpen(true)}>
             + PLAN A TRIP
           </button>
           {user && (
@@ -78,6 +80,8 @@ export const ProfileNav = () => {
           onClose={() => setComingSoonFeature(null)}
         />
       )}
+
+      <PlanTripModal isOpen={planModalOpen} onClose={() => setPlanModalOpen(false)} />
     </>
   )
 }
