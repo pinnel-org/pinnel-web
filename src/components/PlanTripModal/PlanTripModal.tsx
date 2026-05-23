@@ -184,7 +184,7 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
                     onMouseDown={() => handleCitySelect(city)}
                   >
                     <span className={styles.dropCityName}>{city.name}</span>
-                    <span className={styles.dropCityCountry}>{isoToName(city.country)}</span>
+                    <span className={styles.dropCityCountry}>{isoToFlag(city.country)}</span>
                   </li>
                 ))}
               </ul>
