@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { TripSummary } from '@/types'
-import { PlanTripModal } from '@/components/PlanTripModal/PlanTripModal'
 import { ProfileTripCard } from './ProfileTripCard'
 import styles from './ProfileTripsSection.module.css'
 
@@ -20,7 +19,6 @@ interface Props {
 
 export const ProfileTripsSection = ({ trips, counts }: Props) => {
   const [tab, setTab] = useState<TabId>('all')
-  const [modalOpen, setModalOpen] = useState(false)
 
   // TODO: counts for planned/drafts/past will be filled from backend
   const tabCounts: TabCounts = {
@@ -59,9 +57,6 @@ export const ProfileTripsSection = ({ trips, counts }: Props) => {
             </button>
           ))}
         </div>
-        <button className={styles.planBtn} onClick={() => setModalOpen(true)}>
-          + Plan a trip
-        </button>
       </div>
 
       {visibleTrips.length === 0 ? (
@@ -73,8 +68,6 @@ export const ProfileTripsSection = ({ trips, counts }: Props) => {
           ))}
         </div>
       )}
-
-      <PlanTripModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   )
 }

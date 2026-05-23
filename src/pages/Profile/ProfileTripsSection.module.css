@@ -96,27 +96,6 @@
   gap: 16px;
 }
 
-/* Plan a trip button */
-.planBtn {
-  flex-shrink: 0;
-  margin-left: 12px;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #f4ede1;
-  background: #0c4a4a;
-  border: none;
-  border-radius: 8px;
-  padding: 7px 16px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s ease;
-}
-
-.planBtn:hover {
-  background: #0a3a3a;
-}
-
 /* Empty */
 .empty {
   font-family: 'Instrument Sans', sans-serif;
