@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { usersApi } from '@/api/users'
 import { tripsApi } from '@/api/trips'
-import { UpdateUserDto, CreateTripDto } from '@/types'
+import { UpdateUserDto, CreateTripDto, TripSummary, CityDto } from '@/types'
 import { useAuthStore } from '@/store/authStore'
+import { apiClient } from '@/api/client'
 
 export const useCurrentUser = () => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
@@ -34,3 +35,17 @@ export const useCreateTrip = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['trips', 'me'] }),
   })
 }
+
+export const useTrip = (id: number) =>
+  useQuery({
+    queryKey: ['trip', id],
+    queryFn: () => apiClient.get<TripSummary>(`/trips/${id}`).then((r) => r.data),
+    enabled: !!id,
+  })
+
+export const useCity = (id: number | undefined) =>
+  useQuery({
+    queryKey: ['city', id],
+    queryFn: () => apiClient.get<CityDto>(`/cities/${id}`).then((r) => r.data),
+    enabled: !!id,
+  })

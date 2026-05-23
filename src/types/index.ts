@@ -50,6 +50,15 @@ export interface UpdateUserDto {
   bio: string
 }
 
+export interface CityDto {
+  id: number
+  name: string
+  country: string
+  latitude: number
+  longitude: number
+  population: number
+}
+
 // Matches backend TripDto — used for user's own trip list (GET /api/trips)
 export interface TripSummary {
   id: number
