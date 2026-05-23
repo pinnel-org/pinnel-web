@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { usersApi } from '@/api/users'
 import { tripsApi } from '@/api/trips'
-import { UpdateUserDto } from '@/types'
+import { UpdateUserDto, CreateTripDto } from '@/types'
 import { useAuthStore } from '@/store/authStore'
 
 export const useCurrentUser = () => {
@@ -26,3 +26,11 @@ export const useMyTrips = () =>
     queryKey: ['trips', 'me'],
     queryFn: tripsApi.getUserTrips,
   })
+
+export const useCreateTrip = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data: CreateTripDto) => tripsApi.createTrip(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['trips', 'me'] }),
+  })
+}
