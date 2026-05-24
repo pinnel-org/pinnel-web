@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTrip, useCity } from '@/hooks/useUser'
+import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import styles from './TripPlannerPage.module.css'
 
 type ViewMode = 'map' | 'browse'
@@ -40,6 +41,8 @@ export const TripPlannerPage = () => {
 
   return (
     <div className={styles.wrapper}>
+      <ProfileNav homePath="/profile" />
+      <div className={styles.body}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarTop}>
           <h1 className={styles.tripName}>{trip.name}</h1>
@@ -128,6 +131,7 @@ export const TripPlannerPage = () => {
           </div>
         )}
       </main>
+      </div>
     </div>
   )
 }

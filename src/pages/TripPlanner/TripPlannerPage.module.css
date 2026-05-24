@@ -5,8 +5,16 @@
   --lp-stone: #8a7a66;
 
   display: flex;
+  flex-direction: column;
   height: 100vh;
   background: #f5ece0;
+  overflow: hidden;
+}
+
+/* ── Content row (sidebar + panel) ─────── */
+.body {
+  display: flex;
+  flex: 1;
   overflow: hidden;
 }
 
