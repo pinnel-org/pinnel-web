@@ -1,7 +1,12 @@
 /* ── Page shell ─────────────────────────── */
 .wrapper {
   --lp-ink: #1a1410;
+  --lp-paper: #f4ede1;
+  --lp-paper-deep: #ebe1cf;
   --lp-sunset: #e8471c;
+  --lp-ember: #c2380f;
+  --lp-amber: #f0a830;
+  --lp-teal: #0c4a4a;
   --lp-stone: #8a7a66;
 
   display: flex;
