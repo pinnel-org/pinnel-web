@@ -49,7 +49,7 @@
 .contentTabs {
   display: flex;
   padding: 0 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1.5px solid rgba(26, 20, 16, 0.14);
   flex-shrink: 0;
 }
 
@@ -100,18 +100,18 @@
   flex-wrap: wrap;
   gap: 6px;
   padding: 12px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1.5px solid rgba(26, 20, 16, 0.14);
   flex-shrink: 0;
 }
 
 .dayTab {
-  font-family: var(--font-mono);
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.06em;
-  color: #aaa;
+  color: var(--lp-stone);
   background: none;
-  border: 1px solid rgba(0, 0, 0, 0.14);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
   border-radius: 4px;
   padding: 4px 10px;
   cursor: pointer;
@@ -119,14 +119,14 @@
 }
 
 .dayTab:hover {
-  color: #333;
-  border-color: rgba(0, 0, 0, 0.3);
+  color: var(--lp-ink);
+  border-color: rgba(26, 20, 16, 0.4);
 }
 
 .dayTabActive {
-  color: #1a1a1a;
-  background: #fff;
-  border-color: #1a1a1a;
+  color: #f5ece0;
+  background: var(--lp-ink);
+  border-color: var(--lp-ink);
 }
 
 /* ── Cards list ─────────────────────────── */
