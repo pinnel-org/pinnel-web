@@ -8,7 +8,11 @@ import { PlanTripModal } from '@/components/PlanTripModal/PlanTripModal'
 
 const LOGO_URL = 'https://github.com/user-attachments/assets/931c515e-e748-4413-987a-ea5bb1f2343f'
 
-export const ProfileNav = () => {
+interface ProfileNavProps {
+  homePath?: string
+}
+
+export const ProfileNav = ({ homePath = '/' }: ProfileNavProps) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { data: user } = useCurrentUser()
@@ -21,7 +25,7 @@ export const ProfileNav = () => {
   return (
     <>
       <header className={styles.nav}>
-        <div className={styles.logo} onClick={() => navigate('/')}>
+        <div className={styles.logo} onClick={() => navigate(homePath)}>
           <img src={LOGO_URL} alt="Pinnel" className={styles.logoImg} />
           <div className={styles.logoText}>
             <span className={styles.brand}>pinnel</span>
@@ -31,8 +35,8 @@ export const ProfileNav = () => {
 
         <nav className={styles.links}>
           <button
-            className={`${styles.link} ${isActive('/') ? styles.active : ''}`}
-            onClick={() => navigate('/')}
+            className={`${styles.link} ${isActive(homePath) ? styles.active : ''}`}
+            onClick={() => navigate(homePath)}
           >
             HOME
           </button>
