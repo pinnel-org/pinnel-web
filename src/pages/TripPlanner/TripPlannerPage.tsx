@@ -4,6 +4,7 @@ import { useTrip, useCity } from '@/hooks/useUser'
 import styles from './TripPlannerPage.module.css'
 
 type ViewMode = 'map' | 'browse'
+type ContentTab = 'cards' | 'schedule' | 'route'
 
 export const TripPlannerPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -14,6 +15,8 @@ export const TripPlannerPage = () => {
   const { data: city } = useCity(firstCityId)
 
   const [view, setView] = useState<ViewMode>('map')
+  const [contentTab, setContentTab] = useState<ContentTab>('cards')
+  const [activeDay, setActiveDay] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
 
   if (tripLoading) {
@@ -28,79 +31,103 @@ export const TripPlannerPage = () => {
     return <div className={styles.loading}>Trip not found.</div>
   }
 
+  const placeCount = trip.pinIds?.length ?? 0
+  const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
+
   const mapSrc = city
     ? `https://maps.google.com/maps?q=${encodeURIComponent(`${city.name}, ${city.country}`)}&output=embed&hl=en&z=13`
     : 'https://maps.google.com/maps?q=Europe&output=embed&hl=en&z=5'
 
   return (
     <div className={styles.wrapper}>
-      <header className={styles.header}>
-        <span className={styles.tripName}>{trip.name}</span>
-
-        <div className={styles.toggleGroup}>
-          <button
-            className={`${styles.toggleBtn} ${view === 'map' ? styles.toggleActive : ''}`}
-            onClick={() => setView('map')}
-          >
-            MAP
-          </button>
-          <button
-            className={`${styles.toggleBtn} ${view === 'browse' ? styles.toggleActive : ''}`}
-            onClick={() => setView('browse')}
-          >
-            BROWSE
-          </button>
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarTop}>
+          <h1 className={styles.tripName}>{trip.name}</h1>
+          <p className={styles.tripMeta}>
+            {dayCount} DAY{dayCount !== 1 ? 'S' : ''} · {placeCount} PLACE{placeCount !== 1 ? 'S' : ''}
+            {trip.budget != null ? ` · EST €${trip.budget}` : ''}
+          </p>
         </div>
 
-        <div className={styles.searchWrap}>
-          <svg className={styles.searchIcon} viewBox="0 0 16 16" fill="none">
-            <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-            <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-          </svg>
-          <input
-            className={styles.searchInput}
-            type="text"
-            placeholder="Search places..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className={styles.contentTabs}>
+          {(['cards', 'schedule', 'route'] as ContentTab[]).map((tab) => (
+            <button
+              key={tab}
+              className={`${styles.contentTab} ${contentTab === tab ? styles.contentTabActive : ''}`}
+              onClick={() => setContentTab(tab)}
+            >
+              {tab.toUpperCase()}
+            </button>
+          ))}
         </div>
 
-        <button className={styles.finalizeBtn}>Finalize Trip</button>
-      </header>
+        <div className={styles.dayTabs}>
+          {Array.from({ length: dayCount }, (_, i) => i + 1).map((day) => (
+            <button
+              key={day}
+              className={`${styles.dayTab} ${activeDay === day ? styles.dayTabActive : ''}`}
+              onClick={() => setActiveDay(day)}
+            >
+              DAY {day}
+            </button>
+          ))}
+        </div>
 
-      <div className={styles.body}>
-        <aside className={styles.sidebar}>
-          <div className={styles.tabBar}>
-            <button className={`${styles.sideTab} ${styles.sideTabActive}`}>CARDS</button>
+        <div className={styles.cardsList}>
+          <div className={styles.emptyState}>
+            <p className={styles.emptyText}>No places yet.</p>
+            <p className={styles.emptyHint}>Search and add places to your trip.</p>
+          </div>
+        </div>
+      </aside>
+
+      <main className={styles.panel}>
+        <div className={styles.panelTopBar}>
+          <div className={styles.toggleGroup}>
+            <button
+              className={`${styles.toggleBtn} ${view === 'map' ? styles.toggleActive : ''}`}
+              onClick={() => setView('map')}
+            >
+              MAP
+            </button>
+            <button
+              className={`${styles.toggleBtn} ${view === 'browse' ? styles.toggleActive : ''}`}
+              onClick={() => setView('browse')}
+            >
+              BROWSE
+            </button>
           </div>
 
-          <div className={styles.daySection}>
-            <div className={styles.dayLabel}>DAY 1</div>
-            <div className={styles.emptyState}>
-              <p className={styles.emptyText}>No places yet.</p>
-              <p className={styles.emptyHint}>Use the search bar to add places.</p>
-            </div>
-          </div>
-        </aside>
-
-        <main className={styles.panel}>
-          {view === 'map' ? (
-            <iframe
-              className={styles.mapFrame}
-              src={mapSrc}
-              title="Map"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+          <div className={styles.searchWrap}>
+            <svg className={styles.searchIcon} viewBox="0 0 16 16" fill="none">
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            <input
+              className={styles.searchInput}
+              type="text"
+              placeholder="Find food, museums..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          ) : (
-            <div className={styles.browsePlaceholder}>
-              <p className={styles.browseText}>Browse mode coming soon.</p>
-            </div>
-          )}
-        </main>
-      </div>
+          </div>
+        </div>
+
+        {view === 'map' ? (
+          <iframe
+            className={styles.mapFrame}
+            src={mapSrc}
+            title="Map"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        ) : (
+          <div className={styles.browsePlaceholder}>
+            <p className={styles.browseText}>Browse mode — coming soon.</p>
+          </div>
+        )}
+      </main>
     </div>
   )
 }
