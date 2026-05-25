@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { App } from './App'
+import { sanitizeAuthState } from '@/utils/authStateGuard'
 import './styles/globals.css'
 
 if (import.meta.env.DEV) {
@@ -11,6 +12,8 @@ if (import.meta.env.DEV) {
     localStorage.setItem('cognitoEmail', 'dev@pinnel.app')
     localStorage.setItem('cognitoUsername', 'devuser')
   }
+} else {
+  sanitizeAuthState()
 }
 
 const queryClient = new QueryClient()
