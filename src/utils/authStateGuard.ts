@@ -8,10 +8,14 @@ const clearAuthState = () => {
 export const sanitizeAuthState = () => {
   const storedVersion = localStorage.getItem(LS_APP_VERSION)
 
-  // New deploy detected — clear stale auth state
+  // New deploy detected — clear stale auth state and reload to home
   if (storedVersion !== __APP_VERSION__) {
     clearAuthState()
     localStorage.setItem(LS_APP_VERSION, __APP_VERSION__)
+    // storedVersion === null means first visit, no redirect needed
+    if (storedVersion !== null) {
+      window.location.replace('/')
+    }
     return
   }
 
