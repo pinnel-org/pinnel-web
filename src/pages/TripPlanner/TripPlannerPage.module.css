@@ -61,7 +61,7 @@
 /* ── Content tabs: CARDS | SCHEDULE | ROUTE */
 .contentTabs {
   display: flex;
-  padding: 0 20px;
+  margin: 0 20px;
   flex-shrink: 0;
   border-bottom: 1.5px solid rgba(26, 20, 16, 0.1);
 }
