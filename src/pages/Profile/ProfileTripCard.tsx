@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { TripSummary } from '@/types'
 import styles from './ProfileTripCard.module.css'
 
@@ -16,12 +17,13 @@ interface Props {
 }
 
 export const ProfileTripCard = ({ trip, index }: Props) => {
+  const navigate = useNavigate()
   const gradient = GRADIENTS[index % GRADIENTS.length]
   const pinCount = trip.pinIds?.length ?? 0
   const cityCount = trip.cityIds?.length ?? 0
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => navigate(`/trip/${trip.id}`)}>
       <div className={styles.image} style={{ background: gradient }}>
         <span className={styles.pinCount}>{pinCount}</span>
       </div>
