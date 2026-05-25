@@ -104,7 +104,7 @@ export const TripPlannerPage = () => {
             </button>
           </div>
 
-          <div className={styles.searchWrap}>
+          {view === 'browse' && <div className={styles.searchWrap}>
             <svg className={styles.searchIcon} viewBox="0 0 16 16" fill="none">
               <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
@@ -116,7 +116,7 @@ export const TripPlannerPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </div>}
         </div>
 
         {view === 'map' ? (
