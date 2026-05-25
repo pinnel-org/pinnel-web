@@ -122,7 +122,7 @@ export const TripPlannerPage = () => {
           </div>}
         </div>
 
-        {weather && weather.length > 0 && (
+        {view === 'map' && weather && weather.length > 0 && (
           <WeatherStrip days={weather} />
         )}
 
