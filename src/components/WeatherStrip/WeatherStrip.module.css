@@ -1,13 +1,17 @@
 .strip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
   display: flex;
+  flex-direction: row;
   gap: 2px;
-  overflow-x: auto;
-  padding: 10px 20px;
-  scrollbar-width: none;
-}
-
-.strip::-webkit-scrollbar {
-  display: none;
+  background: rgba(245, 236, 224, 0.92);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
+  border-radius: 8px;
+  padding: 6px 4px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .day {
@@ -15,14 +19,14 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  min-width: 56px;
-  padding: 8px 4px;
-  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  border-radius: 5px;
   transition: background 0.15s;
+  min-width: 48px;
 }
 
 .day:hover {
-  background: rgba(26, 20, 16, 0.05);
+  background: rgba(26, 20, 16, 0.06);
 }
 
 .dayName {
@@ -45,19 +49,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px;
+  height: 18px;
 }
 
 .temp {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--lp-ink);
 }
 
 .label {
   font-family: var(--font-sans);
-  font-size: 9px;
+  font-size: 8px;
   color: var(--lp-stone);
   white-space: nowrap;
 }

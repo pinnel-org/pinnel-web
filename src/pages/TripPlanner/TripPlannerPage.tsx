@@ -56,10 +56,6 @@ export const TripPlannerPage = () => {
           </p>
         </div>
 
-        {weather && weather.length > 0 && (
-          <WeatherStrip days={weather} />
-        )}
-
         <div className={styles.contentTabs}>
           {(['cards', 'schedule', 'route'] as ContentTab[]).map((tab) => (
             <button
@@ -125,6 +121,10 @@ export const TripPlannerPage = () => {
             />
           </div>}
         </div>
+
+        {weather && weather.length > 0 && (
+          <WeatherStrip days={weather} />
+        )}
 
         {view === 'map' ? (
           <iframe
