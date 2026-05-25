@@ -63,6 +63,7 @@
   display: flex;
   padding: 0 20px;
   flex-shrink: 0;
+  border-bottom: 1.5px solid rgba(26, 20, 16, 0.1);
 }
 
 .contentTab {
@@ -82,12 +83,13 @@
 .contentTab::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   width: 0;
   height: 2px;
   background: var(--lp-sunset);
   transition: width 0.2s ease;
+  z-index: 1;
 }
 
 .contentTab:hover {
@@ -130,12 +132,13 @@
 }
 
 .dayTab:hover {
-  color: var(--lp-ink);
-  border-color: rgba(26, 20, 16, 0.4);
+  color: #fff;
+  background: var(--lp-ink);
+  border-color: var(--lp-ink);
 }
 
 .dayTabActive {
-  color: #f5ece0;
+  color: #fff;
   background: var(--lp-ink);
   border-color: var(--lp-ink);
 }
