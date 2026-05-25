@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MapIcon, LayoutGrid } from 'lucide-react'
 import { useTrip, useCity } from '@/hooks/useUser'
+import { useWeather } from '@/hooks/useWeather'
+import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import styles from './TripPlannerPage.module.css'
 
@@ -15,6 +17,7 @@ export const TripPlannerPage = () => {
   const { data: trip, isLoading: tripLoading } = useTrip(tripId)
   const firstCityId = trip?.cityIds?.[0]
   const { data: city } = useCity(firstCityId)
+  const { data: weather } = useWeather(city?.latitude, city?.longitude)
 
   const [view, setView] = useState<ViewMode>('map')
   const [contentTab, setContentTab] = useState<ContentTab>('cards')
@@ -118,6 +121,10 @@ export const TripPlannerPage = () => {
             />
           </div>}
         </div>
+
+        {view === 'map' && weather && weather.length > 0 && (
+          <WeatherStrip days={weather} />
+        )}
 
         {view === 'map' ? (
           <iframe
