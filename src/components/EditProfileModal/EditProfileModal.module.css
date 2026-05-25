@@ -89,17 +89,13 @@
   color: var(--modal-sunset);
 }
 
-/* ── Photo + form wrapper ───────────────── */
+/* ── Header ─────────────────────────────── */
 .header {
-  padding: 36px 40px 24px;
+  padding: 32px 40px 24px;
 }
 
-/* ── Divider ────────────────────────────── */
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--modal-border);
-  margin: 20px 0 0;
+.photoWrap {
+  margin-top: 24px;
 }
 
 /* ── Form ───────────────────────────────── */

@@ -78,10 +78,10 @@ export const EditProfileModal = ({
         <div className={styles.header}>
           <p className={styles.step}>EDIT PROFILE</p>
           <h2 className={styles.title}>Edit <em className={styles.titleAccent}>profile.</em></h2>
-          <PhotoUpload />
+          <div className={styles.photoWrap}>
+            <PhotoUpload />
+          </div>
         </div>
-
-        <div className={styles.divider} />
 
         <form id="ep-form" className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
