@@ -132,12 +132,13 @@
 }
 
 .dayTab:hover {
-  color: var(--lp-ink);
-  border-color: rgba(26, 20, 16, 0.4);
+  color: #fff;
+  background: var(--lp-ink);
+  border-color: var(--lp-ink);
 }
 
 .dayTabActive {
-  color: #f5ece0;
+  color: #fff;
   background: var(--lp-ink);
   border-color: var(--lp-ink);
 }
