@@ -178,53 +178,61 @@
   position: relative;
 }
 
-/* Toggle + search bar at the top of the panel */
+/* Toggle + search bar — floats over the map */
 .panelTopBar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  background: #f5ece0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
+  gap: 8px;
 }
 
 /* MAP / BROWSE toggle */
 .toggleGroup {
   display: flex;
   align-items: center;
-  background: #e8ddd0;
-  border-radius: 6px;
-  padding: 3px;
-  gap: 2px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #888;
-  background: none;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
+  color: var(--lp-ink);
+  background: rgba(245, 236, 224, 0.92);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
+  border-radius: 6px;
+  padding: 0 11px;
+  height: 34px;
   cursor: pointer;
   transition: all 0.15s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .toggleBtn:hover {
-  color: #333;
+  color: #fff;
+  background: var(--lp-ink);
+  border-color: var(--lp-ink);
 }
 
 .toggleActive {
   color: #fff;
-  background: #1a1a1a;
+  background: var(--lp-ink);
+  border-color: var(--lp-ink);
 }
 
 .toggleActive:hover {
   color: #fff;
+  background: var(--lp-ink);
 }
 
 /* Search */
@@ -233,16 +241,18 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid rgba(26, 20, 16, 0.18);
   border-radius: 6px;
   padding: 0 12px;
   height: 34px;
   transition: border-color 0.15s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .searchWrap:focus-within {
-  border-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(26, 20, 16, 0.4);
 }
 
 .searchIcon {
@@ -268,15 +278,17 @@
 
 /* Map iframe */
 .mapFrame {
-  flex: 1;
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
   border: none;
-  display: block;
 }
 
 /* Browse placeholder */
 .browsePlaceholder {
-  flex: 1;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;

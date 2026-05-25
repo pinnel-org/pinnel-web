@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { MapIcon, LayoutGrid } from 'lucide-react'
 import { useTrip, useCity } from '@/hooks/useUser'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import styles from './TripPlannerPage.module.css'
@@ -36,8 +37,8 @@ export const TripPlannerPage = () => {
   const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
 
   const mapSrc = city
-    ? `https://maps.google.com/maps?q=${encodeURIComponent(`${city.name}, ${city.country}`)}&output=embed&hl=en&z=13`
-    : 'https://maps.google.com/maps?q=Europe&output=embed&hl=en&z=5'
+    ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
+    : 'https://maps.google.com/maps?ll=48.8,10.0&output=embed&hl=en&z=5'
 
   return (
     <div className={styles.wrapper}>
@@ -91,12 +92,14 @@ export const TripPlannerPage = () => {
               className={`${styles.toggleBtn} ${view === 'map' ? styles.toggleActive : ''}`}
               onClick={() => setView('map')}
             >
+              <MapIcon size={13} strokeWidth={1.8} />
               MAP
             </button>
             <button
               className={`${styles.toggleBtn} ${view === 'browse' ? styles.toggleActive : ''}`}
               onClick={() => setView('browse')}
             >
+              <LayoutGrid size={13} strokeWidth={1.8} />
               BROWSE
             </button>
           </div>
