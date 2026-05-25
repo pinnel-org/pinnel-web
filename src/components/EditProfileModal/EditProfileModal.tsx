@@ -75,14 +75,15 @@ export const EditProfileModal = ({
           ✕
         </button>
 
-        <h2 className={styles.title}>Edit profile</h2>
-        <p className={styles.subtitle}>Update your public profile details.</p>
-
-        <PhotoUpload />
+        <div className={styles.header}>
+          <p className={styles.step}>EDIT PROFILE</p>
+          <h2 className={styles.title}>Edit <em className={styles.titleAccent}>profile.</em></h2>
+          <PhotoUpload />
+        </div>
 
         <div className={styles.divider} />
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form id="ep-form" className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ep-displayName">
               Display name
@@ -140,16 +141,16 @@ export const EditProfileModal = ({
               {validationError ?? 'Failed to save. Please try again.'}
             </p>
           )}
-
-          <div className={styles.actions}>
-            <button type="button" className={styles.cancelBtn} onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className={styles.saveBtn} disabled={isPending}>
-              {isPending ? 'Saving…' : 'Save'}
-            </button>
-          </div>
         </form>
+
+        <div className={styles.actions}>
+          <button type="button" className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
+          <button type="submit" form="ep-form" className={styles.saveBtn} disabled={isPending}>
+            {isPending ? 'Saving…' : 'Save →'}
+          </button>
+        </div>
       </div>
     </div>
   )
