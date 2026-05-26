@@ -36,7 +36,9 @@ export const WorldMap = ({ visited, isLoading }: WorldMapProps) => {
 
   useEffect(() => {
     let cancelled = false
-    import('world-atlas/countries-110m.json')
+    // de-jure-110m.json is a patched world-atlas/countries-110m.json that moves
+    // Crimea from Russia to Ukraine. Regenerate via scripts/build-de-jure-topology.mjs.
+    import('./de-jure-110m.json')
       .then((mod) => {
         if (cancelled) return
         const topology = (mod.default ?? mod) as unknown as Topology
