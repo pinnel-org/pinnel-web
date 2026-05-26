@@ -3,7 +3,7 @@ import { geoEquirectangular, geoPath } from 'd3-geo'
 import { feature } from 'topojson-client'
 import type { Topology, GeometryCollection } from 'topojson-specification'
 import type { Feature, Geometry } from 'geojson'
-import { numericToAlpha3 } from './isoCountryCodes'
+import { numericToAlpha2 } from './isoCountryCodes'
 import styles from './WorldMap.module.css'
 
 interface WorldMapProps {
@@ -15,7 +15,7 @@ interface CountryProps {
   name?: string
 }
 
-type CountryFeature = Feature<Geometry, CountryProps> & { alpha3: string | null }
+type CountryFeature = Feature<Geometry, CountryProps> & { alpha2: string | null }
 
 const VIEWBOX_WIDTH = 1120
 const VIEWBOX_HEIGHT = 440
@@ -44,7 +44,7 @@ export const WorldMap = ({ visited, isLoading }: WorldMapProps) => {
         const geo = feature(topology, collection)
         const enriched: CountryFeature[] = geo.features
           .filter((f) => f.properties?.name !== 'Antarctica')
-          .map((f) => ({ ...f, alpha3: numericToAlpha3(f.id as string | number | undefined) }))
+          .map((f) => ({ ...f, alpha2: numericToAlpha2(f.id as string | number | undefined) }))
         setFeatures(enriched)
       })
       .catch(() => {
@@ -63,9 +63,9 @@ export const WorldMap = ({ visited, isLoading }: WorldMapProps) => {
       .map((f, i) => {
         const d = pathBuilder(f)
         if (!d) return null
-        const alpha3 = f.alpha3
-        const isVisited = alpha3 != null && visitedSet.has(alpha3)
-        return { d, key: alpha3 ?? `idx-${i}`, name: f.properties?.name ?? '', isVisited }
+        const alpha2 = f.alpha2
+        const isVisited = alpha2 != null && visitedSet.has(alpha2)
+        return { d, key: alpha2 ?? `idx-${i}`, name: f.properties?.name ?? '', isVisited }
       })
       .filter((p): p is { d: string; key: string; name: string; isVisited: boolean } => p !== null)
   }, [features, visitedSet])
