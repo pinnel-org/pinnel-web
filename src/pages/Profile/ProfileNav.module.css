@@ -117,38 +117,31 @@
   background: var(--lp-paper-deep);
 }
 
-.planBtn {
-  background: var(--lp-teal);
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+.planBtn,
+.logoutBtn {
+  border: 2px solid var(--lp-ink);
+  border-radius: 6px;
+  padding: 9px 18px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.15s;
+  box-shadow: 3px 3px 0 var(--lp-ink);
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
 }
 
-.planBtn:hover {
-  background: #093c3c;
+.planBtn {
+  background: var(--lp-teal);
 }
 
 .logoutBtn {
   background: var(--lp-sunset);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.15s;
 }
 
+.planBtn:hover,
 .logoutBtn:hover {
-  background: var(--lp-ember);
+  box-shadow: 1px 1px 0 var(--lp-ink);
+  transform: translate(2px, 2px);
 }
