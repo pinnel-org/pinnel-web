@@ -1,0 +1,75 @@
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  aspect-ratio: 1120 / 440;
+  overflow: hidden;
+  background: transparent;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ocean {
+  fill: transparent;
+}
+
+.country {
+  fill: var(--lp-stone, #8a7a66);
+  fill-opacity: 0.32;
+  stroke: var(--lp-stone, #8a7a66);
+  stroke-width: 0.4;
+  stroke-opacity: 0.6;
+  transition: fill-opacity 0.12s ease, stroke-width 0.12s ease;
+}
+
+.country.visited {
+  fill: var(--lp-sunset, #e8471c);
+  fill-opacity: 0.92;
+  stroke: var(--lp-ember, #c2380f);
+  stroke-width: 0.5;
+  stroke-opacity: 0.9;
+}
+
+.country:hover {
+  fill-opacity: 0.55;
+  stroke-width: 0.9;
+  cursor: default;
+}
+
+.country.visited:hover {
+  fill-opacity: 1;
+  stroke-width: 1;
+}
+
+.statusOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--lp-stone, #8a7a66);
+  background: transparent;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 4;
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--lp-paper, #f4ede1);
+  background: var(--lp-ink, #1a1410);
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+}
