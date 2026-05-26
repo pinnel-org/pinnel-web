@@ -77,6 +77,98 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  position: relative;
+}
+
+/* Three-dot menu trigger */
+.menuWrap {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--lp-stone, #8a7a66);
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.12s ease, color 0.12s ease;
+  padding: 0;
+}
+
+.card:hover .menuButton,
+.menuButtonOpen {
+  opacity: 1;
+}
+
+.menuButton:hover,
+.menuButtonOpen {
+  background: rgba(26, 20, 16, 0.07);
+  color: var(--lp-ink, #1a1410);
+}
+
+.dots {
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* Popover menu */
+.popover {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  min-width: 160px;
+  background: #ffffff;
+  border: 1px solid rgba(26, 20, 16, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(26, 20, 16, 0.14);
+  padding: 6px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+}
+
+.popoverItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e8471c;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+
+.popoverItem:hover {
+  background: rgba(232, 71, 28, 0.08);
+}
+
+.popoverIcon {
+  font-size: 13px;
+  line-height: 1;
+  width: 14px;
+  text-align: center;
+}
+
+/* Keep the card from looking interactive while the menu is open */
+.cardActive {
+  cursor: default;
 }
 
 .city {

@@ -36,6 +36,14 @@ export const useCreateTrip = () => {
   })
 }
 
+export const useDeleteTrip = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (id: number) => tripsApi.deleteTrip(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['trips', 'me'] }),
+  })
+}
+
 export const useTrip = (id: number) =>
   useQuery({
     queryKey: ['trip', id],
