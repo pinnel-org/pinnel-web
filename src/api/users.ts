@@ -11,7 +11,11 @@ export const usersApi = {
   uploadAvatar: (blob: Blob) => {
     const fd = new FormData()
     fd.append('file', blob, 'avatar.jpg')
-    return apiClient.post('/me/avatar', fd).then(() => undefined)
+    return apiClient
+      .post('/me/avatar', fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then(() => undefined)
   },
 
   getAvatarBlob: () =>
