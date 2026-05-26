@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styles from './ProfileSidebar.module.css'
 import { User, TripSummary } from '@/types'
 import { EditProfileModal } from '@/components/EditProfileModal/EditProfileModal'
+import { useAvatar } from '@/hooks/useAvatar'
 
 const formatJoined = (dateStr: string | null): string => {
   if (!dateStr) return ''
@@ -43,6 +44,7 @@ const PencilIcon = () => (
 export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [firstName, lastName] = splitName(user.displayName, user.username ?? user.email ?? '')
+  const { url: avatarUrl } = useAvatar()
 
   const pinsCount = trips.reduce((sum, t) => sum + (t.pinIds?.length ?? 0), 0)
   const citiesCount = new Set(trips.flatMap((t) => t.cityIds ?? [])).size
@@ -50,7 +52,13 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.avatarWrapper}>
-        <div className={styles.avatar}>{getInitials(user)}</div>
+        <div className={styles.avatar}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="" className={styles.avatarImg} />
+          ) : (
+            getInitials(user)
+          )}
+        </div>
       </div>
 
       <div className={styles.nameRow}>
