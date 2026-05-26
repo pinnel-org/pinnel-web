@@ -1,10 +1,6 @@
 import { apiClient } from './client'
 
+// GET /api/me/countries — returns ISO 3166-1 alpha-2 codes (e.g. ['CN', 'TR', 'BR']).
 export const visitedCountriesApi = {
-  // TODO(#114): swap to real endpoint once pinnel-api ships `GET /me/visited-countries`.
-  // Expected payload: ISO 3166-1 alpha-3 codes, e.g. ['USA', 'ITA', 'JPN'].
-  getMine: async (): Promise<string[]> => {
-    void apiClient
-    return []
-  },
+  getMine: () => apiClient.get<string[]>('/me/countries').then((r) => r.data),
 }
