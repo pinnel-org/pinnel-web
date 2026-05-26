@@ -67,6 +67,7 @@ export interface TripSummary {
   userId: number
   cityIds: number[]
   pinIds: number[]
+  coverImageUrl: string | null
   createdAt: string
   updatedAt: string
 }

@@ -25,6 +25,15 @@ export const ProfileTripCard = ({ trip, index }: Props) => {
   return (
     <div className={styles.card} onClick={() => navigate(`/trip/${trip.id}`)}>
       <div className={styles.image} style={{ background: gradient }}>
+        {trip.coverImageUrl && (
+          <img
+            src={trip.coverImageUrl}
+            alt=""
+            className={styles.coverImg}
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+            loading="lazy"
+          />
+        )}
         <span className={styles.pinCount}>{pinCount}</span>
       </div>
       <div className={styles.body}>
