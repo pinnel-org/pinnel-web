@@ -75,7 +75,6 @@ export const ProfileTripCard = ({ trip, index }: Props) => {
               loading="lazy"
             />
           )}
-          <span className={styles.pinCount}>{pinCount}</span>
         </div>
         <div className={styles.body}>
           <div className={styles.city}>{trip.name}</div>
