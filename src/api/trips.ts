@@ -1,6 +1,15 @@
 import { apiClient } from './client'
 import { TripSummary, CreateTripDto } from '@/types'
 
+// PUT /api/trips/{id} is a strict-replace — all fields required.
+// addPin / removePin build the full payload from the existing trip.
+const buildUpdatePayload = (trip: TripSummary, pinIds: number[]): CreateTripDto => ({
+  name: trip.name,
+  budget: trip.budget ?? undefined,
+  cityIds: trip.cityIds,
+  pinIds,
+})
+
 export const tripsApi = {
   getTrip: (id: number) =>
     apiClient.get<TripSummary>(`/trips/${id}`).then((r) => r.data),
@@ -19,4 +28,14 @@ export const tripsApi = {
 
   deleteTrip: (id: number) =>
     apiClient.delete(`/trips/${id}`),
+
+  addPin: (trip: TripSummary, pinId: number) => {
+    const pinIds = [...new Set([...(trip.pinIds ?? []), pinId])]
+    return apiClient.put<TripSummary>(`/trips/${trip.id}`, buildUpdatePayload(trip, pinIds)).then((r) => r.data)
+  },
+
+  removePin: (trip: TripSummary, pinId: number) => {
+    const pinIds = (trip.pinIds ?? []).filter((id) => id !== pinId)
+    return apiClient.put<TripSummary>(`/trips/${trip.id}`, buildUpdatePayload(trip, pinIds)).then((r) => r.data)
+  },
 }
