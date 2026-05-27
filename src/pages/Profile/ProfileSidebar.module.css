@@ -10,18 +10,32 @@
   overflow-y: auto;
 }
 
-/* Avatar */
+/* Avatar — passport-stamp frame with corner crop marks */
 .avatarWrapper {
+  --tick-size: 18px;
+  --tick-thickness: 2px;
+  --tick-color: var(--lp-ink);
+
   position: relative;
   display: block;
   width: 100%;
+  padding: 10px;
   margin-bottom: 20px;
+  background:
+    linear-gradient(var(--tick-color), var(--tick-color)) top    left  / var(--tick-size)      var(--tick-thickness) no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) top    left  / var(--tick-thickness) var(--tick-size)      no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) top    right / var(--tick-size)      var(--tick-thickness) no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) top    right / var(--tick-thickness) var(--tick-size)      no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) bottom left  / var(--tick-size)      var(--tick-thickness) no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) bottom left  / var(--tick-thickness) var(--tick-size)      no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) bottom right / var(--tick-size)      var(--tick-thickness) no-repeat,
+    linear-gradient(var(--tick-color), var(--tick-color)) bottom right / var(--tick-thickness) var(--tick-size)      no-repeat;
 }
 
 .avatar {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 14px;
+  border-radius: 2px;
   background: var(--lp-sunset);
   color: #fff;
   font-family: 'JetBrains Mono', monospace;
