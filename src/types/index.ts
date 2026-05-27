@@ -58,6 +58,20 @@ export interface CityDto {
   population: number
 }
 
+// Matches backend PinDto
+export interface Pin {
+  id: number
+  name: string
+  description: string | null
+  latitude: number
+  longitude: number
+  isPublic: boolean
+  cityId: number
+  userId: number | null
+  createdAt: string
+  updatedAt: string
+}
+
 // Matches backend TripDto — used for user's own trip list (GET /api/trips)
 export interface TripSummary {
   id: number
@@ -69,15 +83,6 @@ export interface TripSummary {
   coverImageUrl: string | null
   createdAt: string
   updatedAt: string
-}
-
-export interface CityDto {
-  id: number
-  name: string
-  country: string
-  latitude: number
-  longitude: number
-  population: number
 }
 
 export interface CreateTripDto {
