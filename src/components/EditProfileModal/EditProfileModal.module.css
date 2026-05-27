@@ -111,7 +111,7 @@
 .previewImg {
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
   border: 2px solid rgba(26, 20, 16, 0.1);
