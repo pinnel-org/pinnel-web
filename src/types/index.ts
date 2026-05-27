@@ -87,6 +87,7 @@ export interface TripSummary {
 
 export interface CreateTripDto {
   name: string
+  budget?: number | null
   cityIds?: number[]
   pinIds?: number[]
 }

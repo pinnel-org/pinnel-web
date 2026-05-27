@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MapIcon, LayoutGrid } from 'lucide-react'
-import { useTrip, useCity } from '@/hooks/useUser'
+import { useTrip, useCity, useAddPinToTrip } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
@@ -26,10 +26,15 @@ export const TripPlannerPage = () => {
   const [activeDay, setActiveDay] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
+  const addPinToTrip = useAddPinToTrip(tripId)
 
   const handleAddPin = (pin: Pin) => {
+    if (!trip) return
     setPendingPinIds((prev) => [...prev, pin.id])
-    // API call will be added in #133
+    addPinToTrip.mutate(
+      { trip, pinId: pin.id },
+      { onSuccess: () => setPendingPinIds([]) },
+    )
   }
 
   if (tripLoading) {
@@ -44,7 +49,7 @@ export const TripPlannerPage = () => {
     return <div className={styles.loading}>Trip not found.</div>
   }
 
-  const addedPinIds = [...(trip.pinIds ?? []), ...pendingPinIds]
+  const addedPinIds = [...new Set([...(trip.pinIds ?? []), ...pendingPinIds])]
   const placeCount = addedPinIds.length
   const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
 
