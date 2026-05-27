@@ -114,62 +114,6 @@
   margin: 0;
 }
 
-/* ── Animations ─────────────────────────── */
-
-/* Empty zone pulses while any pin is being dragged */
-@keyframes emptyInvite {
-  0%, 100% {
-    border-color: rgba(232, 71, 28, 0.32);
-    background: rgba(232, 71, 28, 0.03);
-  }
-  50% {
-    border-color: rgba(232, 71, 28, 0.62);
-    background: rgba(232, 71, 28, 0.07);
-  }
-}
-
-/* Group-with-pins glows while any pin is being dragged */
-@keyframes groupInvite {
-  0%, 100% {
-    box-shadow: 0 0 0 1.5px rgba(232, 71, 28, 0.2), 0 2px 8px rgba(232, 71, 28, 0.07);
-  }
-  50% {
-    box-shadow: 0 0 0 2px rgba(232, 71, 28, 0.48), 0 4px 18px rgba(232, 71, 28, 0.14);
-  }
-}
-
-/* Invite state — empty zone: triggered by global body attribute */
-:global([data-pin-dragging]) .dayEmpty {
-  animation: emptyInvite 1.3s ease-in-out infinite;
-}
-
-/* Invite state — group with pins: triggered by global body attribute */
-:global([data-pin-dragging]) .dayGroup:has(.dayPins) {
-  animation: groupInvite 1.3s ease-in-out infinite;
-}
-
-/* ── Drag-over: hovering directly over the zone ── */
-
-/* Empty zone being hovered */
-.dragOver.dayEmpty {
-  animation: none !important;
-  background: rgba(232, 71, 28, 0.11) !important;
-  border-color: rgba(232, 71, 28, 0.72) !important;
-  transform: scale(1.012);
-  transition: transform 0.1s;
-}
-
-/* Group with pins being hovered — strong ring */
-.dayGroupDragOver {
-  animation: none !important;
-  box-shadow: 0 0 0 2.5px rgba(232, 71, 28, 0.7), 0 4px 24px rgba(232, 71, 28, 0.22) !important;
-}
-
-.dayGroupDragOver .dayChip {
-  background: rgba(232, 71, 28, 0.07);
-  border-color: rgba(232, 71, 28, 0.22);
-}
-
 /* ── Footer: + ADD DAY | DAY 2 · Fri 31 May */
 .footer {
   display: flex;

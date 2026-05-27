@@ -66,12 +66,6 @@ export const TripPlannerPage = () => {
     }))
   }
 
-  const handleDropToDay = (pinId: number, dayIdx: number) => {
-    const pin = (cityPins ?? []).find((p) => p.id === pinId)
-    if (!pin) return
-    handleAddToDay(pin, dayIdx)
-  }
-
   if (tripLoading) {
     return (
       <div className={styles.loading}>
@@ -125,7 +119,6 @@ export const TripPlannerPage = () => {
               onAddDay={(date) => setTripDays((prev) => [...prev, date])}
               pinsByDay={pinsByDay}
               allPins={cityPins ?? []}
-              onDropPin={handleDropToDay}
               onRemovePin={handleRemovePin}
             />
           </div>

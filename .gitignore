@@ -28,3 +28,5 @@ yarn-error.log*
 *-result.png
 *-landing.png
 *-source.html
+*.png
+SESSIONS.md
