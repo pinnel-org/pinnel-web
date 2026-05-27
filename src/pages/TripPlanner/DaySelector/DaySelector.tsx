@@ -29,10 +29,16 @@ export const DaySelector = ({ days, onAddDay }: DaySelectorProps) => {
 
   const openCalendar = (ref: React.RefObject<HTMLButtonElement | null>) => {
     if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
+    const triggerRect = ref.current.getBoundingClientRect()
+    // Anchor to the right edge of the sidebar <aside>, not the button itself,
+    // so the calendar never overlaps the sidebar regardless of button width.
+    const sidebar = ref.current.closest('aside')
+    const anchorLeft = sidebar
+      ? sidebar.getBoundingClientRect().right + 8
+      : triggerRect.right + 8
     setCalendar({
       open: true,
-      position: { top: rect.top, left: rect.right + 10 },
+      position: { top: triggerRect.top, left: anchorLeft },
     })
   }
 
