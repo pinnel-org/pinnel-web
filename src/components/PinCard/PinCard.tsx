@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Plus, Check, ImageIcon } from 'lucide-react'
+import { DayPickerMenu } from '@/components/DayPickerMenu/DayPickerMenu'
 import { Pin } from '@/types'
 import styles from './PinCard.module.css'
 
@@ -7,13 +8,24 @@ interface PinCardProps {
   pin: Pin
   isAdded: boolean
   onAdd: (pin: Pin) => void
+  days?: Date[]
+  onAddToDay?: (pin: Pin, dayIdx: number) => void
 }
 
-export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
+export const PinCard = ({ pin, isAdded, onAdd, days, onAddToDay }: PinCardProps) => {
   const [flying, setFlying] = useState(false)
+  const [menuAnchor, setMenuAnchor] = useState<DOMRect | null>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
+
+  const hasDays = (days?.length ?? 0) > 0
 
   const handleAdd = () => {
     if (isAdded || flying) return
+    if (hasDays && onAddToDay) {
+      const rect = btnRef.current?.getBoundingClientRect() ?? null
+      setMenuAnchor(rect)
+      return
+    }
     setFlying(true)
   }
 
@@ -22,9 +34,19 @@ export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
     onAdd(pin)
   }
 
+  const handleDaySelect = (dayIdx: number) => {
+    onAddToDay!(pin, dayIdx)
+    setMenuAnchor(null)
+  }
+
   return (
     <div
       className={`${styles.card} ${flying ? styles.flying : ''}`}
+      draggable={hasDays && !isAdded}
+      onDragStart={(e) => {
+        e.dataTransfer.setData('application/pinnel-pin', String(pin.id))
+        e.dataTransfer.effectAllowed = 'copy'
+      }}
       onAnimationEnd={flying ? handleAnimationEnd : undefined}
     >
       <div className={styles.imagePlaceholder}>
@@ -40,6 +62,7 @@ export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
 
       <div className={styles.footer}>
         <button
+          ref={btnRef}
           className={isAdded ? styles.addedBtn : styles.addBtn}
           onClick={handleAdd}
           disabled={isAdded || flying}
@@ -52,6 +75,15 @@ export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
           )}
         </button>
       </div>
+
+      {menuAnchor && days && (
+        <DayPickerMenu
+          days={days}
+          anchor={menuAnchor}
+          onSelect={handleDaySelect}
+          onClose={() => setMenuAnchor(null)}
+        />
+      )}
     </div>
   )
 }

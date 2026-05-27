@@ -15,6 +15,14 @@
   transform: translateY(-1px);
 }
 
+.card[draggable='true'] {
+  cursor: grab;
+}
+
+.card[draggable='true']:active {
+  cursor: grabbing;
+}
+
 /* ── Image placeholder ──────────────────── */
 .imagePlaceholder {
   height: 148px;

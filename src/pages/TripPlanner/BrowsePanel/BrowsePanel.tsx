@@ -10,9 +10,11 @@ interface BrowsePanelProps {
   addedPinIds: number[]
   searchQuery: string
   onAdd: (pin: Pin) => void
+  days: Date[]
+  onAddToDay: (pin: Pin, dayIdx: number) => void
 }
 
-export const BrowsePanel = ({ cityId, addedPinIds, searchQuery, onAdd }: BrowsePanelProps) => {
+export const BrowsePanel = ({ cityId, addedPinIds, searchQuery, onAdd, days, onAddToDay }: BrowsePanelProps) => {
   const { data: pins, isLoading, isError } = usePins(cityId)
 
   const filtered = useMemo(() => {
@@ -71,6 +73,8 @@ export const BrowsePanel = ({ cityId, addedPinIds, searchQuery, onAdd }: BrowseP
             pin={pin}
             isAdded={addedPinIds.includes(pin.id)}
             onAdd={onAdd}
+            days={days}
+            onAddToDay={onAddToDay}
           />
         ))}
       </div>

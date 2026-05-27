@@ -76,6 +76,17 @@
   color: #8a7a66;
 }
 
+/* ── Per-day pins list ───────────────────── */
+.dayPins {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: 10px;
+  padding: 4px;
+  transition: background 0.14s, border-color 0.14s;
+  border: 1.5px dashed transparent;
+}
+
 /* ── Per-day empty state (compact) ──────── */
 .dayEmpty {
   background: rgba(0, 0, 0, 0.04);
@@ -97,6 +108,17 @@
   font-size: 12px;
   color: #bbb;
   margin: 0;
+}
+
+/* ── Drag-over highlight (both empty and pins zones) */
+.dragOver.dayEmpty {
+  background: rgba(232, 71, 28, 0.06);
+  border-color: rgba(232, 71, 28, 0.4);
+}
+
+.dragOver.dayPins {
+  background: rgba(232, 71, 28, 0.04);
+  border-color: rgba(232, 71, 28, 0.35);
 }
 
 /* ── Footer: + ADD DAY | DAY 2 · Fri 31 May */

@@ -1,0 +1,55 @@
+.menu {
+  position: fixed;
+  z-index: 300;
+  background: #f4ede1;
+  border: 1.5px solid rgba(26, 20, 16, 0.14);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13), 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #8a7a66;
+  text-transform: uppercase;
+  padding: 4px 8px 6px;
+  margin: 0;
+}
+
+.option {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.option:hover {
+  background: rgba(26, 20, 16, 0.07);
+}
+
+.optionDay {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #1a1410;
+  flex-shrink: 0;
+}
+
+.optionDate {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: #8a7a66;
+}
