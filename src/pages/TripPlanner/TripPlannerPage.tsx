@@ -107,13 +107,8 @@ export const TripPlannerPage = () => {
           onAddDay={(date) => setTripDays((prev) => [...prev, date])}
         />
 
-        <div className={styles.cardsList}>
-          {sidebarPins.length === 0 ? (
-            <div className={styles.emptyState}>
-              <p className={styles.emptyText}>No places yet.</p>
-              <p className={styles.emptyHint}>Browse and add places to your trip.</p>
-            </div>
-          ) : (
+        {sidebarPins.length > 0 && (
+          <div className={styles.cardsList}>
             <div className={styles.placesList}>
               {sidebarPins.map((pin, i) => (
                 <PlaceCard
@@ -124,8 +119,8 @@ export const TripPlannerPage = () => {
                 />
               ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </aside>
 
       <main className={styles.panel}>
