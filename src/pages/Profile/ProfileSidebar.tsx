@@ -66,7 +66,7 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
           )}
         </div>
         <div className={styles.polaroidCaption}>
-          <span className={styles.captionName}>{firstName}</span>
+          {user.username && <span className={styles.captionName}>@{user.username}</span>}
           {formatYearShort(user.createdAt) && (
             <span className={styles.captionYear}>{formatYearShort(user.createdAt)}</span>
           )}
@@ -80,7 +80,6 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
         </div>
       </div>
 
-      {user.username && <p className={styles.handle}>@{user.username}</p>}
       {user.bio && <p className={styles.bio}>{user.bio}</p>}
 
       <button

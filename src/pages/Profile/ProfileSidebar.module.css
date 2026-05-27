@@ -125,14 +125,6 @@
   line-height: 1.05;
 }
 
-.handle {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  color: var(--lp-stone);
-  margin-bottom: 12px;
-}
-
 .bio {
   font-family: 'Instrument Sans', sans-serif;
   font-size: 13px;
