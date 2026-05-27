@@ -27,6 +27,12 @@ const splitName = (displayName: string | null, fallback: string): [string, strin
   return [parts[0], parts.slice(1).join(' ')]
 }
 
+const formatYearShort = (dateStr: string | null): string | null => {
+  if (!dateStr) return null
+  const d = new Date(dateStr)
+  return isNaN(d.getTime()) ? null : `'${String(d.getFullYear()).slice(-2)}`
+}
+
 interface ProfileSidebarProps {
   user: User
   trips: TripSummary[]
@@ -57,6 +63,12 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
             <img src={avatarUrl} alt="" className={styles.avatarImg} />
           ) : (
             getInitials(user)
+          )}
+        </div>
+        <div className={styles.polaroidCaption}>
+          <span className={styles.captionName}>{firstName}</span>
+          {formatYearShort(user.createdAt) && (
+            <span className={styles.captionYear}>{formatYearShort(user.createdAt)}</span>
           )}
         </div>
       </div>
