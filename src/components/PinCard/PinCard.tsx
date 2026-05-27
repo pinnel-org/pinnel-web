@@ -41,35 +41,55 @@ export const PinCard = ({ pin, isAdded, onAdd, days, onAddToDay }: PinCardProps)
   }
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    // Mini dark pill ghost — appears under the cursor instead of the full card
+    // Build the pill ghost and position it exactly under the cursor so the
+    // browser can paint it before capturing it for the drag image.
+    // (Elements at top:-9999px are not painted → setDragImage gets a blank.)
+    const OFFSET = 20
     const ghost = document.createElement('div')
-    ghost.style.cssText = [
-      'position:fixed', 'top:-9999px', 'left:-9999px',
-      'pointer-events:none',
-      'background:#1a1410', 'color:#f4ede1',
-      "font-family:'JetBrains Mono',monospace",
-      'font-size:11px', 'font-weight:600', 'letter-spacing:0.04em',
-      'padding:7px 14px 7px 10px', 'border-radius:20px',
-      'box-shadow:0 4px 18px rgba(0,0,0,0.38),0 1px 4px rgba(0,0,0,0.18)',
-      'white-space:nowrap', 'max-width:220px',
-      'overflow:hidden', 'text-overflow:ellipsis',
-      'display:flex', 'align-items:center', 'gap:6px',
-    ].join(';')
-    // small dot accent
+    ghost.setAttribute('aria-hidden', 'true')
+    Object.assign(ghost.style, {
+      position: 'fixed',
+      top: `${e.clientY - OFFSET}px`,
+      left: `${e.clientX - OFFSET}px`,
+      zIndex: '-1',            // behind everything — user won't see the flash
+      pointerEvents: 'none',
+      background: '#1a1410',
+      color: '#f4ede1',
+      fontFamily: "'JetBrains Mono', monospace",
+      fontSize: '11px',
+      fontWeight: '600',
+      letterSpacing: '0.04em',
+      padding: '7px 14px 7px 10px',
+      borderRadius: '20px',
+      boxShadow: '0 4px 18px rgba(0,0,0,0.38), 0 1px 4px rgba(0,0,0,0.18)',
+      whiteSpace: 'nowrap',
+      maxWidth: '220px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px',
+    })
+
     const dot = document.createElement('span')
-    dot.style.cssText = 'width:6px;height:6px;border-radius:50%;background:#e8471c;flex-shrink:0'
+    Object.assign(dot.style, {
+      width: '6px', height: '6px',
+      borderRadius: '50%', background: '#e8471c', flexShrink: '0',
+    })
     ghost.appendChild(dot)
     ghost.appendChild(document.createTextNode(pin.name))
+
     document.body.appendChild(ghost)
     ghostRef.current = ghost
 
-    // Force layout so offsetWidth is correct, then set drag image
+    // Force a synchronous layout so the browser has dimensions before capture
     void ghost.offsetWidth
-    e.dataTransfer.setDragImage(ghost, 20, 20)
+
+    // Cursor should be at (OFFSET, OFFSET) within the ghost image
+    e.dataTransfer.setDragImage(ghost, OFFSET, OFFSET)
     e.dataTransfer.setData('application/pinnel-pin', String(pin.id))
     e.dataTransfer.effectAllowed = 'copy'
 
-    // Signal to DaySelector zones to enter invite state
     document.body.setAttribute('data-pin-dragging', 'true')
     setLifted(true)
   }
