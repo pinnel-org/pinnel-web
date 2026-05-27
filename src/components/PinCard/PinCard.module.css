@@ -23,6 +23,14 @@
   cursor: grabbing;
 }
 
+/* Card visually "lifted" while being dragged */
+.lifted {
+  opacity: 0.38;
+  transform: scale(0.96);
+  transition: opacity 0.1s, transform 0.1s;
+  pointer-events: none;
+}
+
 /* ── Image placeholder ──────────────────── */
 .imagePlaceholder {
   height: 148px;

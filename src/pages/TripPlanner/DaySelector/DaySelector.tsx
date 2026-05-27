@@ -108,8 +108,19 @@ export const DaySelector = ({
           const dayPins = allPins.filter((p) => dayPinIds.includes(p.id))
           const isTarget = dragOverDay === i
 
+          const hasPins = dayPins.length > 0
+
           return (
-            <div key={date.toISOString()} className={styles.dayGroup}>
+            <div
+              key={date.toISOString()}
+              className={[
+                styles.dayGroup,
+                isTarget && hasPins ? styles.dayGroupDragOver : '',
+              ].join(' ')}
+              onDragOver={(e) => handleDragOver(e, i)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, i)}
+            >
               <div className={styles.dayChip}>
                 <span className={styles.chipNumber}>DAY {i + 1}</span>
                 <span className={styles.chipDate}>{formatShortDate(date)}</span>
@@ -117,14 +128,11 @@ export const DaySelector = ({
 
               <div
                 className={[
-                  dayPins.length === 0 ? styles.dayEmpty : styles.dayPins,
-                  isTarget ? styles.dragOver : '',
+                  hasPins ? styles.dayPins : styles.dayEmpty,
+                  isTarget && !hasPins ? styles.dragOver : '',
                 ].join(' ')}
-                onDragOver={(e) => handleDragOver(e, i)}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, i)}
               >
-                {dayPins.length === 0 ? (
+                {!hasPins ? (
                   <>
                     <p className={styles.dayEmptyText}>No places yet.</p>
                     <p className={styles.dayEmptyHint}>Browse and add places to your trip.</p>
