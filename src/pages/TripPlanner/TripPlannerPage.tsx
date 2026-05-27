@@ -4,7 +4,9 @@ import { MapIcon, LayoutGrid } from 'lucide-react'
 import { useTrip, useCity } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
+import { BrowsePanel } from './BrowsePanel/BrowsePanel'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
+import { Pin } from '@/types'
 import styles from './TripPlannerPage.module.css'
 
 type ViewMode = 'map' | 'browse'
@@ -23,6 +25,12 @@ export const TripPlannerPage = () => {
   const [contentTab, setContentTab] = useState<ContentTab>('cards')
   const [activeDay, setActiveDay] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
+  const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
+
+  const handleAddPin = (pin: Pin) => {
+    setPendingPinIds((prev) => [...prev, pin.id])
+    // API call will be added in #133
+  }
 
   if (tripLoading) {
     return (
@@ -36,7 +44,8 @@ export const TripPlannerPage = () => {
     return <div className={styles.loading}>Trip not found.</div>
   }
 
-  const placeCount = trip.pinIds?.length ?? 0
+  const addedPinIds = [...(trip.pinIds ?? []), ...pendingPinIds]
+  const placeCount = addedPinIds.length
   const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
 
   const mapSrc = city
@@ -135,9 +144,16 @@ export const TripPlannerPage = () => {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
+        ) : firstCityId ? (
+          <BrowsePanel
+            cityId={firstCityId}
+            addedPinIds={addedPinIds}
+            searchQuery={searchQuery}
+            onAdd={handleAddPin}
+          />
         ) : (
           <div className={styles.browsePlaceholder}>
-            <p className={styles.browseText}>Browse mode — coming soon.</p>
+            <p className={styles.browseText}>No city set for this trip.</p>
           </div>
         )}
       </main>
