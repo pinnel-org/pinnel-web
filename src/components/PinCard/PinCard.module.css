@@ -134,6 +134,17 @@
   white-space: nowrap;
 }
 
+/* ── Drag states ────────────────────────── */
+.card[draggable='true'] { cursor: grab; }
+.card[draggable='true']:active { cursor: grabbing; }
+
+/* original card fades while being dragged — no pointer-events change */
+.lifted {
+  opacity: 0.35;
+  transform: scale(0.97);
+  transition: opacity 0.12s, transform 0.12s;
+}
+
 /* ── Fly-to-sidebar animation ───────────── */
 @keyframes flyLeft {
   0%   { transform: scale(1)    translateX(0);   opacity: 1; }
