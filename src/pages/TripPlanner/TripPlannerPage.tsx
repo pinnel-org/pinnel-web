@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MapIcon, LayoutGrid } from 'lucide-react'
-import { useTrip, useCity, useAddPinToTrip } from '@/hooks/useUser'
+import { useTrip, useCity, useAddPinToTrip, useRemovePinFromTrip } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
+import { usePins } from '@/hooks/usePins'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
+import { PlaceCard } from '@/components/PlaceCard/PlaceCard'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { Pin } from '@/types'
 import styles from './TripPlannerPage.module.css'
@@ -20,13 +22,16 @@ export const TripPlannerPage = () => {
   const firstCityId = trip?.cityIds?.[0]
   const { data: city } = useCity(firstCityId)
   const { data: weather } = useWeather(city?.latitude, city?.longitude)
+  const { data: cityPins } = usePins(firstCityId)
 
   const [view, setView] = useState<ViewMode>('map')
   const [contentTab, setContentTab] = useState<ContentTab>('cards')
   const [activeDay, setActiveDay] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
+  const [pendingRemoveIds, setPendingRemoveIds] = useState<number[]>([])
   const addPinToTrip = useAddPinToTrip(tripId)
+  const removePinFromTrip = useRemovePinFromTrip(tripId)
 
   const handleAddPin = (pin: Pin) => {
     if (!trip) return
@@ -34,6 +39,15 @@ export const TripPlannerPage = () => {
     addPinToTrip.mutate(
       { trip, pinId: pin.id },
       { onSuccess: () => setPendingPinIds([]) },
+    )
+  }
+
+  const handleRemovePin = (pinId: number) => {
+    if (!trip) return
+    setPendingRemoveIds((prev) => [...prev, pinId])
+    removePinFromTrip.mutate(
+      { trip, pinId },
+      { onSuccess: () => setPendingRemoveIds([]) },
     )
   }
 
@@ -49,8 +63,13 @@ export const TripPlannerPage = () => {
     return <div className={styles.loading}>Trip not found.</div>
   }
 
-  const addedPinIds = [...new Set([...(trip.pinIds ?? []), ...pendingPinIds])]
+  const addedPinIds = [...new Set([...(trip.pinIds ?? []), ...pendingPinIds])].filter(
+    (id) => !pendingRemoveIds.includes(id),
+  )
   const placeCount = addedPinIds.length
+
+  // Full Pin objects for the sidebar — resolved from the city pins cache
+  const sidebarPins = (cityPins ?? []).filter((p) => addedPinIds.includes(p.id))
   const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
 
   const mapSrc = city
@@ -95,10 +114,23 @@ export const TripPlannerPage = () => {
         </div>
 
         <div className={styles.cardsList}>
-          <div className={styles.emptyState}>
-            <p className={styles.emptyText}>No places yet.</p>
-            <p className={styles.emptyHint}>Search and add places to your trip.</p>
-          </div>
+          {sidebarPins.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p className={styles.emptyText}>No places yet.</p>
+              <p className={styles.emptyHint}>Browse and add places to your trip.</p>
+            </div>
+          ) : (
+            <div className={styles.placesList}>
+              {sidebarPins.map((pin, i) => (
+                <PlaceCard
+                  key={pin.id}
+                  pin={pin}
+                  index={i + 1}
+                  onRemove={handleRemovePin}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </aside>
 
