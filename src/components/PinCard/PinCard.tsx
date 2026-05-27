@@ -12,12 +12,56 @@ interface PinCardProps {
   onAddToDay?: (pin: Pin, dayIdx: number) => void
 }
 
+/** Draw a rounded-rect pill on canvas and return it as drag image */
+const buildGhostCanvas = (label: string): HTMLCanvasElement => {
+  const canvas = document.createElement('canvas')
+  const DPR = Math.min(window.devicePixelRatio || 1, 2)
+  const W = 192
+  const H = 34
+  canvas.width = W * DPR
+  canvas.height = H * DPR
+
+  const ctx = canvas.getContext('2d')!
+  ctx.scale(DPR, DPR)
+
+  // Pill shape
+  const r = H / 2
+  ctx.fillStyle = '#1a1410'
+  ctx.beginPath()
+  ctx.moveTo(r, 0)
+  ctx.lineTo(W - r, 0)
+  ctx.arcTo(W, 0, W, r, r)
+  ctx.lineTo(W, H - r)
+  ctx.arcTo(W, H, W - r, H, r)
+  ctx.lineTo(r, H)
+  ctx.arcTo(0, H, 0, H - r, r)
+  ctx.lineTo(0, r)
+  ctx.arcTo(0, 0, r, 0, r)
+  ctx.closePath()
+  ctx.fill()
+
+  // Orange accent dot
+  ctx.fillStyle = '#e8471c'
+  ctx.beginPath()
+  ctx.arc(15, H / 2, 3.5, 0, Math.PI * 2)
+  ctx.fill()
+
+  // Label text
+  ctx.fillStyle = '#f0ede8'
+  ctx.font = '600 11px monospace'
+  ctx.textBaseline = 'middle'
+  const maxLen = 22
+  const text = label.length > maxLen ? label.slice(0, maxLen - 1) + '…' : label
+  ctx.fillText(text, 27, H / 2 + 0.5)
+
+  return canvas
+}
+
 export const PinCard = ({ pin, isAdded, onAdd, days, onAddToDay }: PinCardProps) => {
   const [flying, setFlying] = useState(false)
   const [lifted, setLifted] = useState(false)
   const [menuAnchor, setMenuAnchor] = useState<DOMRect | null>(null)
   const btnRef = useRef<HTMLButtonElement>(null)
-  const ghostRef = useRef<HTMLDivElement | null>(null)
 
   const hasDays = (days?.length ?? 0) > 0
 
@@ -41,52 +85,16 @@ export const PinCard = ({ pin, isAdded, onAdd, days, onAddToDay }: PinCardProps)
   }
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    // Build the pill ghost and position it exactly under the cursor so the
-    // browser can paint it before capturing it for the drag image.
-    // (Elements at top:-9999px are not painted → setDragImage gets a blank.)
-    const OFFSET = 20
-    const ghost = document.createElement('div')
-    ghost.setAttribute('aria-hidden', 'true')
-    Object.assign(ghost.style, {
-      position: 'fixed',
-      top: `${e.clientY - OFFSET}px`,
-      left: `${e.clientX - OFFSET}px`,
-      zIndex: '-1',            // behind everything — user won't see the flash
-      pointerEvents: 'none',
-      background: '#1a1410',
-      color: '#f4ede1',
-      fontFamily: "'JetBrains Mono', monospace",
-      fontSize: '11px',
-      fontWeight: '600',
-      letterSpacing: '0.04em',
-      padding: '7px 14px 7px 10px',
-      borderRadius: '20px',
-      boxShadow: '0 4px 18px rgba(0,0,0,0.38), 0 1px 4px rgba(0,0,0,0.18)',
-      whiteSpace: 'nowrap',
-      maxWidth: '220px',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '6px',
-    })
+    // Canvas ghost — rendered in memory, no DOM timing issues
+    try {
+      const canvas = buildGhostCanvas(pin.name)
+      e.dataTransfer.setDragImage(canvas, 16, 17)
+    } catch {
+      // Fallback: browser default ghost
+    }
 
-    const dot = document.createElement('span')
-    Object.assign(dot.style, {
-      width: '6px', height: '6px',
-      borderRadius: '50%', background: '#e8471c', flexShrink: '0',
-    })
-    ghost.appendChild(dot)
-    ghost.appendChild(document.createTextNode(pin.name))
-
-    document.body.appendChild(ghost)
-    ghostRef.current = ghost
-
-    // Force a synchronous layout so the browser has dimensions before capture
-    void ghost.offsetWidth
-
-    // Cursor should be at (OFFSET, OFFSET) within the ghost image
-    e.dataTransfer.setDragImage(ghost, OFFSET, OFFSET)
+    // Firefox requires text/plain to be present or it won't start the drag
+    e.dataTransfer.setData('text/plain', pin.name)
     e.dataTransfer.setData('application/pinnel-pin', String(pin.id))
     e.dataTransfer.effectAllowed = 'copy'
 
@@ -97,10 +105,6 @@ export const PinCard = ({ pin, isAdded, onAdd, days, onAddToDay }: PinCardProps)
   const handleDragEnd = () => {
     document.body.removeAttribute('data-pin-dragging')
     setLifted(false)
-    if (ghostRef.current) {
-      ghostRef.current.remove()
-      ghostRef.current = null
-    }
   }
 
   return (
