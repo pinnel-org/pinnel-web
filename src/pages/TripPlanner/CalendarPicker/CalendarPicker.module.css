@@ -1,0 +1,116 @@
+.picker {
+  position: fixed;
+  z-index: 200;
+  background: #f4ede1;
+  border: 1.5px solid rgba(26, 20, 16, 0.14);
+  border-radius: 12px;
+  padding: 16px;
+  width: 248px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Header ──────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.monthLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #1a1410;
+  text-transform: uppercase;
+}
+
+.navBtn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1.5px solid rgba(26, 20, 16, 0.16);
+  border-radius: 6px;
+  color: #1a1410;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+
+.navBtn:hover {
+  background: #1a1410;
+  color: #f4ede1;
+  border-color: #1a1410;
+}
+
+/* ── Week headers ────────────────────────── */
+.weekRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.weekDay {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #8a7a66;
+  text-align: center;
+  padding: 2px 0;
+  text-transform: uppercase;
+}
+
+/* ── Days grid ───────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.empty {
+  aspect-ratio: 1;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #1a1410;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.13s;
+}
+
+.day:hover:not(:disabled) {
+  background: #1a1410;
+  color: #f4ede1;
+}
+
+.dayToday {
+  color: #e8471c;
+  font-weight: 700;
+}
+
+.daySelected {
+  background: rgba(26, 20, 16, 0.1);
+  color: #8a7a66;
+  cursor: default;
+  border-radius: 6px;
+}
+
+.daySelected:hover {
+  background: rgba(26, 20, 16, 0.1);
+  color: #8a7a66;
+}

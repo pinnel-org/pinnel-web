@@ -7,6 +7,7 @@ import { usePins } from '@/hooks/usePins'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
 import { PlaceCard } from '@/components/PlaceCard/PlaceCard'
+import { DaySelector } from './DaySelector/DaySelector'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { Pin } from '@/types'
 import styles from './TripPlannerPage.module.css'
@@ -26,7 +27,7 @@ export const TripPlannerPage = () => {
 
   const [view, setView] = useState<ViewMode>('map')
   const [contentTab, setContentTab] = useState<ContentTab>('cards')
-  const [activeDay, setActiveDay] = useState(1)
+  const [tripDays, setTripDays] = useState<Date[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
   const [pendingRemoveIds, setPendingRemoveIds] = useState<number[]>([])
@@ -70,7 +71,7 @@ export const TripPlannerPage = () => {
 
   // Full Pin objects for the sidebar — resolved from the city pins cache
   const sidebarPins = (cityPins ?? []).filter((p) => addedPinIds.includes(p.id))
-  const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
+  const dayCount = tripDays.length
 
   const mapSrc = city
     ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
@@ -101,17 +102,10 @@ export const TripPlannerPage = () => {
           ))}
         </div>
 
-        <div className={styles.dayTabs}>
-          {Array.from({ length: dayCount }, (_, i) => i + 1).map((day) => (
-            <button
-              key={day}
-              className={`${styles.dayTab} ${activeDay === day ? styles.dayTabActive : ''}`}
-              onClick={() => setActiveDay(day)}
-            >
-              DAY {day}
-            </button>
-          ))}
-        </div>
+        <DaySelector
+          days={tripDays}
+          onAddDay={(date) => setTripDays((prev) => [...prev, date])}
+        />
 
         <div className={styles.cardsList}>
           {sidebarPins.length === 0 ? (
