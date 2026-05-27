@@ -6,6 +6,7 @@ import { useWeather } from '@/hooks/useWeather'
 import { usePins } from '@/hooks/usePins'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
+import { TripMap } from './TripMap/TripMap'
 import { PlaceCard } from '@/components/PlaceCard/PlaceCard'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { Pin } from '@/types'
@@ -71,10 +72,6 @@ export const TripPlannerPage = () => {
   // Full Pin objects for the sidebar — resolved from the city pins cache
   const sidebarPins = (cityPins ?? []).filter((p) => addedPinIds.includes(p.id))
   const dayCount = Math.max(trip.cityIds?.length ?? 1, 1)
-
-  const mapSrc = city
-    ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
-    : 'https://maps.google.com/maps?ll=48.8,10.0&output=embed&hl=en&z=5'
 
   return (
     <div className={styles.wrapper}>
@@ -173,14 +170,7 @@ export const TripPlannerPage = () => {
         )}
 
         {view === 'map' ? (
-          <iframe
-            className={styles.mapFrame}
-            src={mapSrc}
-            title="Map"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <TripMap city={city} pins={sidebarPins} />
         ) : firstCityId ? (
           <BrowsePanel
             cityId={firstCityId}
