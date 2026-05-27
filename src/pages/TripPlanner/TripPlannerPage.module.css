@@ -150,6 +150,12 @@
   padding: 16px;
 }
 
+.placesList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .emptyState {
   background: rgba(0, 0, 0, 0.04);
   border: 1px dashed rgba(0, 0, 0, 0.15);
