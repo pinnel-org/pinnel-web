@@ -1,4 +1,5 @@
-import { MapPin, Plus, Check } from 'lucide-react'
+import { useState } from 'react'
+import { Plus, Check, ImageIcon } from 'lucide-react'
 import { Pin } from '@/types'
 import styles from './PinCard.module.css'
 
@@ -8,33 +9,49 @@ interface PinCardProps {
   onAdd: (pin: Pin) => void
 }
 
-export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => (
-  <div className={styles.card}>
-    <div className={styles.body}>
-      <span className={styles.name}>{pin.name}</span>
-      {pin.description && (
-        <p className={styles.description}>{pin.description}</p>
-      )}
-    </div>
+export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
+  const [flying, setFlying] = useState(false)
 
-    <div className={styles.footer}>
-      <span className={styles.coords}>
-        <MapPin size={11} strokeWidth={1.8} />
-        {pin.latitude.toFixed(4)}, {pin.longitude.toFixed(4)}
-      </span>
+  const handleAdd = () => {
+    if (isAdded || flying) return
+    setFlying(true)
+  }
 
-      <button
-        className={isAdded ? styles.addedBtn : styles.addBtn}
-        onClick={() => !isAdded && onAdd(pin)}
-        disabled={isAdded}
-        aria-label={isAdded ? 'Added to trip' : `Add ${pin.name} to trip`}
-      >
-        {isAdded ? (
-          <><Check size={12} strokeWidth={2.5} /> ADDED</>
-        ) : (
-          <><Plus size={12} strokeWidth={2.5} /> ADD</>
+  const handleAnimationEnd = () => {
+    setFlying(false)
+    onAdd(pin)
+  }
+
+  return (
+    <div
+      className={`${styles.card} ${flying ? styles.flying : ''}`}
+      onAnimationEnd={flying ? handleAnimationEnd : undefined}
+    >
+      <div className={styles.imagePlaceholder}>
+        <ImageIcon size={26} strokeWidth={1.2} className={styles.imagePlaceholderIcon} />
+      </div>
+
+      <div className={styles.body}>
+        <span className={styles.name}>{pin.name}</span>
+        {pin.description && (
+          <p className={styles.description}>{pin.description}</p>
         )}
-      </button>
+      </div>
+
+      <div className={styles.footer}>
+        <button
+          className={isAdded ? styles.addedBtn : styles.addBtn}
+          onClick={handleAdd}
+          disabled={isAdded || flying}
+          aria-label={isAdded ? 'Added to trip' : `Add ${pin.name} to trip`}
+        >
+          {isAdded ? (
+            <><Check size={12} strokeWidth={2.5} />ADDED</>
+          ) : (
+            <><Plus size={12} strokeWidth={2.5} />ADD</>
+          )}
+        </button>
+      </div>
     </div>
-  </div>
-)
+  )
+}
