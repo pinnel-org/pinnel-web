@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styles from './ProfileSidebar.module.css'
 import { User, TripSummary } from '@/types'
 import { EditProfileModal } from '@/components/EditProfileModal/EditProfileModal'
+import { useAvatar } from '@/hooks/useAvatar'
 
 const formatJoined = (dateStr: string | null): string => {
   if (!dateStr) return ''
@@ -26,6 +27,12 @@ const splitName = (displayName: string | null, fallback: string): [string, strin
   return [parts[0], parts.slice(1).join(' ')]
 }
 
+const formatYearShort = (dateStr: string | null): string | null => {
+  if (!dateStr) return null
+  const d = new Date(dateStr)
+  return isNaN(d.getTime()) ? null : `'${String(d.getFullYear()).slice(-2)}`
+}
+
 interface ProfileSidebarProps {
   user: User
   trips: TripSummary[]
@@ -43,6 +50,7 @@ const PencilIcon = () => (
 export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [firstName, lastName] = splitName(user.displayName, user.username ?? user.email ?? '')
+  const { url: avatarUrl } = useAvatar()
 
   const pinsCount = trips.reduce((sum, t) => sum + (t.pinIds?.length ?? 0), 0)
   const citiesCount = new Set(trips.flatMap((t) => t.cityIds ?? [])).size
@@ -50,7 +58,19 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.avatarWrapper}>
-        <div className={styles.avatar}>{getInitials(user)}</div>
+        <div className={styles.avatar}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="" className={styles.avatarImg} />
+          ) : (
+            getInitials(user)
+          )}
+        </div>
+        <div className={styles.polaroidCaption}>
+          {user.username && <span className={styles.captionName}>@{user.username}</span>}
+          {formatYearShort(user.createdAt) && (
+            <span className={styles.captionYear}>{formatYearShort(user.createdAt)}</span>
+          )}
+        </div>
       </div>
 
       <div className={styles.nameRow}>
@@ -60,7 +80,6 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
         </div>
       </div>
 
-      {user.username && <p className={styles.handle}>@{user.username}</p>}
       {user.bio && <p className={styles.bio}>{user.bio}</p>}
 
       <button
