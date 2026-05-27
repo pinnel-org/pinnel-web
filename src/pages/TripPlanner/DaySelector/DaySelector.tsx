@@ -81,9 +81,15 @@ export const DaySelector = ({ days, onAddDay }: DaySelectorProps) => {
     <div className={styles.wrapper}>
       <div className={styles.dayList}>
         {days.map((date, i) => (
-          <div key={date.toISOString()} className={styles.dayChip}>
-            <span className={styles.chipNumber}>DAY {i + 1}</span>
-            <span className={styles.chipDate}>{formatShortDate(date)}</span>
+          <div key={date.toISOString()} className={styles.dayGroup}>
+            <div className={styles.dayChip}>
+              <span className={styles.chipNumber}>DAY {i + 1}</span>
+              <span className={styles.chipDate}>{formatShortDate(date)}</span>
+            </div>
+            <div className={styles.dayEmpty}>
+              <p className={styles.dayEmptyText}>No places yet.</p>
+              <p className={styles.dayEmptyHint}>Browse and add places to your trip.</p>
+            </div>
           </div>
         ))}
       </div>

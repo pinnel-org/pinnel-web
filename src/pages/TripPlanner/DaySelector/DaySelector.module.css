@@ -39,6 +39,13 @@
 .dayList {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Day group: chip + per-day empty state ─ */
+.dayGroup {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 
@@ -67,6 +74,29 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   color: #8a7a66;
+}
+
+/* ── Per-day empty state (compact) ──────── */
+.dayEmpty {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px dashed rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.dayEmptyText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 3px;
+}
+
+.dayEmptyHint {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #bbb;
+  margin: 0;
 }
 
 /* ── Footer: + ADD DAY | DAY 2 · Fri 31 May */
