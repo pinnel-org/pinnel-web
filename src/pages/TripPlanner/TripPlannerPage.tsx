@@ -4,6 +4,7 @@ import { useTrip, useCity, useAddPinToTrip } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
+import { PinDetail } from './BrowsePanel/PinDetail'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { DaySelector } from './DaySelector/DaySelector'
 import { DayContent } from './DayContent/DayContent'
@@ -28,6 +29,7 @@ export const TripPlannerPage = () => {
   const [dayCities, setDayCities] = useState<Record<number, DayCityEntry[]>>({})
   const [browseCityId, setBrowseCityId] = useState<number | undefined>()
   const [browseCityName, setBrowseCityName] = useState('')
+  const [viewingPin, setViewingPin] = useState<Pin | null>(null)
 
   const addPinToTrip = useAddPinToTrip(tripId)
 
@@ -116,6 +118,7 @@ export const TripPlannerPage = () => {
 
   const handleBrowseClose = () => {
     setBrowseCityId(undefined)
+    setViewingPin(null)
     setView('map')
   }
 
@@ -208,6 +211,17 @@ export const TripPlannerPage = () => {
               addedPinIds={browseCityAddedPinIds}
               onAdd={handleAddPin}
               onClose={handleBrowseClose}
+              onViewPin={setViewingPin}
+            />
+          )}
+
+          {viewingPin && (
+            <PinDetail
+              pin={viewingPin}
+              cityName={browseCityName}
+              isAdded={browseCityAddedPinIds.includes(viewingPin.id)}
+              onAdd={handleAddPin}
+              onClose={() => setViewingPin(null)}
             />
           )}
         </main>
