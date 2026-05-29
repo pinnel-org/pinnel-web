@@ -174,22 +174,10 @@ export const TripPlannerPage = () => {
                 return <>{rest}{rest ? ' ' : ''}<em className={styles.tripNameAccent}>{last}.</em></>
               })()}
             </h1>
-            <div className={styles.tripMeta}>
-              <div className={styles.tripMetaSeg}>
-                <span className={styles.tripMetaLabel}>Days</span>
-                <span className={styles.tripMetaVal}>{dayCount}</span>
-              </div>
-              <div className={styles.tripMetaSeg}>
-                <span className={styles.tripMetaLabel}>Places</span>
-                <span className={styles.tripMetaVal}>{placeCount}</span>
-              </div>
-              {trip.budget != null && (
-                <div className={styles.tripMetaSeg}>
-                  <span className={styles.tripMetaLabel}>Budget</span>
-                  <span className={styles.tripMetaVal}>€{trip.budget}</span>
-                </div>
-              )}
-            </div>
+            <p className={styles.tripMeta}>
+              {dayCount} DAY{dayCount !== 1 ? 'S' : ''} · {placeCount} PLACE{placeCount !== 1 ? 'S' : ''}
+              {trip.budget != null ? ` · €${trip.budget}` : ''}
+            </p>
           </div>
 
           {dayDates.length > 0 && (

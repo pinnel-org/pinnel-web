@@ -37,7 +37,7 @@
 }
 
 .sidebarTop {
-  padding: 20px 22px 14px;
+  padding: 20px 22px 10px;
   flex-shrink: 0;
   border-bottom: 1px solid rgba(42, 31, 18, 0.14);
 }
@@ -75,40 +75,13 @@
 }
 
 .tripMeta {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  border-top: 1px solid rgba(42, 31, 18, 0.10);
-  padding-top: 10px;
-}
-
-.tripMetaSeg {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-right: 12px;
-}
-
-.tripMetaSeg + .tripMetaSeg {
-  border-left: 1px solid rgba(42, 31, 18, 0.10);
-  padding-left: 12px;
-}
-
-.tripMetaLabel {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
   color: var(--lp-stone);
   text-transform: uppercase;
-}
-
-.tripMetaVal {
-  font-family: 'Fraunces', serif;
-  font-weight: 500;
-  font-size: 22px;
-  color: var(--lp-ink);
-  line-height: 1;
+  margin: -4px 0 0;
 }
 
 /* ── Right panel ────────────────────────── */
