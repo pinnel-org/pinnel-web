@@ -33,7 +33,9 @@ const TrashIcon = () => (
 interface CityRowProps {
   entry: DayCityEntry
   isDragging: boolean
+  isSelected: boolean
   onToggle: () => void
+  onSelect: () => void
   onRemove: () => void
   onBrowse: () => void
   onDragHandleDown: (e: React.MouseEvent) => void
@@ -43,7 +45,9 @@ interface CityRowProps {
 export const CityRow = ({
   entry,
   isDragging,
+  isSelected,
   onToggle,
+  onSelect,
   onRemove,
   onBrowse,
   onDragHandleDown,
@@ -56,7 +60,7 @@ export const CityRow = ({
   }
 
   return (
-    <div className={`${styles.row} ${isDragging ? styles.dragging : ''}`}>
+    <div className={`${styles.row} ${isDragging ? styles.dragging : ''} ${isSelected ? styles.selected : ''}`}>
       <div className={styles.header} onClick={onToggle}>
         <span
           className={styles.dragHandle}
@@ -70,7 +74,13 @@ export const CityRow = ({
           <ChevronIcon />
         </span>
 
-        <span className={styles.cityName}>{entry.cityName}</span>
+        <span
+          className={styles.cityName}
+          onClick={(e) => { e.stopPropagation(); onSelect() }}
+          title="Show on map"
+        >
+          {entry.cityName}
+        </span>
 
         <span className={styles.places}>· {count} {count === 1 ? 'place' : 'places'}</span>
 

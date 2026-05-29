@@ -20,8 +20,6 @@ export const TripPlannerPage = () => {
 
   const { data: trip, isLoading: tripLoading } = useTrip(tripId)
   const firstCityId = trip?.cityIds?.[0]
-  const { data: city } = useCity(firstCityId)
-  const { data: weather } = useWeather(city?.latitude, city?.longitude)
 
   const [view, setView] = useState<ViewMode>('map')
   const [activeDay, setActiveDay] = useState(1)
@@ -30,6 +28,11 @@ export const TripPlannerPage = () => {
   const [browseCityId, setBrowseCityId] = useState<number | undefined>()
   const [browseCityName, setBrowseCityName] = useState('')
   const [viewingPin, setViewingPin] = useState<Pin | null>(null)
+  const [selectedCityId, setSelectedCityId] = useState<number | undefined>()
+
+  const mapCityId = selectedCityId ?? firstCityId
+  const { data: mapCity } = useCity(mapCityId)
+  const { data: weather } = useWeather(mapCity?.latitude, mapCity?.longitude)
 
   const addPinToTrip = useAddPinToTrip(tripId)
 
@@ -142,8 +145,8 @@ export const TripPlannerPage = () => {
     ? ((dayCities[activeDay] ?? []).find(c => c.cityId === browseCityId)?.addedPins ?? []).map(p => p.id)
     : []
 
-  const mapSrc = city
-    ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
+  const mapSrc = mapCity
+    ? `https://maps.google.com/maps?ll=${mapCity.latitude},${mapCity.longitude}&output=embed&hl=en&z=13`
     : 'https://maps.google.com/maps?ll=48.8,10.0&output=embed&hl=en&z=5'
 
   return (
@@ -187,6 +190,8 @@ export const TripPlannerPage = () => {
             cities={dayCities[activeDay] ?? []}
             onCitiesChange={(cities) => setDayCities(prev => ({ ...prev, [activeDay]: cities }))}
             onBrowse={handleBrowse}
+            selectedCityId={selectedCityId}
+            onSelectCity={setSelectedCityId}
           />
         </aside>
 

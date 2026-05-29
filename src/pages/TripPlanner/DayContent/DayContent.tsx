@@ -11,9 +11,11 @@ interface DayContentProps {
   cities: DayCityEntry[]
   onCitiesChange: (cities: DayCityEntry[]) => void
   onBrowse: (cityId: number, cityName: string) => void
+  selectedCityId?: number
+  onSelectCity: (cityId: number) => void
 }
 
-export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayContentProps) => {
+export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity }: DayContentProps) => {
   const [showSearch, setShowSearch] = useState(false)
   const [confirmRemove, setConfirmRemove] = useState<DayCityEntry | null>(null)
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
@@ -91,7 +93,9 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayC
               key={entry.cityId}
               entry={entry}
               isDragging={draggingIdx === idx}
+              isSelected={selectedCityId === entry.cityId}
               onToggle={() => toggle(entry.cityId)}
+              onSelect={() => onSelectCity(entry.cityId)}
               onRemove={() => setConfirmRemove(entry)}
               onBrowse={() => onBrowse(entry.cityId, entry.cityName)}
               onDragHandleDown={() => startDrag(idx)}

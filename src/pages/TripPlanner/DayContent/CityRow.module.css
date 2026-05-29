@@ -70,7 +70,20 @@
   flex: 1;
   line-height: 1;
   letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: color 0.15s;
 }
+
+.cityName:hover { color: #E25A2C; }
+
+/* ── Selected state ─── */
+
+.selected {
+  box-shadow: inset 3px 0 0 #E25A2C;
+  background: rgba(226, 90, 44, 0.04);
+}
+
+.selected .cityName { color: #E25A2C; }
 
 /* ── Places count ─── */
 
