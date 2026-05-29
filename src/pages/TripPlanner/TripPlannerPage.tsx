@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 import { MapIcon, LayoutGrid } from 'lucide-react'
 import { useTrip, useCity, useAddPinToTrip, useRemovePinFromTrip } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
-import { usePins } from '@/hooks/usePins'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
-import { PlaceCard } from '@/components/PlaceCard/PlaceCard'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { DaySelector } from './DaySelector/DaySelector'
+import { DayContent } from './DayContent/DayContent'
+import { DayCityEntry } from './types'
 import { Pin } from '@/types'
 import styles from './TripPlannerPage.module.css'
 
@@ -22,7 +22,6 @@ export const TripPlannerPage = () => {
   const firstCityId = trip?.cityIds?.[0]
   const { data: city } = useCity(firstCityId)
   const { data: weather } = useWeather(city?.latitude, city?.longitude)
-  const { data: cityPins } = usePins(firstCityId)
 
   const [view, setView] = useState<ViewMode>('map')
   const [activeDay, setActiveDay] = useState(1)
@@ -30,6 +29,8 @@ export const TripPlannerPage = () => {
   const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
   const [pendingRemoveIds, setPendingRemoveIds] = useState<number[]>([])
   const [dayDates, setDayDates] = useState<Date[]>([])
+  const [dayCities, setDayCities] = useState<Record<number, DayCityEntry[]>>({})
+  const [browseCityId, setBrowseCityId] = useState<number | undefined>()
 
   const addPinToTrip = useAddPinToTrip(tripId)
   const removePinFromTrip = useRemovePinFromTrip(tripId)
@@ -52,24 +53,60 @@ export const TripPlannerPage = () => {
     if (!trip) return
     setPendingPinIds((prev) => [...prev, pin.id])
     addPinToTrip.mutate({ trip, pinId: pin.id }, { onSuccess: () => setPendingPinIds([]) })
+    if (browseCityId != null) {
+      setDayCities(prev => ({
+        ...prev,
+        [activeDay]: (prev[activeDay] ?? []).map(c =>
+          c.cityId === browseCityId && !c.addedPinIds.includes(pin.id)
+            ? { ...c, addedPinIds: [...c.addedPinIds, pin.id] }
+            : c
+        ),
+      }))
+    }
   }
 
   const handleRemovePin = (pinId: number) => {
     if (!trip) return
     setPendingRemoveIds((prev) => [...prev, pinId])
     removePinFromTrip.mutate({ trip, pinId }, { onSuccess: () => setPendingRemoveIds([]) })
+    setDayCities(prev => {
+      const next: Record<number, DayCityEntry[]> = {}
+      for (const [day, cities] of Object.entries(prev)) {
+        next[Number(day)] = cities.map(c => ({
+          ...c,
+          addedPinIds: c.addedPinIds.filter(pid => pid !== pinId),
+        }))
+      }
+      return next
+    })
   }
 
   const handleDayAdd = (date: Date) => {
     const sorted = [...dayDates, date].sort((a, b) => a.getTime() - b.getTime())
-    const newIdx = sorted.findIndex(d => d.getTime() === date.getTime())
+    const newDayNum = sorted.findIndex(d => d.getTime() === date.getTime()) + 1
     setDayDates(sorted)
-    setActiveDay(newIdx + 1)
+    setDayCities(prev => {
+      const next: Record<number, DayCityEntry[]> = {}
+      for (let d = 1; d <= dayDates.length; d++) {
+        next[d < newDayNum ? d : d + 1] = prev[d] ?? []
+      }
+      next[newDayNum] = []
+      return next
+    })
+    setActiveDay(newDayNum)
   }
 
   const handleDayRemove = (day: number) => {
     const newCount = dayDates.length - 1
     setDayDates(prev => prev.filter((_, i) => i !== day - 1))
+    setDayCities(prev => {
+      const next: Record<number, DayCityEntry[]> = {}
+      for (let d = 1; d <= dayDates.length; d++) {
+        if (d === day) continue
+        next[d < day ? d : d - 1] = prev[d] ?? []
+      }
+      return next
+    })
     setActiveDay(prev => {
       if (prev === day) return Math.max(1, Math.min(day, newCount))
       return prev > day ? prev - 1 : prev
@@ -79,9 +116,22 @@ export const TripPlannerPage = () => {
   const handleDayEdit = (day: number, date: Date) => {
     const updated = dayDates.map((d, i) => (i === day - 1 ? date : d))
     const sorted = [...updated].sort((a, b) => a.getTime() - b.getTime())
-    const newIdx = sorted.findIndex(d => d.getTime() === date.getTime())
+    const newDayNum = sorted.findIndex(d => d.getTime() === date.getTime()) + 1
     setDayDates(sorted)
-    setActiveDay(newIdx + 1)
+    setDayCities(prev => {
+      const next: Record<number, DayCityEntry[]> = {}
+      for (let d = 1; d <= dayDates.length; d++) {
+        const ni = sorted.findIndex(s => s.getTime() === updated[d - 1].getTime()) + 1
+        next[ni] = prev[d] ?? []
+      }
+      return next
+    })
+    setActiveDay(newDayNum)
+  }
+
+  const handleBrowse = (cityId: number) => {
+    setBrowseCityId(cityId)
+    setView('browse')
   }
 
   if (tripLoading) {
@@ -98,8 +148,8 @@ export const TripPlannerPage = () => {
     (id) => !pendingRemoveIds.includes(id),
   )
   const placeCount = addedPinIds.length
-  const sidebarPins = (cityPins ?? []).filter((p) => addedPinIds.includes(p.id))
   const dayCount = dayDates.length || Math.max(trip.cityIds?.length ?? 1, 1)
+  const activeBrowseCityId = browseCityId ?? firstCityId
 
   const mapSrc = city
     ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
@@ -129,20 +179,12 @@ export const TripPlannerPage = () => {
             />
           )}
 
-          <div className={styles.cardsList}>
-            {sidebarPins.length === 0 ? (
-              <div className={styles.emptyState}>
-                <p className={styles.emptyText}>No places yet.</p>
-                <p className={styles.emptyHint}>Browse and add places to your trip.</p>
-              </div>
-            ) : (
-              <div className={styles.placesList}>
-                {sidebarPins.map((pin, i) => (
-                  <PlaceCard key={pin.id} pin={pin} index={i + 1} onRemove={handleRemovePin} />
-                ))}
-              </div>
-            )}
-          </div>
+          <DayContent
+            dayNumber={activeDay}
+            cities={dayCities[activeDay] ?? []}
+            onCitiesChange={(cities) => setDayCities(prev => ({ ...prev, [activeDay]: cities }))}
+            onBrowse={handleBrowse}
+          />
         </aside>
 
         <main className={styles.panel}>
@@ -194,9 +236,9 @@ export const TripPlannerPage = () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-          ) : firstCityId ? (
+          ) : activeBrowseCityId ? (
             <BrowsePanel
-              cityId={firstCityId}
+              cityId={activeBrowseCityId}
               addedPinIds={addedPinIds}
               searchQuery={searchQuery}
               onAdd={handleAddPin}
