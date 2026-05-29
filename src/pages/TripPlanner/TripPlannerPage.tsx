@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { MapIcon, LayoutGrid } from 'lucide-react'
-import { useTrip, useCity, useAddPinToTrip, useRemovePinFromTrip } from '@/hooks/useUser'
+import { useTrip, useCity, useAddPinToTrip } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
@@ -25,15 +24,12 @@ export const TripPlannerPage = () => {
 
   const [view, setView] = useState<ViewMode>('map')
   const [activeDay, setActiveDay] = useState(1)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
-  const [pendingRemoveIds, setPendingRemoveIds] = useState<number[]>([])
   const [dayDates, setDayDates] = useState<Date[]>([])
   const [dayCities, setDayCities] = useState<Record<number, DayCityEntry[]>>({})
   const [browseCityId, setBrowseCityId] = useState<number | undefined>()
+  const [browseCityName, setBrowseCityName] = useState('')
 
   const addPinToTrip = useAddPinToTrip(tripId)
-  const removePinFromTrip = useRemovePinFromTrip(tripId)
 
   useEffect(() => {
     if (!trip?.id) return
@@ -51,34 +47,17 @@ export const TripPlannerPage = () => {
 
   const handleAddPin = (pin: Pin) => {
     if (!trip) return
-    setPendingPinIds((prev) => [...prev, pin.id])
-    addPinToTrip.mutate({ trip, pinId: pin.id }, { onSuccess: () => setPendingPinIds([]) })
+    addPinToTrip.mutate({ trip, pinId: pin.id })
     if (browseCityId != null) {
       setDayCities(prev => ({
         ...prev,
         [activeDay]: (prev[activeDay] ?? []).map(c =>
-          c.cityId === browseCityId && !c.addedPinIds.includes(pin.id)
-            ? { ...c, addedPinIds: [...c.addedPinIds, pin.id] }
+          c.cityId === browseCityId && !c.addedPins.some(p => p.id === pin.id)
+            ? { ...c, addedPins: [...c.addedPins, pin] }
             : c
         ),
       }))
     }
-  }
-
-  const handleRemovePin = (pinId: number) => {
-    if (!trip) return
-    setPendingRemoveIds((prev) => [...prev, pinId])
-    removePinFromTrip.mutate({ trip, pinId }, { onSuccess: () => setPendingRemoveIds([]) })
-    setDayCities(prev => {
-      const next: Record<number, DayCityEntry[]> = {}
-      for (const [day, cities] of Object.entries(prev)) {
-        next[Number(day)] = cities.map(c => ({
-          ...c,
-          addedPinIds: c.addedPinIds.filter(pid => pid !== pinId),
-        }))
-      }
-      return next
-    })
   }
 
   const handleDayAdd = (date: Date) => {
@@ -129,9 +108,15 @@ export const TripPlannerPage = () => {
     setActiveDay(newDayNum)
   }
 
-  const handleBrowse = (cityId: number) => {
+  const handleBrowse = (cityId: number, cityName: string) => {
     setBrowseCityId(cityId)
+    setBrowseCityName(cityName)
     setView('browse')
+  }
+
+  const handleBrowseClose = () => {
+    setBrowseCityId(undefined)
+    setView('map')
   }
 
   if (tripLoading) {
@@ -144,12 +129,15 @@ export const TripPlannerPage = () => {
 
   if (!trip) return <div className={styles.loading}>Trip not found.</div>
 
-  const addedPinIds = [...new Set([...(trip.pinIds ?? []), ...pendingPinIds])].filter(
-    (id) => !pendingRemoveIds.includes(id),
-  )
-  const placeCount = addedPinIds.length
+  const placeCount = new Set(
+    Object.values(dayCities).flat().flatMap(c => c.addedPins.map(p => p.id))
+  ).size
   const dayCount = dayDates.length || Math.max(trip.cityIds?.length ?? 1, 1)
   const activeBrowseCityId = browseCityId ?? firstCityId
+
+  const browseCityAddedPinIds = browseCityId != null
+    ? ((dayCities[activeDay] ?? []).find(c => c.cityId === browseCityId)?.addedPins ?? []).map(p => p.id)
+    : []
 
   const mapSrc = city
     ? `https://maps.google.com/maps?ll=${city.latitude},${city.longitude}&output=embed&hl=en&z=13`
@@ -200,65 +188,27 @@ export const TripPlannerPage = () => {
         </aside>
 
         <main className={styles.panel}>
-          <div className={styles.panelTopBar}>
-            <div className={styles.toggleGroup}>
-              <button
-                className={`${styles.toggleBtn} ${view === 'map' ? styles.toggleActive : ''}`}
-                onClick={() => setView('map')}
-              >
-                <MapIcon size={13} strokeWidth={1.8} />
-                MAP
-              </button>
-              <button
-                className={`${styles.toggleBtn} ${view === 'browse' ? styles.toggleActive : ''}`}
-                onClick={() => setView('browse')}
-              >
-                <LayoutGrid size={13} strokeWidth={1.8} />
-                BROWSE
-              </button>
-            </div>
-
-            {view === 'browse' && (
-              <div className={styles.searchWrap}>
-                <svg className={styles.searchIcon} viewBox="0 0 16 16" fill="none">
-                  <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-                  <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                </svg>
-                <input
-                  className={styles.searchInput}
-                  type="text"
-                  placeholder="Find food, museums..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            )}
-          </div>
-
-          {view === 'map' && weather && weather.length > 0 && (
+          {weather && weather.length > 0 && (
             <WeatherStrip days={weather} />
           )}
 
-          {view === 'map' ? (
-            <iframe
-              className={styles.mapFrame}
-              src={mapSrc}
-              title="Map"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          ) : activeBrowseCityId ? (
+          <iframe
+            className={styles.mapFrame}
+            src={mapSrc}
+            title="Map"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+
+          {view === 'browse' && activeBrowseCityId && (
             <BrowsePanel
               cityId={activeBrowseCityId}
-              addedPinIds={addedPinIds}
-              searchQuery={searchQuery}
+              cityName={browseCityName}
+              addedPinIds={browseCityAddedPinIds}
               onAdd={handleAddPin}
+              onClose={handleBrowseClose}
             />
-          ) : (
-            <div className={styles.browsePlaceholder}>
-              <p className={styles.browseText}>No city set for this trip.</p>
-            </div>
           )}
         </main>
       </div>

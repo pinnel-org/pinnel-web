@@ -1,5 +1,7 @@
-import styles from './CityRow.module.css'
+import { Pin } from '@/types'
 import { DayCityEntry } from '../types'
+import { PinList } from './PinList'
+import styles from './CityRow.module.css'
 
 const DragHandleIcon = () => (
   <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
@@ -35,10 +37,23 @@ interface CityRowProps {
   onRemove: () => void
   onBrowse: () => void
   onDragHandleDown: (e: React.MouseEvent) => void
+  onPinsChange: (pins: Pin[]) => void
 }
 
-export const CityRow = ({ entry, isDragging, onToggle, onRemove, onBrowse, onDragHandleDown }: CityRowProps) => {
-  const count = entry.addedPinIds.length
+export const CityRow = ({
+  entry,
+  isDragging,
+  onToggle,
+  onRemove,
+  onBrowse,
+  onDragHandleDown,
+  onPinsChange,
+}: CityRowProps) => {
+  const count = entry.addedPins.length
+
+  const handlePinRemove = (pinId: number) => {
+    onPinsChange(entry.addedPins.filter(p => p.id !== pinId))
+  }
 
   return (
     <div className={`${styles.row} ${isDragging ? styles.dragging : ''}`}>
@@ -70,13 +85,27 @@ export const CityRow = ({ entry, isDragging, onToggle, onRemove, onBrowse, onDra
 
       {entry.expanded && (
         <div className={styles.content}>
-          <div className={styles.noPins}>
-            <span className={styles.noPinsText}>No places yet.</span>
-            <button className={styles.browseBtn} onClick={(e) => { e.stopPropagation(); onBrowse() }}>
-              <SearchIcon />
-              Browse
-            </button>
-          </div>
+          {count === 0 ? (
+            <div className={styles.noPins}>
+              <span className={styles.noPinsText}>No places yet.</span>
+              <button className={styles.browseBtn} onClick={(e) => { e.stopPropagation(); onBrowse() }}>
+                <SearchIcon />
+                Browse
+              </button>
+            </div>
+          ) : (
+            <>
+              <PinList
+                pins={entry.addedPins}
+                onReorder={onPinsChange}
+                onRemove={handlePinRemove}
+              />
+              <button className={styles.addMoreBtn} onClick={(e) => { e.stopPropagation(); onBrowse() }}>
+                <SearchIcon />
+                Add more
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

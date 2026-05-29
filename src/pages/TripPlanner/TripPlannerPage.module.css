@@ -93,104 +93,6 @@
   position: relative;
 }
 
-/* Toggle + search bar — floats over the map */
-.panelTopBar {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* MAP / BROWSE toggle */
-.toggleGroup {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.toggleBtn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--lp-ink);
-  background: rgba(245, 236, 224, 0.92);
-  border: 1.5px solid rgba(26, 20, 16, 0.18);
-  border-radius: 6px;
-  padding: 0 11px;
-  height: 34px;
-  cursor: pointer;
-  transition: all 0.15s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-.toggleBtn:hover {
-  color: #fff;
-  background: var(--lp-ink);
-  border-color: var(--lp-ink);
-}
-
-.toggleActive {
-  color: #fff;
-  background: var(--lp-ink);
-  border-color: var(--lp-ink);
-}
-
-.toggleActive:hover {
-  color: #fff;
-  background: var(--lp-ink);
-}
-
-/* Search */
-.searchWrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1.5px solid rgba(26, 20, 16, 0.18);
-  border-radius: 6px;
-  padding: 0 12px;
-  height: 34px;
-  transition: border-color 0.15s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-.searchWrap:focus-within {
-  border-color: rgba(26, 20, 16, 0.4);
-}
-
-.searchIcon {
-  width: 14px;
-  height: 14px;
-  color: #bbb;
-  flex-shrink: 0;
-}
-
-.searchInput {
-  flex: 1;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  color: #1a1a1a;
-  background: none;
-  border: none;
-  outline: none;
-}
-
-.searchInput::placeholder {
-  color: #bbb;
-}
-
 /* Map iframe */
 .mapFrame {
   position: absolute;
@@ -198,22 +100,6 @@
   width: 100%;
   height: 100%;
   border: none;
-}
-
-/* Browse placeholder */
-.browsePlaceholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f0e8d8;
-}
-
-.browseText {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: #bbb;
 }
 
 /* ── Loading state ──────────────────────── */

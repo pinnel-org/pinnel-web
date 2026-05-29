@@ -10,7 +10,7 @@ interface DayContentProps {
   dayNumber: number
   cities: DayCityEntry[]
   onCitiesChange: (cities: DayCityEntry[]) => void
-  onBrowse: (cityId: number) => void
+  onBrowse: (cityId: number, cityName: string) => void
 }
 
 export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayContentProps) => {
@@ -24,7 +24,7 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayC
 
   const handleAdd = (city: CityDto) => {
     if (!cities.find(c => c.cityId === city.id)) {
-      onCitiesChange([...cities, { cityId: city.id, cityName: city.name, expanded: true, addedPinIds: [] }])
+      onCitiesChange([...cities, { cityId: city.id, cityName: city.name, expanded: true, addedPins: [] }])
     }
     setShowSearch(false)
   }
@@ -93,8 +93,11 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayC
               isDragging={draggingIdx === idx}
               onToggle={() => toggle(entry.cityId)}
               onRemove={() => setConfirmRemove(entry)}
-              onBrowse={() => onBrowse(entry.cityId)}
+              onBrowse={() => onBrowse(entry.cityId, entry.cityName)}
               onDragHandleDown={() => startDrag(idx)}
+              onPinsChange={(pins) => onCitiesChange(
+                cities.map(c => c.cityId === entry.cityId ? { ...c, addedPins: pins } : c)
+              )}
             />
           ))}
         </div>
