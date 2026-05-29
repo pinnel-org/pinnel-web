@@ -58,6 +58,15 @@ export const TripPlannerPage = () => {
     })
   }, [firstCityId, mapCity?.id])
 
+  useEffect(() => {
+    const cities = dayCities[activeDay] ?? []
+    if (cities.length === 0) return
+    setSelectedCityId(prev => {
+      if (prev != null && cities.some(c => c.cityId === prev)) return prev
+      return cities[0].cityId
+    })
+  }, [activeDay, dayCities])
+
   const handleAddPin = (pin: Pin) => {
     if (!trip) return
     addPinToTrip.mutate({ trip, pinId: pin.id })
