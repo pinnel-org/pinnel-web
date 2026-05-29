@@ -63,7 +63,7 @@ export const PinList = ({ pins, onReorder, onRemove }: PinListProps) => {
   }, [onDocMouseMove, onDocMouseUp])
 
   return (
-    <div ref={listRef} className={styles.list}>
+    <div ref={listRef} className={`${styles.list} ${draggingIdx !== null ? styles.listDragging : ''}`}>
       {pins.map((pin, idx) => (
         <div key={pin.id} className={`${styles.item} ${draggingIdx === idx ? styles.dragging : ''}`}>
           <span className={styles.num}>{idx + 1}</span>

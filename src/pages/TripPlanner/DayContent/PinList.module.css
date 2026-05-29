@@ -15,7 +15,13 @@
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid rgba(42, 31, 18, 0.12);
   border-radius: 10px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.listDragging .item:not(.dragging) {
+  opacity: 0.5;
+  transform: scale(0.98);
 }
 
 .item:hover {
@@ -114,6 +120,12 @@
 /* ── Dragging state ─── */
 
 .dragging {
-  opacity: 0.45;
-  box-shadow: none;
+  opacity: 0.96;
+  transform: scale(1.03) rotate(0.6deg);
+  box-shadow: 0 12px 32px rgba(42, 31, 18, 0.16), 0 3px 10px rgba(42, 31, 18, 0.10);
+  border-color: rgba(42, 31, 18, 0.28);
+  background: #fff;
+  position: relative;
+  z-index: 10;
+  cursor: grabbing;
 }
