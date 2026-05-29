@@ -111,10 +111,6 @@
   pointer-events: none;
 }
 
-.card:hover .dot {
-  opacity: 0;
-}
-
 .removeBtn {
   position: absolute;
   top: 3px;
@@ -208,6 +204,18 @@
 .dateBtn:hover {
   color: var(--lp-sunset);
   text-decoration: underline;
+}
+
+.dateTxt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--lp-stone);
+  text-transform: uppercase;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .active .dateBtn {

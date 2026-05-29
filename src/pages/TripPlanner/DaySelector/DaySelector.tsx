@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import styles from './DaySelector.module.css'
 import { MiniCalendar } from '../MiniCalendar/MiniCalendar'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog/ConfirmDialog'
 
 const DAY_ABBR = ['SUN','MON','TUE','WED','THU','FRI','SAT']
 const MON_ABBR = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
@@ -39,6 +40,7 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
   const drag = useRef({ on: false, x: 0, sl: 0 })
   const prevActiveDay = useRef(activeDay)
   const [picker, setPicker] = useState<PickerMode | null>(null)
+  const [pendingRemove, setPendingRemove] = useState<number | null>(null)
   const [pickerPos, setPickerPos] = useState<{ top: number; left: number } | undefined>()
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
@@ -142,14 +144,18 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
             return (
               <div key={day} className={`${styles.card} ${active ? styles.active : ''}`} onClick={() => select(day)}>
                 {!active && <span className={styles.dot} />}
-                {days.length > 1 && (
-                  <button className={styles.removeBtn} onClick={(e) => { e.stopPropagation(); onDayRemove(day) }}>×</button>
+                {active && days.length > 1 && (
+                  <button className={styles.removeBtn} onClick={(e) => { e.stopPropagation(); setPendingRemove(day) }}>×</button>
                 )}
                 <span className={styles.dayLabel}>DAY</span>
                 <span className={styles.dayNum}>{pad2(day)}</span>
-                <button className={styles.dateBtn} onClick={(e) => { e.stopPropagation(); openPicker({ mode: 'edit', idx: i }) }}>
-                  {fmtDate(date)}
-                </button>
+                {active ? (
+                  <button className={styles.dateBtn} onClick={(e) => { e.stopPropagation(); openPicker({ mode: 'edit', idx: i }) }}>
+                    {fmtDate(date)}
+                  </button>
+                ) : (
+                  <span className={styles.dateTxt}>{fmtDate(date)}</span>
+                )}
               </div>
             )
           })}
@@ -163,6 +169,16 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
           <button className={`${styles.scrollBtn} ${styles.scrollRight}`} onClick={() => scrollCarousel('right')}>›</button>
         )}
       </div>
+
+      {pendingRemove !== null && (
+        <ConfirmDialog
+          title={`Remove DAY ${pad2(pendingRemove)} · ${fmtDate(days[pendingRemove - 1])}?`}
+          message="All places added to this day will also be removed."
+          confirmLabel="Remove"
+          onConfirm={() => { onDayRemove(pendingRemove); setPendingRemove(null) }}
+          onCancel={() => setPendingRemove(null)}
+        />
+      )}
 
       {picker && (
         <MiniCalendar

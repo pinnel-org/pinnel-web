@@ -13,7 +13,6 @@ import { Pin } from '@/types'
 import styles from './TripPlannerPage.module.css'
 
 type ViewMode = 'map' | 'browse'
-type ContentTab = 'cards' | 'schedule' | 'route'
 
 export const TripPlannerPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -26,7 +25,6 @@ export const TripPlannerPage = () => {
   const { data: cityPins } = usePins(firstCityId)
 
   const [view, setView] = useState<ViewMode>('map')
-  const [contentTab, setContentTab] = useState<ContentTab>('cards')
   const [activeDay, setActiveDay] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [pendingPinIds, setPendingPinIds] = useState<number[]>([])
@@ -118,18 +116,6 @@ export const TripPlannerPage = () => {
               {dayCount} DAY{dayCount !== 1 ? 'S' : ''} · {placeCount} PLACE{placeCount !== 1 ? 'S' : ''}
               {trip.budget != null ? ` · EST €${trip.budget}` : ''}
             </p>
-          </div>
-
-          <div className={styles.contentTabs}>
-            {(['cards', 'schedule', 'route'] as ContentTab[]).map((tab) => (
-              <button
-                key={tab}
-                className={`${styles.contentTab} ${contentTab === tab ? styles.contentTabActive : ''}`}
-                onClick={() => setContentTab(tab)}
-              >
-                {tab.toUpperCase()}
-              </button>
-            ))}
           </div>
 
           {dayDates.length > 0 && (
