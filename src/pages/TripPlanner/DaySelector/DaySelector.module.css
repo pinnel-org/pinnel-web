@@ -1,0 +1,252 @@
+.root {
+  padding: 8px 20px;
+  flex-shrink: 0;
+}
+
+/* ── Track wrapper with scroll arrows ─── */
+
+.trackWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: 6px;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:active {
+  cursor: grabbing;
+}
+
+/* ── Scroll arrows (gradient overlay) ─── */
+
+.scrollBtn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: var(--lp-ink);
+  z-index: 2;
+  transition: color 0.15s;
+  padding: 0;
+}
+
+.scrollLeft {
+  left: 0;
+  background: linear-gradient(to right, rgba(245, 236, 224, 1) 55%, transparent);
+  justify-content: flex-start;
+  padding-left: 6px;
+}
+
+.scrollRight {
+  right: 0;
+  background: linear-gradient(to left, rgba(245, 236, 224, 1) 55%, transparent);
+  justify-content: flex-end;
+  padding-right: 6px;
+}
+
+.scrollBtn:hover {
+  color: var(--lp-sunset);
+}
+
+/* ── Day card ─── */
+
+.card {
+  position: relative;
+  flex-shrink: 0;
+  width: 68px;
+  border: 1.5px solid rgba(26, 20, 16, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 7px 6px 6px;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(26, 20, 16, 0.32);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.active {
+  background: var(--lp-teal);
+  border-color: var(--lp-teal);
+}
+
+.active:hover {
+  background: var(--lp-teal);
+  border-color: var(--lp-teal);
+}
+
+/* ── Dot & remove btn (share top-right corner) ─── */
+
+.dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--lp-sunset);
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.card:hover .dot {
+  opacity: 0;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: none;
+  color: var(--lp-stone);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+
+.card:hover .removeBtn {
+  opacity: 1;
+}
+
+.removeBtn:hover {
+  color: var(--lp-sunset);
+  background: rgba(232, 71, 28, 0.1);
+}
+
+.active .removeBtn {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.active:hover .removeBtn {
+  opacity: 1;
+}
+
+.active .removeBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Card text ─── */
+
+.dayLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--lp-stone);
+  text-transform: uppercase;
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+.active .dayLabel {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dayNum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--lp-ink);
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+.active .dayNum {
+  color: #fff;
+}
+
+.dateBtn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--lp-stone);
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1.4;
+  text-align: center;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.dateBtn:hover {
+  color: var(--lp-sunset);
+  text-decoration: underline;
+}
+
+.active .dateBtn {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.active .dateBtn:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Add card (inside track, last item) ─── */
+
+.addCard {
+  flex-shrink: 0;
+  width: 68px;
+  border: 1.5px dashed rgba(26, 20, 16, 0.28);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 6px 6px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.addCard:hover {
+  border-color: var(--lp-sunset);
+  background: rgba(232, 71, 28, 0.05);
+}
+
+.plus {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--lp-stone);
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.addCard:hover .plus {
+  color: var(--lp-sunset);
+}
