@@ -161,11 +161,35 @@ export const TripPlannerPage = () => {
       <div className={styles.body}>
         <aside className={styles.sidebar}>
           <div className={styles.sidebarTop}>
-            <h1 className={styles.tripName}>{trip.name}</h1>
-            <p className={styles.tripMeta}>
-              {dayCount} DAY{dayCount !== 1 ? 'S' : ''} · {placeCount} PLACE{placeCount !== 1 ? 'S' : ''}
-              {trip.budget != null ? ` · EST €${trip.budget}` : ''}
-            </p>
+            <div className={styles.breadcrumb}>
+              <span>My Trips</span>
+              <span className={styles.breadcrumbSep}>/</span>
+              <span className={styles.breadcrumbHere}>{trip.name}</span>
+            </div>
+            <h1 className={styles.tripName}>
+              {(() => {
+                const words = trip.name.split(' ')
+                const last = words[words.length - 1]
+                const rest = words.slice(0, -1).join(' ')
+                return <>{rest}{rest ? ' ' : ''}<em className={styles.tripNameAccent}>{last}.</em></>
+              })()}
+            </h1>
+            <div className={styles.tripMeta}>
+              <div className={styles.tripMetaSeg}>
+                <span className={styles.tripMetaLabel}>Days</span>
+                <span className={styles.tripMetaVal}>{dayCount}</span>
+              </div>
+              <div className={styles.tripMetaSeg}>
+                <span className={styles.tripMetaLabel}>Places</span>
+                <span className={styles.tripMetaVal}>{placeCount}</span>
+              </div>
+              {trip.budget != null && (
+                <div className={styles.tripMetaSeg}>
+                  <span className={styles.tripMetaLabel}>Budget</span>
+                  <span className={styles.tripMetaVal}>€{trip.budget}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           {dayDates.length > 0 && (

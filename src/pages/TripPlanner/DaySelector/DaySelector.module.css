@@ -1,195 +1,168 @@
 .root {
-  padding: 8px 20px;
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background: #EFE7D3;
+  z-index: 5;
 }
 
-/* ── Track wrapper with scroll arrows ─── */
+/* ── Track wrapper ─── */
 
 .trackWrapper {
   position: relative;
-  overflow: hidden;
+  padding: 16px 0 14px;
+}
+
+/* Fade edges */
+.trackWrapper::after {
+  content: '';
+  position: absolute; top: 16px; bottom: 14px; right: 0; width: 28px;
+  background: linear-gradient(to right, rgba(239,231,211,0), #EFE7D3);
+  pointer-events: none;
+}
+.trackWrapper::before {
+  content: '';
+  position: absolute; top: 16px; bottom: 14px; left: 0; width: 22px;
+  background: linear-gradient(to left, rgba(239,231,211,0), #EFE7D3);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .track {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  padding: 0 22px;
   overflow-x: scroll;
   scrollbar-width: none;
   cursor: grab;
   user-select: none;
 }
 
-.track::-webkit-scrollbar {
-  display: none;
-}
+.track::-webkit-scrollbar { display: none; }
+.track:active { cursor: grabbing; }
 
-.track:active {
-  cursor: grabbing;
-}
-
-/* ── Scroll arrows (gradient overlay) ─── */
+/* ── Scroll arrows — frosted circles ─── */
 
 .scrollBtn {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 40px;
-  border: none;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(42, 31, 18, 0.12);
+  background: rgba(247, 242, 232, 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #2A1F12;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  color: var(--lp-ink);
-  z-index: 2;
-  transition: color 0.15s;
+  z-index: 3;
   padding: 0;
+  box-shadow: 0 1px 4px rgba(42, 31, 18, 0.10);
+  transition: color 0.15s;
 }
 
-.scrollLeft {
-  left: 0;
-  background: linear-gradient(to right, rgba(245, 236, 224, 1) 55%, transparent);
-  justify-content: flex-start;
-  padding-left: 6px;
-}
+.scrollLeft { left: 6px; }
+.scrollRight { right: 6px; }
 
-.scrollRight {
-  right: 0;
-  background: linear-gradient(to left, rgba(245, 236, 224, 1) 55%, transparent);
-  justify-content: flex-end;
-  padding-right: 6px;
-}
+.scrollBtn:hover { color: #1A1208; }
+.scrollBtn:active { transform: translateY(-50%) scale(0.92); }
 
-.scrollBtn:hover {
-  color: var(--lp-sunset);
-}
-
-/* ── Day card ─── */
+/* ── Day chip ─── */
 
 .card {
   position: relative;
   flex-shrink: 0;
-  width: 68px;
-  border: 1.5px solid rgba(26, 20, 16, 0.16);
+  min-width: 52px;
+  border: 1px solid rgba(42, 31, 18, 0.20);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.55);
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1px;
-  padding: 7px 6px 6px;
+  gap: 2px;
+  padding: 6px 8px;
   cursor: pointer;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  line-height: 1;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .card:hover {
-  border-color: rgba(26, 20, 16, 0.32);
-  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(42, 31, 18, 0.5);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .active {
-  background: var(--lp-teal);
-  border-color: var(--lp-teal);
+  background: #1F3A36;
+  border: 1px solid #1F3A36;
 }
 
 .active:hover {
-  background: var(--lp-teal);
-  border-color: var(--lp-teal);
+  background: #1F3A36;
+  border-color: #1F3A36;
 }
 
-/* ── Dot & remove btn (share top-right corner) ─── */
+/* ── Dot & remove btn ─── */
 
 .dot {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 5px;
-  height: 5px;
+  top: 5px; right: 5px;
+  width: 4px; height: 4px;
   border-radius: 50%;
-  background: var(--lp-sunset);
-  transition: opacity 0.15s;
+  background: #E25A2C;
   pointer-events: none;
 }
 
 .removeBtn {
   position: absolute;
-  top: 3px;
-  right: 3px;
-  width: 18px;
-  height: 18px;
-  border: none;
-  background: none;
-  color: var(--lp-stone);
-  font-size: 15px;
-  line-height: 1;
+  top: 3px; right: 3px;
+  width: 18px; height: 18px;
+  border: none; background: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px; line-height: 1;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  padding: 0;
-  opacity: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; padding: 0; opacity: 0;
   transition: opacity 0.15s, color 0.15s, background 0.15s;
 }
 
-.card:hover .removeBtn {
-  opacity: 1;
-}
-
-.removeBtn:hover {
-  color: var(--lp-sunset);
-  background: rgba(232, 71, 28, 0.1);
-}
-
-.active .removeBtn {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.active:hover .removeBtn {
-  opacity: 1;
-}
-
-.active .removeBtn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.15);
-}
+.active:hover .removeBtn { opacity: 1; }
+.removeBtn:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
 
 /* ── Card text ─── */
 
 .dayLabel {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--lp-stone);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.20em;
+  color: #8B7355;
   text-transform: uppercase;
   line-height: 1;
-  transition: color 0.25s ease;
+  transition: color 0.2s;
 }
 
-.active .dayLabel {
-  color: rgba(255, 255, 255, 0.6);
-}
+.active .dayLabel { color: rgba(255, 255, 255, 0.65); }
 
 .dayNum {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--lp-ink);
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2A1F12;
   line-height: 1;
-  transition: color 0.25s ease;
+  transition: color 0.2s;
 }
 
-.active .dayNum {
-  color: #fff;
-}
+.active .dayNum { color: #fff; }
 
 .dateBtn {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--lp-stone);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #8B7355;
   text-transform: uppercase;
   background: none;
   border: none;
@@ -197,64 +170,55 @@
   cursor: pointer;
   line-height: 1.4;
   text-align: center;
-  transition: color 0.25s ease;
   white-space: nowrap;
+  transition: color 0.2s;
 }
 
-.dateBtn:hover {
-  color: var(--lp-sunset);
-  text-decoration: underline;
-}
+.dateBtn:hover { color: #E25A2C; text-decoration: underline; }
 
 .dateTxt {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--lp-stone);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #8B7355;
   text-transform: uppercase;
   line-height: 1.4;
   text-align: center;
   white-space: nowrap;
 }
 
-.active .dateBtn {
-  color: rgba(255, 255, 255, 0.6);
-}
+.active .dateBtn,
+.active .dateTxt { color: rgba(255, 255, 255, 0.65); }
+.active .dateBtn:hover { color: rgba(255, 255, 255, 0.9); text-decoration: underline; }
 
-.active .dateBtn:hover {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* ── Add card (inside track, last item) ─── */
+/* ── Add card ─── */
 
 .addCard {
   flex-shrink: 0;
-  width: 68px;
-  border: 1.5px dashed rgba(26, 20, 16, 0.28);
+  min-width: 40px;
+  align-self: stretch;
+  border: 1px dashed rgba(42, 31, 18, 0.30);
   border-radius: 8px;
   background: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 6px 6px;
-  transition: border-color 0.15s, background 0.15s;
+  padding: 6px 8px;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 
 .addCard:hover {
-  border-color: var(--lp-sunset);
-  background: rgba(232, 71, 28, 0.05);
+  border-color: #1F3A36;
+  background: rgba(31, 58, 54, 0.06);
 }
 
 .plus {
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--lp-stone);
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  color: #8B7355;
   transition: color 0.15s;
 }
 
-.addCard:hover .plus {
-  color: var(--lp-sunset);
-}
+.addCard:hover .plus { color: #1F3A36; }

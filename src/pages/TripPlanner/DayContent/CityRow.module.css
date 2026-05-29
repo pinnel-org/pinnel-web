@@ -1,39 +1,35 @@
 .row {
-  border-radius: 8px;
-  transition: opacity 0.15s;
+  padding: 0 22px;
 }
 
-.dragging {
-  opacity: 0.45;
+.row + .row {
+  border-top: 1px solid rgba(42, 31, 18, 0.08);
 }
 
-/* ── Header row ─── */
+/* ── Header ─── */
 
 .header {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 8px;
-  border-radius: 8px;
+  align-items: baseline;
+  gap: 8px;
+  padding: 16px 0 10px;
   cursor: pointer;
-  transition: background 0.15s;
   user-select: none;
-}
-
-.header:hover {
-  background: rgba(26, 20, 16, 0.04);
 }
 
 /* ── Drag handle ─── */
 
 .dragHandle {
   opacity: 0;
-  color: var(--lp-stone);
+  color: rgba(42, 31, 18, 0.3);
   cursor: grab;
-  display: flex;
-  align-items: center;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
-  padding: 2px;
+  align-self: center;
+  width: 16px;
+  height: 18px;
+  margin-left: -4px;
   transition: opacity 0.15s;
 }
 
@@ -42,121 +38,122 @@
   opacity: 1;
 }
 
-.dragHandle:active {
-  cursor: grabbing;
-}
+.dragHandle:active { cursor: grabbing; }
 
 /* ── Chevron ─── */
 
 .chevron {
-  font-size: 13px;
-  color: var(--lp-stone);
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  color: #8B7355;
   flex-shrink: 0;
-  line-height: 1;
+  align-self: center;
   transition: transform 0.2s ease, color 0.15s;
 }
 
 .chevronOpen {
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
 
-.header:hover .chevron {
-  color: var(--lp-ink);
-}
+.header:hover .chevron { color: #1A1208; }
 
 /* ── City name ─── */
 
 .cityName {
   font-family: 'Fraunces', serif;
-  font-size: 17px;
-  font-weight: 400;
-  color: var(--lp-ink);
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 500;
+  color: #1A1208;
   flex: 1;
-  line-height: 1.2;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 /* ── Places count ─── */
 
 .places {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--lp-stone);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: #8B7355;
+  text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
+  align-self: center;
 }
 
 /* ── Remove button ─── */
 
 .removeBtn {
   opacity: 0;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border: none;
   background: none;
-  color: var(--lp-stone);
-  font-size: 15px;
-  line-height: 1;
+  color: #8B7355;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
   padding: 0;
   flex-shrink: 0;
+  align-self: center;
   transition: opacity 0.15s, color 0.15s, background 0.15s;
 }
 
-.row:hover .removeBtn {
-  opacity: 1;
-}
-
-.removeBtn:hover {
-  color: var(--lp-sunset);
-  background: rgba(232, 71, 28, 0.1);
-}
+.row:hover .removeBtn { opacity: 1; }
+.removeBtn:hover { background: rgba(42, 31, 18, 0.08); color: #1A1208; }
 
 /* ── Expanded content ─── */
 
 .content {
-  margin: 0 8px 6px 28px;
+  padding-bottom: 14px;
 }
 
 .noPins {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(26, 20, 16, 0.1);
-  border-radius: 7px;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px dashed rgba(42, 31, 18, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .noPinsText {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-family: 'Fraunces', serif;
   font-style: italic;
-  color: var(--lp-stone);
+  font-size: 14px;
+  color: #8B7355;
 }
 
 .browseBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--lp-paper);
-  background: var(--lp-ink);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #1F3A36;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 7px;
+  padding: 7px 13px;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.15s;
 }
 
-.browseBtn:hover {
-  background: var(--lp-teal);
-}
+.browseBtn:hover { background: #16302c; }
+
+/* ── Dragging state ─── */
+
+.dragging { opacity: 0.45; }

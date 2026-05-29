@@ -2,10 +2,29 @@ import styles from './CityRow.module.css'
 import { DayCityEntry } from '../types'
 
 const DragHandleIcon = () => (
-  <svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor">
-    <circle cx="2" cy="2" r="1.2"/><circle cx="6" cy="2" r="1.2"/>
-    <circle cx="2" cy="6" r="1.2"/><circle cx="6" cy="6" r="1.2"/>
-    <circle cx="2" cy="10" r="1.2"/><circle cx="6" cy="10" r="1.2"/>
+  <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
+    <circle cx="5" cy="3.5" r="1.1"/><circle cx="11" cy="3.5" r="1.1"/>
+    <circle cx="5" cy="8" r="1.1"/><circle cx="11" cy="8" r="1.1"/>
+    <circle cx="5" cy="12.5" r="1.1"/><circle cx="11" cy="12.5" r="1.1"/>
+  </svg>
+)
+
+const ChevronIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+const SearchIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none" width="12" height="12">
+    <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+)
+
+const TrashIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none" width="13" height="13">
+    <path d="M3 4.5h10M6.5 4V3h3v1M5 4.5l.5 8.5h5l.5-8.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
 
@@ -32,16 +51,21 @@ export const CityRow = ({ entry, isDragging, onToggle, onRemove, onBrowse, onDra
           <DragHandleIcon />
         </span>
 
-        <span className={`${styles.chevron} ${entry.expanded ? styles.chevronOpen : ''}`}>›</span>
+        <span className={`${styles.chevron} ${entry.expanded ? styles.chevronOpen : ''}`}>
+          <ChevronIcon />
+        </span>
 
         <span className={styles.cityName}>{entry.cityName}</span>
 
-        <span className={styles.places}>· {count} PLACE{count !== 1 ? 'S' : ''}</span>
+        <span className={styles.places}>· {count} {count === 1 ? 'place' : 'places'}</span>
 
         <button
           className={styles.removeBtn}
           onClick={(e) => { e.stopPropagation(); onRemove() }}
-        >×</button>
+          title="Remove city"
+        >
+          <TrashIcon />
+        </button>
       </div>
 
       {entry.expanded && (
@@ -49,11 +73,8 @@ export const CityRow = ({ entry, isDragging, onToggle, onRemove, onBrowse, onDra
           <div className={styles.noPins}>
             <span className={styles.noPinsText}>No places yet.</span>
             <button className={styles.browseBtn} onClick={(e) => { e.stopPropagation(); onBrowse() }}>
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.6"/>
-                <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-              </svg>
-              BROWSE
+              <SearchIcon />
+              Browse
             </button>
           </div>
         </div>

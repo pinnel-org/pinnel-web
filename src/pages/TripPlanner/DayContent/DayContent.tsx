@@ -76,34 +76,33 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse }: DayC
       {cities.length === 0 ? (
         <div className={styles.empty}>
           <div className={styles.emptyIcon}>
-            <svg viewBox="0 0 24 24" fill="none" width="28" height="28">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.4"/>
-              <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
+            <svg viewBox="0 0 32 32" fill="none" width="28" height="28">
+              <path d="M16 4c4.4 0 8 3.4 8 7.6 0 5.6-8 16.4-8 16.4S8 17.2 8 11.6C8 7.4 11.6 4 16 4z" stroke="currentColor" strokeWidth="1.6"/>
+              <circle cx="16" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.6"/>
             </svg>
           </div>
           <p className={styles.emptyTitle}>No cities yet.</p>
           <p className={styles.emptyHint}>Add a city to start planning Day {dayNumber}.</p>
         </div>
       ) : (
-        <div className={styles.body}>
-          <div ref={listRef} className={styles.list}>
-            {cities.map((entry, idx) => (
-              <CityRow
-                key={entry.cityId}
-                entry={entry}
-                isDragging={draggingIdx === idx}
-                onToggle={() => toggle(entry.cityId)}
-                onRemove={() => setConfirmRemove(entry)}
-                onBrowse={() => onBrowse(entry.cityId)}
-                onDragHandleDown={() => startDrag(idx)}
-              />
-            ))}
-          </div>
+        <div ref={listRef} className={styles.list}>
+          {cities.map((entry, idx) => (
+            <CityRow
+              key={entry.cityId}
+              entry={entry}
+              isDragging={draggingIdx === idx}
+              onToggle={() => toggle(entry.cityId)}
+              onRemove={() => setConfirmRemove(entry)}
+              onBrowse={() => onBrowse(entry.cityId)}
+              onDragHandleDown={() => startDrag(idx)}
+            />
+          ))}
         </div>
       )}
 
       <button className={styles.addCityBtn} onClick={() => setShowSearch(true)}>
-        + ADD CITY
+        <svg viewBox="0 0 16 16" fill="none" width="12" height="12"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+        Add city
       </button>
 
       {showSearch && <CitySearch onSelect={handleAdd} onClose={() => setShowSearch(false)} />}

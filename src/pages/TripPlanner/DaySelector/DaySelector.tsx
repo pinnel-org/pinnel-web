@@ -125,7 +125,9 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
     <div ref={rootRef} className={styles.root}>
       <div className={styles.trackWrapper}>
         {canScrollLeft && (
-          <button className={`${styles.scrollBtn} ${styles.scrollLeft}`} onClick={() => scrollCarousel('left')}>‹</button>
+          <button className={`${styles.scrollBtn} ${styles.scrollLeft}`} onClick={() => scrollCarousel('left')}>
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
         )}
 
         <div
@@ -161,12 +163,16 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
           })}
 
           <button className={styles.addCard} onClick={() => openPicker({ mode: 'add' })}>
-            <span className={styles.plus}>+</span>
+            <span className={styles.plus}>
+              <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </span>
           </button>
         </div>
 
         {canScrollRight && (
-          <button className={`${styles.scrollBtn} ${styles.scrollRight}`} onClick={() => scrollCarousel('right')}>›</button>
+          <button className={`${styles.scrollBtn} ${styles.scrollRight}`} onClick={() => scrollCarousel('right')}>
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
         )}
       </div>
 
