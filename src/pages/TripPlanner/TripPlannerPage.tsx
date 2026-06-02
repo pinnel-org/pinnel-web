@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { useTrip, useCity, useAddPinToTrip } from '@/hooks/useUser'
+import { useTrip, useCity } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
@@ -52,8 +52,6 @@ export const TripPlannerPage = () => {
   const mapCityId = selectedCityId ?? firstCityId
   const { data: mapCity } = useCity(mapCityId)
   const { data: weather } = useWeather(mapCity?.latitude, mapCity?.longitude)
-
-  const addPinToTrip = useAddPinToTrip(tripId)
 
   // Restore saved days from backend — runs once when trip loads with saved days
   useEffect(() => {
@@ -136,12 +134,15 @@ export const TripPlannerPage = () => {
 
     const timer = setTimeout(async () => {
       setSaveStatus('saving')
+      const derivedPinIds = [...new Set(
+        Object.values(dayCities).flat().flatMap(c => c.addedPins.map(p => p.id))
+      )]
       try {
         await tripsApi.updateTrip(trip.id, {
           name: trip.name,
           budget: trip.budget ?? undefined,
           cityIds: trip.cityIds,
-          pinIds: trip.pinIds,
+          pinIds: derivedPinIds,
           days: buildDaysPayload(dayCities, dayDates),
         })
         setIsDirty(false)
@@ -157,19 +158,16 @@ export const TripPlannerPage = () => {
   }, [isDirty, dayCities, dayDates])
 
   const handleAddPin = (pin: Pin) => {
-    if (!trip) return
-    addPinToTrip.mutate({ trip, pinId: pin.id })
-    if (browseCityId != null) {
-      setDayCities(prev => ({
-        ...prev,
-        [activeDay]: (prev[activeDay] ?? []).map(c =>
-          c.cityId === browseCityId && !c.addedPins.some(p => p.id === pin.id)
-            ? { ...c, addedPins: [...c.addedPins, pin] }
-            : c
-        ),
-      }))
-      setIsDirty(true)
-    }
+    if (!trip || browseCityId == null) return
+    setDayCities(prev => ({
+      ...prev,
+      [activeDay]: (prev[activeDay] ?? []).map(c =>
+        c.cityId === browseCityId && !c.addedPins.some(p => p.id === pin.id)
+          ? { ...c, addedPins: [...c.addedPins, pin] }
+          : c
+      ),
+    }))
+    setIsDirty(true)
   }
 
   const handleDayAdd = (date: Date) => {
