@@ -133,6 +133,8 @@ export const TripPlannerPage = () => {
   const handleBrowse = (cityId: number, cityName: string) => {
     setBrowseCityId(cityId)
     setBrowseCityName(cityName)
+    setSelectedCityId(cityId)
+    setViewingPin(null)
     setView('browse')
   }
 
@@ -199,16 +201,22 @@ export const TripPlannerPage = () => {
               onDayAdd={handleDayAdd}
               onDayRemove={handleDayRemove}
               onDayEdit={handleDayEdit}
+              onOpenPicker={handleBrowseClose}
             />
           )}
 
           <DayContent
             dayNumber={activeDay}
             cities={dayCities[activeDay] ?? []}
-            onCitiesChange={(cities) => setDayCities(prev => ({ ...prev, [activeDay]: cities }))}
+            onCitiesChange={(cities) => {
+              setDayCities(prev => ({ ...prev, [activeDay]: cities }))
+              if (browseCityId != null && !cities.some(c => c.cityId === browseCityId)) {
+                handleBrowseClose()
+              }
+            }}
             onBrowse={handleBrowse}
             selectedCityId={selectedCityId}
-            onSelectCity={setSelectedCityId}
+            onSelectCity={(cityId) => { setSelectedCityId(cityId); setBrowseCityId(undefined); setViewingPin(null); setView('map') }}
           />
         </aside>
 

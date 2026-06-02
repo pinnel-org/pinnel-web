@@ -30,11 +30,12 @@ interface DaySelectorProps {
   onDayAdd: (date: Date) => void
   onDayRemove: (day: number) => void
   onDayEdit: (day: number, date: Date) => void
+  onOpenPicker?: () => void
 }
 
 type PickerMode = { mode: 'add' } | { mode: 'edit'; idx: number }
 
-export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemove, onDayEdit }: DaySelectorProps) => {
+export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemove, onDayEdit, onOpenPicker }: DaySelectorProps) => {
   const rootRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const drag = useRef({ on: false, x: 0, sl: 0 })
@@ -88,6 +89,7 @@ export const DaySelector = ({ days, activeDay, onDaySelect, onDayAdd, onDayRemov
   const select = (day: number) => { onDaySelect(day); scrollToCard(day - 1) }
 
   const openPicker = (mode: PickerMode) => {
+    onOpenPicker?.()
     const rect = rootRef.current?.getBoundingClientRect()
     if (rect) setPickerPos({ top: rect.top, left: rect.right + 8 })
     setPicker(mode)
