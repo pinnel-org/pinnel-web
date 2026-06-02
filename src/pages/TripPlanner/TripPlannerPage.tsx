@@ -83,7 +83,9 @@ export const TripPlannerPage = () => {
           cityId: c.cityId,
           cityName: cityNameMap[c.cityId] ?? String(c.cityId),
           expanded: true,
-          addedPins: (pinsMap[c.cityId] ?? []).filter(p => c.pinIds.includes(p.id)),
+          addedPins: c.pinIds
+              .map(id => (pinsMap[c.cityId] ?? []).find(p => p.id === id))
+              .filter((p): p is Pin => p != null),
         }))
       })
       setDayCities(restored)
