@@ -1,0 +1,200 @@
+.row {
+  padding: 0 22px;
+}
+
+.row + .row {
+  border-top: 1px solid rgba(42, 31, 18, 0.08);
+}
+
+/* ── Header ─── */
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 16px 0 10px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Drag handle ─── */
+
+.dragHandle {
+  opacity: 0;
+  color: rgba(42, 31, 18, 0.3);
+  cursor: grab;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  align-self: center;
+  width: 16px;
+  height: 18px;
+  margin-left: -4px;
+  transition: opacity 0.15s;
+}
+
+.row:hover .dragHandle,
+.dragging .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:active { cursor: grabbing; }
+
+/* ── Chevron ─── */
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  color: #8B7355;
+  flex-shrink: 0;
+  align-self: center;
+  transition: transform 0.2s ease, color 0.15s;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.header:hover .chevron { color: #1A1208; }
+
+/* ── City name ─── */
+
+.cityName {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 500;
+  color: #1A1208;
+  flex: 1;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.cityName:hover { color: #E25A2C; }
+
+/* ── Selected state ─── */
+
+.selected {
+  box-shadow: inset 3px 0 0 #E25A2C;
+  background: rgba(226, 90, 44, 0.04);
+}
+
+.selected .cityName { color: #E25A2C; }
+
+/* ── Places count ─── */
+
+.places {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: #8B7355;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── Remove button ─── */
+
+.removeBtn {
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: #8B7355;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  padding: 0;
+  flex-shrink: 0;
+  align-self: center;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+
+.row:hover .removeBtn { opacity: 1; }
+.removeBtn:hover { background: rgba(42, 31, 18, 0.08); color: #1A1208; }
+
+/* ── Expanded content ─── */
+
+.content {
+  padding: 0 0 14px 38px;
+}
+
+.noPins {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px dashed rgba(42, 31, 18, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.noPinsText {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #8B7355;
+}
+
+.browseBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #1F3A36;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.browseBtn:hover { background: #16302c; }
+
+/* ── Add more button ─── */
+
+.addMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8B7355;
+  background: none;
+  border: 1px dashed rgba(42, 31, 18, 0.25);
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.addMoreBtn:hover {
+  color: #1F3A36;
+  border-color: #1F3A36;
+  background: rgba(31, 58, 54, 0.06);
+}
+
+/* ── Dragging state ─── */
+
+.dragging { opacity: 0.45; }

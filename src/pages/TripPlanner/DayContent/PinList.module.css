@@ -1,0 +1,131 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 0 4px;
+}
+
+/* ── Pin item ─── */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(42, 31, 18, 0.12);
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.listDragging .item:not(.dragging) {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+.item:hover {
+  border-color: rgba(42, 31, 18, 0.22);
+  box-shadow: 0 2px 8px rgba(42, 31, 18, 0.06);
+}
+
+/* ── Number badge ─── */
+
+.num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #E25A2C;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+/* ── Text body ─── */
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A1208;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  color: #8B7355;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+/* ── Remove button ─── */
+
+.removeBtn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: #8B7355;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+
+.item:hover .removeBtn { opacity: 1; }
+.removeBtn:hover { color: #E25A2C; background: rgba(226, 90, 44, 0.08); }
+
+/* ── Drag handle ─── */
+
+.dragHandle {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  color: rgba(42, 31, 18, 0.25);
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.item:hover .dragHandle { opacity: 1; }
+.dragHandle:active { cursor: grabbing; }
+
+/* ── Dragging state ─── */
+
+.dragging {
+  opacity: 0.96;
+  transform: scale(1.03) rotate(0.6deg);
+  box-shadow: 0 12px 32px rgba(42, 31, 18, 0.16), 0 3px 10px rgba(42, 31, 18, 0.10);
+  border-color: rgba(42, 31, 18, 0.28);
+  background: #fff;
+  position: relative;
+  z-index: 10;
+  cursor: grabbing;
+}

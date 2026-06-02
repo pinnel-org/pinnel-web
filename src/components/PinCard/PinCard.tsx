@@ -7,9 +7,10 @@ interface PinCardProps {
   pin: Pin
   isAdded: boolean
   onAdd: (pin: Pin) => void
+  onView?: (pin: Pin) => void
 }
 
-export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
+export const PinCard = ({ pin, isAdded, onAdd, onView }: PinCardProps) => {
   const [flying, setFlying] = useState(false)
 
   const handleAdd = () => {
@@ -39,6 +40,13 @@ export const PinCard = ({ pin, isAdded, onAdd }: PinCardProps) => {
       </div>
 
       <div className={styles.footer}>
+        <button
+          className={styles.viewBtn}
+          onClick={() => onView?.(pin)}
+          aria-label={`View ${pin.name}`}
+        >
+          VIEW →
+        </button>
         <button
           className={isAdded ? styles.addedBtn : styles.addBtn}
           onClick={handleAdd}
