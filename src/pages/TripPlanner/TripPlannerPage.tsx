@@ -285,6 +285,18 @@ export const TripPlannerPage = () => {
     setActiveDay(newDayNum)
   }
 
+  const handlePinReorderComplete = async (pinId: number, newOrder: number) => {
+    const pinEntryId = pinEntryIdsRef.current[pinId]
+    if (!pinEntryId) return
+    setSaveStatus('saving')
+    try {
+      await tripDetailPinsApi.reorder(pinEntryId, newOrder)
+      showSaved()
+    } catch {
+      setSaveStatus('idle')
+    }
+  }
+
   const handleCityReorderComplete = async (cityId: number, newOrder: number) => {
     const dateStr = getDateStr(activeDay)
     if (!dateStr) return
@@ -381,6 +393,7 @@ export const TripPlannerPage = () => {
             onBrowse={handleBrowse}
             selectedCityId={selectedCityId}
             onCityReorderComplete={handleCityReorderComplete}
+            onPinReorderComplete={handlePinReorderComplete}
             onSelectCity={(cityId) => {
               setSelectedCityId(cityId)
               setBrowseCityId(undefined)

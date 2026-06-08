@@ -14,9 +14,10 @@ interface DayContentProps {
   selectedCityId?: number
   onSelectCity: (cityId: number) => void
   onCityReorderComplete?: (cityId: number, newOrder: number) => void
+  onPinReorderComplete?: (pinId: number, newOrder: number) => void
 }
 
-export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity, onCityReorderComplete }: DayContentProps) => {
+export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity, onCityReorderComplete, onPinReorderComplete }: DayContentProps) => {
   const [showSearch, setShowSearch] = useState(false)
   const [confirmRemove, setConfirmRemove] = useState<DayCityEntry | null>(null)
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
@@ -110,6 +111,7 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, select
               onPinsChange={(pins) => onCitiesChange(
                 cities.map(c => c.cityId === entry.cityId ? { ...c, addedPins: pins } : c)
               )}
+              onPinReorderComplete={onPinReorderComplete}
             />
           ))}
         </div>

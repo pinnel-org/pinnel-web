@@ -10,6 +10,10 @@ export const tripDetailPinsApi = {
   add: (detailId: number, data: { pinId: number; pinOrder?: number; visitTime?: string; budget?: number }) =>
     apiClient.post<TripDetailPin>(`/trip-details/${detailId}/pins`, data).then((r) => r.data),
 
+  /** PUT /api/trip-detail-pins/{id}/pin-order/{order} */
+  reorder: (pinEntryId: number, order: number) =>
+    apiClient.put<TripDetailPin>(`/trip-detail-pins/${pinEntryId}/pin-order/${order}`).then((r) => r.data),
+
   /** DELETE /api/trip-detail-pins/{id} */
   delete: (pinEntryId: number) =>
     apiClient.delete(`/trip-detail-pins/${pinEntryId}`),
