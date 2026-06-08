@@ -26,7 +26,7 @@ apiClient.interceptors.response.use(
       const url: string = error.config?.url ?? ''
       if (/\/trips\/1$/.test(url)) {
         return Promise.resolve({
-          data: { id: 1, name: 'Milan Weekend', budget: 150, userId: 1, cityIds: [1], pinIds: [], createdAt: '2026-05-24T00:00:00Z', updatedAt: '2026-05-24T00:00:00Z' },
+          data: { id: 1, name: 'Milan Weekend', budget: 150, userId: 1, coverImageUrl: null, createdAt: '2026-05-24T00:00:00Z', updatedAt: '2026-05-24T00:00:00Z' },
           status: 200, statusText: 'OK', headers: {}, config: error.config,
         })
       }

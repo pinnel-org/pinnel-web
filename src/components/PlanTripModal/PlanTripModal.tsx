@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { citiesApi } from '@/api/cities'
+import { tripDetailsApi } from '@/api/tripDetails'
 import { useCreateTrip } from '@/hooks/useUser'
 import { CityDto } from '@/types'
 import styles from './PlanTripModal.module.css'
@@ -140,9 +141,16 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!canSubmit) return
+    const today = new Date().toISOString().split('T')[0]
     createTrip(
-      { name: tripName.trim(), cityIds: [selectedCity!.id], pinIds: [] },
-      { onSuccess: (trip) => navigate(`/trip/${trip.id}`) },
+      { name: tripName.trim() },
+      {
+        onSuccess: (trip) => {
+          tripDetailsApi
+            .create(trip.id, { visitDate: today, cityId: selectedCity!.id })
+            .finally(() => navigate(`/trip/${trip.id}`))
+        },
+      },
     )
   }
 

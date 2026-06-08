@@ -21,8 +21,8 @@ interface Props {
 export const ProfileTripCard = ({ trip, index }: Props) => {
   const navigate = useNavigate()
   const gradient = GRADIENTS[index % GRADIENTS.length]
-  const pinCount = trip.pinIds?.length ?? 0
-  const cityCount = trip.cityIds?.length ?? 0
+  const pinCount = 0
+  const cityCount = 0
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)

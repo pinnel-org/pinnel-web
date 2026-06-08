@@ -52,8 +52,8 @@ export const ProfileSidebar = ({ user, trips }: ProfileSidebarProps) => {
   const [firstName, lastName] = splitName(user.displayName, user.username ?? user.email ?? '')
   const { url: avatarUrl } = useAvatar()
 
-  const pinsCount = trips.reduce((sum, t) => sum + (t.pinIds?.length ?? 0), 0)
-  const citiesCount = new Set(trips.flatMap((t) => t.cityIds ?? [])).size
+  const pinsCount = 0
+  const citiesCount = 0
 
   return (
     <aside className={styles.sidebar}>

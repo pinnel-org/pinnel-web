@@ -59,20 +59,3 @@ export const useCity = (id: number | undefined) =>
     enabled: !!id,
   })
 
-export const useAddPinToTrip = (tripId: number) => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ trip, pinId }: { trip: TripSummary; pinId: number }) =>
-      tripsApi.addPin(trip, pinId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['trip', tripId] }),
-  })
-}
-
-export const useRemovePinFromTrip = (tripId: number) => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({ trip, pinId }: { trip: TripSummary; pinId: number }) =>
-      tripsApi.removePin(trip, pinId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['trip', tripId] }),
-  })
-}
