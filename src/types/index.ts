@@ -91,9 +91,30 @@ export interface TripSummary {
   cityIds: number[]
   pinIds: number[]
   coverImageUrl: string | null
-  days: TripDayDto[]
+  days?: TripDayDto[]  // deprecated — backend no longer returns this; will be removed in #155
   createdAt: string
   updatedAt: string
+}
+
+// Matches backend TripDetailDto
+export interface TripDetail {
+  id: number
+  tripId: number
+  userId: number
+  visitDate: string   // "YYYY-MM-DD"
+  cityId: number
+  cityOrder: number
+}
+
+// Matches backend TripDetailPinDto
+export interface TripDetailPin {
+  id: number
+  tripDetailId: number
+  userId: number
+  pinId: number
+  pinOrder: number
+  visitTime: string | null  // "HH:mm"
+  budget: number | null
 }
 
 export interface CreateTripDto {
