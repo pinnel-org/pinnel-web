@@ -128,6 +128,13 @@ export const TripPlannerPage = () => {
     init()
   }, [trip?.id])
 
+  // Close browse panel and pin detail when switching days
+  useEffect(() => {
+    setBrowseCityId(undefined)
+    setViewingPin(null)
+    setView('map')
+  }, [activeDay])
+
   // Auto-select city when active day changes
   useEffect(() => {
     const cities = dayCities[activeDay] ?? []
