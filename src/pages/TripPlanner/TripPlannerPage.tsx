@@ -138,8 +138,14 @@ export const TripPlannerPage = () => {
     })
   }, [activeDay, dayCities])
 
-  const getDateStr = (day: number) =>
-    dayDates[day - 1]?.toISOString().split('T')[0]
+  const getDateStr = (day: number) => {
+    const d = dayDates[day - 1]
+    if (!d) return undefined
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    return `${y}-${m}-${dd}`
+  }
 
   // Handles city add/remove and pin remove — diffs old vs new to trigger the right API calls
   const handleCitiesChange = async (newCities: DayCityEntry[]) => {
