@@ -13,9 +13,10 @@ interface DayContentProps {
   onBrowse: (cityId: number, cityName: string) => void
   selectedCityId?: number
   onSelectCity: (cityId: number) => void
+  onCityReorderComplete?: (cityId: number, newOrder: number) => void
 }
 
-export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity }: DayContentProps) => {
+export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity, onCityReorderComplete }: DayContentProps) => {
   const [showSearch, setShowSearch] = useState(false)
   const [confirmRemove, setConfirmRemove] = useState<DayCityEntry | null>(null)
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
@@ -23,6 +24,8 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, select
   const citiesRef = useRef(cities)
   citiesRef.current = cities
   const dragRef = useRef<{ fromIdx: number } | null>(null)
+  const onCityReorderCompleteRef = useRef(onCityReorderComplete)
+  onCityReorderCompleteRef.current = onCityReorderComplete
 
   const handleAdd = (city: CityDto) => {
     if (!cities.find(c => c.cityId === city.id)) {
@@ -60,10 +63,15 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, select
   }, [onCitiesChange])
 
   const onDocMouseUp = useCallback(() => {
+    const finalIdx = dragRef.current?.fromIdx ?? null
     dragRef.current = null
     setDraggingIdx(null)
     document.removeEventListener('mousemove', onDocMouseMove)
     document.removeEventListener('mouseup', onDocMouseUp)
+    if (finalIdx != null) {
+      const movedCity = citiesRef.current[finalIdx]
+      if (movedCity) onCityReorderCompleteRef.current?.(movedCity.cityId, finalIdx)
+    }
   }, [onDocMouseMove])
 
   const startDrag = useCallback((idx: number) => {

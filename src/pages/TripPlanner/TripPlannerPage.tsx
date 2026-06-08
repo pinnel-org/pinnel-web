@@ -285,6 +285,20 @@ export const TripPlannerPage = () => {
     setActiveDay(newDayNum)
   }
 
+  const handleCityReorderComplete = async (cityId: number, newOrder: number) => {
+    const dateStr = getDateStr(activeDay)
+    if (!dateStr) return
+    const detailId = detailIdsRef.current[`${dateStr}-${cityId}`]
+    if (!detailId) return
+    setSaveStatus('saving')
+    try {
+      await tripDetailsApi.reorder(detailId, newOrder)
+      showSaved()
+    } catch {
+      setSaveStatus('idle')
+    }
+  }
+
   const handleBrowse = (cityId: number, cityName: string) => {
     setBrowseCityId(cityId)
     setBrowseCityName(cityName)
@@ -366,6 +380,7 @@ export const TripPlannerPage = () => {
             onCitiesChange={handleCitiesChange}
             onBrowse={handleBrowse}
             selectedCityId={selectedCityId}
+            onCityReorderComplete={handleCityReorderComplete}
             onSelectCity={(cityId) => {
               setSelectedCityId(cityId)
               setBrowseCityId(undefined)
