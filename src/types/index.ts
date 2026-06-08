@@ -106,6 +106,7 @@ export interface TripDetailPin {
 
 export interface CreateTripDto {
   name: string
+  cityIds: number[]
   budget?: number | null
 }
 

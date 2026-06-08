@@ -20,14 +20,17 @@ interface PinListProps {
   pins: Pin[]
   onReorder: (pins: Pin[]) => void
   onRemove: (pinId: number) => void
+  onPinReorderComplete?: (pinId: number, newOrder: number) => void
 }
 
-export const PinList = ({ pins, onReorder, onRemove }: PinListProps) => {
+export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete }: PinListProps) => {
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
   const listRef = useRef<HTMLDivElement>(null)
   const pinsRef = useRef(pins)
   pinsRef.current = pins
   const dragRef = useRef<{ fromIdx: number } | null>(null)
+  const onPinReorderCompleteRef = useRef(onPinReorderComplete)
+  onPinReorderCompleteRef.current = onPinReorderComplete
 
   const onDocMouseMove = useCallback((e: MouseEvent) => {
     if (!dragRef.current || !listRef.current) return
@@ -49,10 +52,15 @@ export const PinList = ({ pins, onReorder, onRemove }: PinListProps) => {
   }, [onReorder])
 
   const onDocMouseUp = useCallback(() => {
+    const finalIdx = dragRef.current?.fromIdx ?? null
     dragRef.current = null
     setDraggingIdx(null)
     document.removeEventListener('mousemove', onDocMouseMove)
     document.removeEventListener('mouseup', onDocMouseUp)
+    if (finalIdx != null) {
+      const movedPin = pinsRef.current[finalIdx]
+      if (movedPin) onPinReorderCompleteRef.current?.(movedPin.id, finalIdx)
+    }
   }, [onDocMouseMove])
 
   const startDrag = useCallback((idx: number) => {

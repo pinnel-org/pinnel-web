@@ -141,9 +141,10 @@ export const PlanTripModal = ({ isOpen, onClose }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!canSubmit) return
-    const today = new Date().toISOString().split('T')[0]
+    const now = new Date()
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
     createTrip(
-      { name: tripName.trim() },
+      { name: tripName.trim(), cityIds: [selectedCity!.id] },
       {
         onSuccess: (trip) => {
           tripDetailsApi

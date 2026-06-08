@@ -128,6 +128,13 @@ export const TripPlannerPage = () => {
     init()
   }, [trip?.id])
 
+  // Close browse panel and pin detail when switching days
+  useEffect(() => {
+    setBrowseCityId(undefined)
+    setViewingPin(null)
+    setView('map')
+  }, [activeDay])
+
   // Auto-select city when active day changes
   useEffect(() => {
     const cities = dayCities[activeDay] ?? []
@@ -138,8 +145,14 @@ export const TripPlannerPage = () => {
     })
   }, [activeDay, dayCities])
 
-  const getDateStr = (day: number) =>
-    dayDates[day - 1]?.toISOString().split('T')[0]
+  const getDateStr = (day: number) => {
+    const d = dayDates[day - 1]
+    if (!d) return undefined
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    return `${y}-${m}-${dd}`
+  }
 
   // Handles city add/remove and pin remove — diffs old vs new to trigger the right API calls
   const handleCitiesChange = async (newCities: DayCityEntry[]) => {
@@ -279,6 +292,32 @@ export const TripPlannerPage = () => {
     setActiveDay(newDayNum)
   }
 
+  const handlePinReorderComplete = async (pinId: number, newOrder: number) => {
+    const pinEntryId = pinEntryIdsRef.current[pinId]
+    if (!pinEntryId) return
+    setSaveStatus('saving')
+    try {
+      await tripDetailPinsApi.reorder(pinEntryId, newOrder)
+      showSaved()
+    } catch {
+      setSaveStatus('idle')
+    }
+  }
+
+  const handleCityReorderComplete = async (cityId: number, newOrder: number) => {
+    const dateStr = getDateStr(activeDay)
+    if (!dateStr) return
+    const detailId = detailIdsRef.current[`${dateStr}-${cityId}`]
+    if (!detailId) return
+    setSaveStatus('saving')
+    try {
+      await tripDetailsApi.reorder(detailId, newOrder)
+      showSaved()
+    } catch {
+      setSaveStatus('idle')
+    }
+  }
+
   const handleBrowse = (cityId: number, cityName: string) => {
     setBrowseCityId(cityId)
     setBrowseCityName(cityName)
@@ -360,6 +399,8 @@ export const TripPlannerPage = () => {
             onCitiesChange={handleCitiesChange}
             onBrowse={handleBrowse}
             selectedCityId={selectedCityId}
+            onCityReorderComplete={handleCityReorderComplete}
+            onPinReorderComplete={handlePinReorderComplete}
             onSelectCity={(cityId) => {
               setSelectedCityId(cityId)
               setBrowseCityId(undefined)
