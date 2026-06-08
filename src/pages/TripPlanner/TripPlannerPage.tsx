@@ -35,12 +35,14 @@ export const TripPlannerPage = () => {
   const [viewingPin, setViewingPin] = useState<Pin | null>(null)
   const [selectedCityId, setSelectedCityId] = useState<number | undefined>()
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+  const [initDone, setInitDone] = useState(false)
 
   // "dateStr-cityId" → TripDetail.id
   const detailIdsRef = useRef<Record<string, number>>({})
   // Pin.id → TripDetailPin.id
   const pinEntryIdsRef = useRef<Record<number, number>>({})
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const initialCityCreatedRef = useRef(false)
 
   const mapCityId = selectedCityId ?? firstCityId
   const { data: mapCity } = useCity(mapCityId)
@@ -131,6 +133,8 @@ export const TripPlannerPage = () => {
           })
         )
       }
+
+      setInitDone(true)
     }
 
     init()
@@ -138,13 +142,26 @@ export const TripPlannerPage = () => {
 
   // Auto-populate Day 1 with first city for new/empty trips
   useEffect(() => {
+    if (!initDone) return
     if (!firstCityId || !mapCity || mapCity.id !== firstCityId) return
+    if (dayDates.length === 0) return
     if (Object.keys(detailIdsRef.current).length > 0) return
+    if (initialCityCreatedRef.current) return
+
+    const dateStr = dayDates[0].toISOString().split('T')[0]
+    initialCityCreatedRef.current = true
+
     setDayCities(prev => {
       if ((prev[1] ?? []).length > 0) return prev
       return { ...prev, 1: [{ cityId: mapCity.id, cityName: mapCity.name, expanded: true, addedPins: [] }] }
     })
-  }, [firstCityId, mapCity?.id])
+
+    tripDetailsApi.create(tripId, { visitDate: dateStr, cityId: firstCityId })
+      .then(detail => {
+        detailIdsRef.current[`${dateStr}-${firstCityId}`] = detail.id
+      })
+      .catch(() => { /* local state already updated */ })
+  }, [initDone, firstCityId, mapCity?.id, dayDates.length])
 
   // Auto-select city when active day changes
   useEffect(() => {
