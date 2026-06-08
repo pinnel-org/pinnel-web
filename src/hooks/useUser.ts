@@ -49,6 +49,7 @@ export const useTrip = (id: number) =>
     queryKey: ['trip', id],
     queryFn: () => apiClient.get<TripSummary>(`/trips/${id}`).then((r) => r.data),
     enabled: !!id,
+    gcTime: 0,
   })
 
 export const useCity = (id: number | undefined) =>

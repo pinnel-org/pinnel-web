@@ -8,6 +8,7 @@ const buildUpdatePayload = (trip: TripSummary, pinIds: number[]): CreateTripDto 
   budget: trip.budget ?? undefined,
   cityIds: trip.cityIds,
   pinIds,
+  days: trip.days,
 })
 
 export const tripsApi = {

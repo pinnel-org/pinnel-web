@@ -72,6 +72,16 @@ export interface Pin {
   updatedAt: string
 }
 
+export interface TripDayCityDto {
+  cityId: number
+  pinIds: number[]
+}
+
+export interface TripDayDto {
+  visitDate: string  // "YYYY-MM-DD"
+  cities: TripDayCityDto[]
+}
+
 // Matches backend TripDto — used for user's own trip list (GET /api/trips)
 export interface TripSummary {
   id: number
@@ -81,6 +91,7 @@ export interface TripSummary {
   cityIds: number[]
   pinIds: number[]
   coverImageUrl: string | null
+  days: TripDayDto[]
   createdAt: string
   updatedAt: string
 }
@@ -90,6 +101,7 @@ export interface CreateTripDto {
   budget?: number | null
   cityIds?: number[]
   pinIds?: number[]
+  days?: TripDayDto[]
 }
 
 export interface CreatePlaceDto {
