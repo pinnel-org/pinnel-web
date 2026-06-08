@@ -2,9 +2,9 @@ import { apiClient } from './client'
 import { TripDetail } from '@/types'
 
 export const tripDetailsApi = {
-  /** GET /api/trips/{tripId}/trip-details — all details when no date, or filtered by date */
+  /** GET /api/trips/{tripId}/trip-details/all — all details ordered by visitDate then cityOrder */
   listAll: (tripId: number) =>
-    apiClient.get<TripDetail[]>(`/trips/${tripId}/trip-details`).then((r) => r.data),
+    apiClient.get<TripDetail[]>(`/trips/${tripId}/trip-details/all`).then((r) => r.data),
 
   /** GET /api/trips/{tripId}/trip-details?date=YYYY-MM-DD */
   listByDate: (tripId: number, date: string) =>
