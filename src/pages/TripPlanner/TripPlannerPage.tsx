@@ -9,7 +9,7 @@ import { ProfileNav } from '@/pages/Profile/ProfileNav'
 import { DaySelector } from './DaySelector/DaySelector'
 import { DayContent } from './DayContent/DayContent'
 import { DayCityEntry } from './types'
-import { Pin, CityDto, TripDayDto } from '@/types'
+import { Pin, CityDto, TripDayDto, TripDayCityDto } from '@/types'
 import { apiClient } from '@/api/client'
 import { pinsApi } from '@/api/pins'
 import { tripsApi } from '@/api/trips'
@@ -59,7 +59,8 @@ export const TripPlannerPage = () => {
     if (dayDates.length > 0) return // already initialized
 
     const restore = async () => {
-      const allCityIds = [...new Set(trip.days.flatMap(d => d.cities.map(c => c.cityId)))]
+      const savedDays = trip.days ?? []
+      const allCityIds = [...new Set(savedDays.flatMap(d => d.cities.map(c => c.cityId)))]
 
       const [cities, pinsByCityId] = await Promise.all([
         Promise.all(allCityIds.map(cid =>
@@ -73,18 +74,18 @@ export const TripPlannerPage = () => {
       const cityNameMap = Object.fromEntries(cities.map(c => [c.id, c.name]))
       const pinsMap = Object.fromEntries(pinsByCityId) as Record<number, Pin[]>
 
-      const sortedDays = [...trip.days].sort((a, b) => a.visitDate.localeCompare(b.visitDate))
+      const sortedDays = [...savedDays].sort((a, b) => a.visitDate.localeCompare(b.visitDate))
 
       setDayDates(sortedDays.map(d => new Date(d.visitDate)))
 
       const restored: Record<number, DayCityEntry[]> = {}
       sortedDays.forEach((day, i) => {
-        restored[i + 1] = day.cities.map(c => ({
+        restored[i + 1] = day.cities.map((c: TripDayCityDto) => ({
           cityId: c.cityId,
           cityName: cityNameMap[c.cityId] ?? String(c.cityId),
           expanded: true,
           addedPins: c.pinIds
-              .map(id => (pinsMap[c.cityId] ?? []).find(p => p.id === id))
+              .map((id: number) => (pinsMap[c.cityId] ?? []).find((p: Pin) => p.id === id))
               .filter((p): p is Pin => p != null),
         }))
       })
