@@ -1,0 +1,111 @@
+/* ── Vertical reel ─── */
+
+.reel {
+  position: relative;
+  width: 100%;
+}
+
+.track {
+  height: 440px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  border-radius: 12px;
+  background: #1A1208;
+}
+
+.track::-webkit-scrollbar { width: 0; }
+
+.slide {
+  height: 440px;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* 9:16 vertical media, capped to the slide height */
+.player,
+.poster {
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  border: none;
+  border-radius: 12px;
+  display: block;
+}
+
+.poster {
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.playGlyph {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  backdrop-filter: blur(2px);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.poster:hover .playGlyph {
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* ── Counter ─── */
+
+.counter {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* ── Loading / empty / error ─── */
+
+.skeleton {
+  height: 440px;
+  border-radius: 12px;
+  background: linear-gradient(
+    100deg,
+    rgba(42, 31, 18, 0.05) 30%,
+    rgba(42, 31, 18, 0.10) 50%,
+    rgba(42, 31, 18, 0.05) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.empty {
+  height: 440px;
+  border-radius: 12px;
+  background: rgba(42, 31, 18, 0.05);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0 24px;
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 13px;
+  color: #8B7355;
+}

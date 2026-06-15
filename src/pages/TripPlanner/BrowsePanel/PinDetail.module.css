@@ -119,7 +119,15 @@
   font-size: 14px;
   color: #5a4a36;
   line-height: 1.65;
-  margin: 0 0 20px;
+  margin: 0;
+}
+
+.descriptionEmpty {
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 13px;
+  color: #8B7355;
+  font-style: italic;
+  margin: 0;
 }
 
 /* ── Coordinates ─── */
@@ -180,25 +188,30 @@
   cursor: default;
 }
 
-/* ── Coming soon placeholder ─── */
+/* ── Shorts + Info row ─── */
 
-.comingSoon {
+.lowerRow {
+  display: flex;
+  gap: 28px;
   border-top: 1px solid rgba(42, 31, 18, 0.10);
-  padding-top: 20px;
+  padding-top: 24px;
 }
 
-.comingSoonLabel {
+.shortsCol {
+  flex: 1.6;
+  min-width: 0;
+}
+
+.infoCol {
+  flex: 1;
+  min-width: 0;
+}
+
+.sectionLabel {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.22em;
-  color: rgba(42, 31, 18, 0.28);
-  margin: 0 0 12px;
-}
-
-.placeholder {
-  height: 80px;
-  background: rgba(42, 31, 18, 0.05);
-  border-radius: 8px;
-  margin-bottom: 10px;
+  color: #8B7355;
+  margin: 0 0 14px;
 }

@@ -1,5 +1,6 @@
 import { ImageIcon } from 'lucide-react'
 import { Pin } from '@/types'
+import { ShortsReel } from '@/components/ShortsReel/ShortsReel'
 import styles from './PinDetail.module.css'
 
 interface PinDetailProps {
@@ -31,10 +32,6 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onClose }: PinDetailP
 
           <h2 className={styles.name}>{pin.name}</h2>
 
-          {pin.description && (
-            <p className={styles.description}>{pin.description}</p>
-          )}
-
           <div className={styles.coords}>
             <svg viewBox="0 0 16 16" fill="none" width="12" height="12" className={styles.coordsIcon}>
               <path d="M8 2c2.2 0 4 1.7 4 3.8C12 8.6 8 14 8 14S4 8.6 4 5.8C4 3.7 5.8 2 8 2z" stroke="currentColor" strokeWidth="1.3"/>
@@ -61,10 +58,20 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onClose }: PinDetailP
             )}
           </div>
 
-          <div className={styles.comingSoon}>
-            <p className={styles.comingSoonLabel}>COMING SOON</p>
-            <div className={styles.placeholder} />
-            <div className={styles.placeholder} />
+          <div className={styles.lowerRow}>
+            <section className={styles.shortsCol}>
+              <p className={styles.sectionLabel}>SHORTS</p>
+              <ShortsReel pinId={pin.id} />
+            </section>
+
+            <section className={styles.infoCol}>
+              <p className={styles.sectionLabel}>INFO</p>
+              {pin.description ? (
+                <p className={styles.description}>{pin.description}</p>
+              ) : (
+                <p className={styles.descriptionEmpty}>No description yet.</p>
+              )}
+            </section>
           </div>
         </div>
       </div>
