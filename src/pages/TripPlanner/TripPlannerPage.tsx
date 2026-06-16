@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTrip, useCity } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
+import { TripMap } from '@/components/TripMap/TripMap'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
 import { PinDetail } from './BrowsePanel/PinDetail'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
@@ -350,9 +351,8 @@ export const TripPlannerPage = () => {
   const browseCityAddedPinIds = browseCityId != null
     ? ((dayCities[activeDay] ?? []).find(c => c.cityId === browseCityId)?.addedPins ?? []).map(p => p.id)
     : []
-  const mapSrc = mapCity
-    ? `https://maps.google.com/maps?ll=${mapCity.latitude},${mapCity.longitude}&output=embed&hl=en&z=13`
-    : 'https://maps.google.com/maps?ll=48.8,10.0&output=embed&hl=en&z=5'
+  const selectedCityEntry = (dayCities[activeDay] ?? []).find(c => c.cityId === selectedCityId)
+  const mapPins = selectedCityEntry?.addedPins ?? []
 
   return (
     <div className={styles.wrapper}>
@@ -414,14 +414,13 @@ export const TripPlannerPage = () => {
           {weather && weather.length > 0 && (
             <WeatherStrip days={weather} />
           )}
-          <iframe
-            className={styles.mapFrame}
-            src={mapSrc}
-            title="Map"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <div className={styles.mapContainer}>
+            <TripMap
+              pins={mapPins}
+              centerLat={mapCity?.latitude}
+              centerLng={mapCity?.longitude}
+            />
+          </div>
           {view === 'browse' && activeBrowseCityId && (
             <BrowsePanel
               cityId={activeBrowseCityId}
