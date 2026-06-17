@@ -23,7 +23,11 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onRemove, onClose }: 
 
       <div className={styles.scroll}>
         <div className={styles.imagePlaceholder}>
-          <ImageIcon size={36} strokeWidth={1.1} className={styles.imageIcon} />
+          {pin.logoUrlBig ? (
+            <img src={pin.logoUrlBig} alt={pin.name} className={styles.image} />
+          ) : (
+            <ImageIcon size={36} strokeWidth={1.1} className={styles.imageIcon} />
+          )}
         </div>
 
         <div className={styles.body}>
