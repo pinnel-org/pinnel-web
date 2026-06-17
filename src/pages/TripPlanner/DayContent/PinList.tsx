@@ -33,8 +33,10 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
   const dragRef = useRef<{ fromIdx: number } | null>(null)
   const onPinReorderCompleteRef = useRef(onPinReorderComplete)
   onPinReorderCompleteRef.current = onPinReorderComplete
+  const didDragRef = useRef(false)
 
   const onDocMouseMove = useCallback((e: MouseEvent) => {
+    didDragRef.current = true
     if (!dragRef.current || !listRef.current) return
     const rows = Array.from(listRef.current.children) as HTMLElement[]
     let toIdx = rows.length - 1
@@ -63,6 +65,7 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
       const movedPin = pinsRef.current[finalIdx]
       if (movedPin) onPinReorderCompleteRef.current?.(movedPin.id, finalIdx)
     }
+    setTimeout(() => { didDragRef.current = false }, 0)
   }, [onDocMouseMove])
 
   const startDrag = useCallback((idx: number) => {
@@ -78,7 +81,7 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
         <div
           key={pin.id}
           className={`${styles.item} ${draggingIdx === idx ? styles.dragging : ''}`}
-          onClick={() => onViewPin?.(pin)}
+          onClick={() => { if (!didDragRef.current) onViewPin?.(pin) }}
         >
           <span
             className={styles.num}
@@ -103,6 +106,7 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
           <span
             className={styles.dragHandle}
             onMouseDown={(e) => { e.stopPropagation(); startDrag(idx) }}
+            onClick={(e) => e.stopPropagation()}
           >
             <DragDots />
           </span>
