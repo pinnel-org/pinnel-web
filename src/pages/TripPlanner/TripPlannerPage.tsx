@@ -241,6 +241,31 @@ export const TripPlannerPage = () => {
     }
   }
 
+  const handleRemovePin = async (pin: Pin) => {
+    if (browseCityId == null) return
+
+    setDayCities(prev => ({
+      ...prev,
+      [activeDay]: (prev[activeDay] ?? []).map(c =>
+        c.cityId === browseCityId
+          ? { ...c, addedPins: c.addedPins.filter(p => p.id !== pin.id) }
+          : c
+      ),
+    }))
+
+    const pinEntryId = pinEntryIdsRef.current[pin.id]
+    if (pinEntryId) {
+      setSaveStatus('saving')
+      try {
+        await tripDetailPinsApi.delete(pinEntryId)
+        delete pinEntryIdsRef.current[pin.id]
+        showSaved()
+      } catch {
+        setSaveStatus('idle')
+      }
+    }
+  }
+
   const handleDayAdd = (date: Date) => {
     const sorted = [...dayDates, date].sort((a, b) => a.getTime() - b.getTime())
     const newDayNum = sorted.findIndex(d => d.getTime() === date.getTime()) + 1
@@ -427,6 +452,7 @@ export const TripPlannerPage = () => {
               cityName={browseCityName}
               addedPinIds={browseCityAddedPinIds}
               onAdd={handleAddPin}
+              onRemove={handleRemovePin}
               onClose={handleBrowseClose}
               onViewPin={setViewingPin}
             />

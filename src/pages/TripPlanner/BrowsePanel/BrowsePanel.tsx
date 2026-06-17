@@ -9,11 +9,12 @@ interface BrowsePanelProps {
   cityName: string
   addedPinIds: number[]
   onAdd: (pin: Pin) => void
+  onRemove: (pin: Pin) => void
   onClose: () => void
   onViewPin: (pin: Pin) => void
 }
 
-export const BrowsePanel = ({ cityId, cityName, addedPinIds, onAdd, onClose, onViewPin }: BrowsePanelProps) => {
+export const BrowsePanel = ({ cityId, cityName, addedPinIds, onAdd, onRemove, onClose, onViewPin }: BrowsePanelProps) => {
   const [searchQuery, setSearchQuery] = useState('')
   const { data: pins, isLoading } = usePins(cityId)
 
@@ -78,6 +79,7 @@ export const BrowsePanel = ({ cityId, cityName, addedPinIds, onAdd, onClose, onV
                   pin={pin}
                   isAdded={addedPinIds.includes(pin.id)}
                   onAdd={onAdd}
+                  onRemove={onRemove}
                   onView={onViewPin}
                 />
               ))}
