@@ -125,11 +125,13 @@
 
 .description {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
-  color: #3a2c1a;
-  line-height: 1.85;
+  color: #2a2018;
+  line-height: 1.65;
   letter-spacing: 0.002em;
+  /* Cap the measure at ~66 characters for a comfortable return sweep */
+  max-width: 66ch;
   margin: 0;
 }
 
@@ -237,12 +239,14 @@
   margin: 0 0 14px;
 }
 
-/* Editorial "article" card for the pin's write-up — fills the column,
-   warm on-brand beige to sit naturally in the cream panel */
+/* Editorial "article" card for the pin's write-up — soft off-white paper
+   for calm, low-glare reading; the text measure inside caps line length */
 .article {
-  background: #E9DFC8;
-  border: 1px solid rgba(42, 31, 18, 0.10);
+  /* Sized to the text measure + padding; leftover column space is margin */
+  max-width: 640px;
+  background: #F8F3E8;
+  border: 1px solid rgba(42, 31, 18, 0.08);
   border-radius: 14px;
-  padding: 28px 32px 30px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  padding: 30px 34px 32px;
+  box-shadow: 0 1px 3px rgba(42, 31, 18, 0.04);
 }
