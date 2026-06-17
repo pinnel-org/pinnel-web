@@ -6,13 +6,14 @@
   border: 1px solid rgba(26, 20, 16, 0.1);
   border-radius: 10px;
   overflow: hidden;
+  cursor: pointer;
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
 }
 
 .card:hover {
   border-color: rgba(26, 20, 16, 0.22);
-  box-shadow: 0 3px 12px rgba(26, 20, 16, 0.08);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(232, 71, 28, 0.22), 0 2px 6px rgba(232, 71, 28, 0.12);
+  transform: translateY(-3px);
 }
 
 /* ── Image placeholder ──────────────────── */
@@ -85,35 +86,11 @@
 .footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 6px;
+  justify-content: flex-end;
   padding: 6px 12px 12px;
 }
 
 /* ── Buttons ────────────────────────────── */
-.viewBtn {
-  display: flex;
-  align-items: center;
-  padding: 6px 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  color: #8a7a66;
-  background: transparent;
-  border: 1px solid rgba(26, 20, 16, 0.18);
-  border-radius: 5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-}
-
-.viewBtn:hover {
-  color: #1a1410;
-  border-color: rgba(26, 20, 16, 0.4);
-  background: rgba(26, 20, 16, 0.04);
-}
-
 .addBtn {
   display: flex;
   align-items: center;
@@ -124,7 +101,7 @@
   font-weight: 600;
   letter-spacing: 0.07em;
   color: #fff;
-  background: #1a1410;
+  background: #1F3A36;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -133,14 +110,15 @@
 }
 
 .addBtn:hover {
-  opacity: 0.78;
+  opacity: 0.82;
 }
 
-.addBtn:active {
+.addBtn:active,
+.addBtnFlying {
   transform: scale(0.94);
 }
 
-.addedBtn {
+.removeBtn {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -149,22 +127,32 @@
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.07em;
-  color: #8a7a66;
-  background: transparent;
-  border: 1px solid rgba(26, 20, 16, 0.15);
+  color: #fff;
+  background: #e8471c;
+  border: none;
   border-radius: 5px;
-  cursor: default;
+  cursor: pointer;
   white-space: nowrap;
+  transition: opacity 0.15s, transform 0.1s;
 }
 
-/* ── Fly-to-sidebar animation ───────────── */
-@keyframes flyLeft {
-  0%   { transform: scale(1)    translateX(0);   opacity: 1; }
-  18%  { transform: scale(1.04) translateX(0);   opacity: 1; }
-  100% { transform: scale(0.82) translateX(-52px); opacity: 0; }
+.removeBtn:hover {
+  opacity: 0.82;
 }
 
-.flying {
-  animation: flyLeft 0.38s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+.removeBtn:active {
+  transform: scale(0.94);
+}
+
+/* ── Fly animations ─────────────────────── */
+@keyframes popOut {
+  0%   { transform: scale(1);    opacity: 1; }
+  20%  { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(0);    opacity: 0; }
+}
+
+.flying,
+.removing {
+  animation: popOut 0.32s cubic-bezier(0.55, 0, 1, 0.6) forwards;
   pointer-events: none;
 }

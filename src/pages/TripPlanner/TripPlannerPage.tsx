@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTrip, useCity } from '@/hooks/useUser'
 import { useWeather } from '@/hooks/useWeather'
 import { WeatherStrip } from '@/components/WeatherStrip/WeatherStrip'
+import { TripMap } from '@/components/TripMap/TripMap'
 import { BrowsePanel } from './BrowsePanel/BrowsePanel'
 import { PinDetail } from './BrowsePanel/PinDetail'
 import { ProfileNav } from '@/pages/Profile/ProfileNav'
@@ -34,12 +35,14 @@ export const TripPlannerPage = () => {
   const [viewingPin, setViewingPin] = useState<Pin | null>(null)
   const [selectedCityId, setSelectedCityId] = useState<number | undefined>()
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+  const [focusPinRequest, setFocusPinRequest] = useState<{ pin: Pin; seq: number } | null>(null)
 
   // "dateStr-cityId" → TripDetail.id
   const detailIdsRef = useRef<Record<string, number>>({})
   // Pin.id → TripDetailPin.id
   const pinEntryIdsRef = useRef<Record<number, number>>({})
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const focusSeqRef = useRef(0)
 
   const mapCityId = selectedCityId
   const { data: mapCity } = useCity(mapCityId)
@@ -240,6 +243,31 @@ export const TripPlannerPage = () => {
     }
   }
 
+  const handleRemovePin = async (pin: Pin) => {
+    if (browseCityId == null) return
+
+    setDayCities(prev => ({
+      ...prev,
+      [activeDay]: (prev[activeDay] ?? []).map(c =>
+        c.cityId === browseCityId
+          ? { ...c, addedPins: c.addedPins.filter(p => p.id !== pin.id) }
+          : c
+      ),
+    }))
+
+    const pinEntryId = pinEntryIdsRef.current[pin.id]
+    if (pinEntryId) {
+      setSaveStatus('saving')
+      try {
+        await tripDetailPinsApi.delete(pinEntryId)
+        delete pinEntryIdsRef.current[pin.id]
+        showSaved()
+      } catch {
+        setSaveStatus('idle')
+      }
+    }
+  }
+
   const handleDayAdd = (date: Date) => {
     const sorted = [...dayDates, date].sort((a, b) => a.getTime() - b.getTime())
     const newDayNum = sorted.findIndex(d => d.getTime() === date.getTime()) + 1
@@ -326,6 +354,29 @@ export const TripPlannerPage = () => {
     setView('browse')
   }
 
+  const handleViewPinFromSidebar = (pin: Pin, cityId: number, cityName: string) => {
+    if (viewingPin?.id === pin.id) {
+      setViewingPin(null)
+      setBrowseCityId(undefined)
+      setView('map')
+      return
+    }
+    setBrowseCityId(cityId)
+    setBrowseCityName(cityName)
+    setSelectedCityId(cityId)
+    setViewingPin(pin)
+    setView('browse')
+  }
+
+  const handleFocusPin = (pin: Pin, cityId: number) => {
+    focusSeqRef.current += 1
+    setSelectedCityId(cityId)
+    setBrowseCityId(undefined)
+    setViewingPin(null)
+    setView('map')
+    setFocusPinRequest({ pin, seq: focusSeqRef.current })
+  }
+
   const handleBrowseClose = () => {
     setBrowseCityId(undefined)
     setViewingPin(null)
@@ -350,9 +401,8 @@ export const TripPlannerPage = () => {
   const browseCityAddedPinIds = browseCityId != null
     ? ((dayCities[activeDay] ?? []).find(c => c.cityId === browseCityId)?.addedPins ?? []).map(p => p.id)
     : []
-  const mapSrc = mapCity
-    ? `https://maps.google.com/maps?ll=${mapCity.latitude},${mapCity.longitude}&output=embed&hl=en&z=13`
-    : 'https://maps.google.com/maps?ll=48.8,10.0&output=embed&hl=en&z=5'
+  const selectedCityEntry = (dayCities[activeDay] ?? []).find(c => c.cityId === selectedCityId)
+  const mapPins = selectedCityEntry?.addedPins ?? []
 
   return (
     <div className={styles.wrapper}>
@@ -401,6 +451,8 @@ export const TripPlannerPage = () => {
             selectedCityId={selectedCityId}
             onCityReorderComplete={handleCityReorderComplete}
             onPinReorderComplete={handlePinReorderComplete}
+            onViewPin={handleViewPinFromSidebar}
+            onFocusPin={handleFocusPin}
             onSelectCity={(cityId) => {
               setSelectedCityId(cityId)
               setBrowseCityId(undefined)
@@ -414,22 +466,23 @@ export const TripPlannerPage = () => {
           {weather && weather.length > 0 && (
             <WeatherStrip days={weather} />
           )}
-          <iframe
-            className={styles.mapFrame}
-            src={mapSrc}
-            title="Map"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          <div className={styles.mapContainer}>
+            <TripMap
+              pins={mapPins}
+              centerLat={mapCity?.latitude}
+              centerLng={mapCity?.longitude}
+              focusPinRequest={focusPinRequest}
+            />
+          </div>
           {view === 'browse' && activeBrowseCityId && (
             <BrowsePanel
               cityId={activeBrowseCityId}
               cityName={browseCityName}
               addedPinIds={browseCityAddedPinIds}
               onAdd={handleAddPin}
+              onRemove={handleRemovePin}
               onClose={handleBrowseClose}
-              onViewPin={setViewingPin}
+              onViewPin={(pin) => setViewingPin(vp => vp?.id === pin.id ? null : pin)}
             />
           )}
           {viewingPin && (
@@ -438,6 +491,7 @@ export const TripPlannerPage = () => {
               cityName={browseCityName}
               isAdded={browseCityAddedPinIds.includes(viewingPin.id)}
               onAdd={handleAddPin}
+              onRemove={handleRemovePin}
               onClose={() => setViewingPin(null)}
             />
           )}
