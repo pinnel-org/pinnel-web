@@ -237,12 +237,12 @@
   margin: 0 0 14px;
 }
 
-/* Editorial "article" card for the pin's write-up */
+/* Editorial "article" card for the pin's write-up — fills the column,
+   warm on-brand beige to sit naturally in the cream panel */
 .article {
-  max-width: 620px;
-  background: #FBF8F1;
-  border: 1px solid rgba(42, 31, 18, 0.08);
+  background: #E9DFC8;
+  border: 1px solid rgba(42, 31, 18, 0.10);
   border-radius: 14px;
   padding: 28px 32px 30px;
-  box-shadow: 0 1px 3px rgba(42, 31, 18, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
