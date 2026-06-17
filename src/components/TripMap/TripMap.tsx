@@ -23,9 +23,10 @@ interface TripMapProps {
   pins: Pin[]
   centerLat?: number
   centerLng?: number
+  focusPinRequest?: { pin: Pin; seq: number } | null
 }
 
-export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0 }: TripMapProps) => {
+export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequest }: TripMapProps) => {
   const mapRef = useRef<MapRef>(null)
   const [selected, setSelected] = useState<Pin | null>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
@@ -62,6 +63,16 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0 }: TripMapPro
     setSelected(null)
     navigateToView(pins, centerLat, centerLng)
   }, [pins, centerLat, centerLng, mapLoaded, navigateToView])
+
+  useEffect(() => {
+    if (!focusPinRequest || !mapLoaded) return
+    mapRef.current?.flyTo({
+      center: [focusPinRequest.pin.longitude, focusPinRequest.pin.latitude],
+      zoom: 16,
+      duration: 700,
+    })
+    setSelected(focusPinRequest.pin)
+  }, [focusPinRequest?.seq, mapLoaded])
 
   const route = {
     type: 'Feature' as const,

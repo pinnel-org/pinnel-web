@@ -4,7 +4,7 @@ import { CityRow } from './CityRow'
 import { CitySearch } from '../CitySearch/CitySearch'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog/ConfirmDialog'
 import { DayCityEntry } from '../types'
-import { CityDto } from '@/types'
+import { CityDto, Pin } from '@/types'
 
 interface DayContentProps {
   dayNumber: number
@@ -15,9 +15,11 @@ interface DayContentProps {
   onSelectCity: (cityId: number) => void
   onCityReorderComplete?: (cityId: number, newOrder: number) => void
   onPinReorderComplete?: (pinId: number, newOrder: number) => void
+  onViewPin?: (pin: Pin, cityId: number, cityName: string) => void
+  onFocusPin?: (pin: Pin, cityId: number) => void
 }
 
-export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity, onCityReorderComplete, onPinReorderComplete }: DayContentProps) => {
+export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, selectedCityId, onSelectCity, onCityReorderComplete, onPinReorderComplete, onViewPin, onFocusPin }: DayContentProps) => {
   const [showSearch, setShowSearch] = useState(false)
   const [confirmRemove, setConfirmRemove] = useState<DayCityEntry | null>(null)
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
@@ -112,6 +114,8 @@ export const DayContent = ({ dayNumber, cities, onCitiesChange, onBrowse, select
                 cities.map(c => c.cityId === entry.cityId ? { ...c, addedPins: pins } : c)
               )}
               onPinReorderComplete={onPinReorderComplete}
+              onViewPin={(pin) => onViewPin?.(pin, entry.cityId, entry.cityName)}
+              onFocusPin={(pin) => onFocusPin?.(pin, entry.cityId)}
             />
           ))}
         </div>

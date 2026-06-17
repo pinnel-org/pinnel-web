@@ -7,10 +7,11 @@ interface PinDetailProps {
   cityName: string
   isAdded: boolean
   onAdd: (pin: Pin) => void
+  onRemove?: (pin: Pin) => void
   onClose: () => void
 }
 
-export const PinDetail = ({ pin, cityName, isAdded, onAdd, onClose }: PinDetailProps) => {
+export const PinDetail = ({ pin, cityName, isAdded, onAdd, onRemove, onClose }: PinDetailProps) => {
   return (
     <div className={styles.overlay}>
       <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
@@ -45,11 +46,8 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onClose }: PinDetailP
 
           <div className={styles.actions}>
             {isAdded ? (
-              <button className={styles.addedBtn} disabled>
-                <svg viewBox="0 0 16 16" fill="none" width="13" height="13">
-                  <path d="M3 8l4 4 6-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Added to trip
+              <button className={styles.removeBtn} onClick={() => onRemove?.(pin)}>
+                Remove from trip
               </button>
             ) : (
               <button className={styles.addBtn} onClick={() => onAdd(pin)}>
