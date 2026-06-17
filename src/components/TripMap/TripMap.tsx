@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { Pin } from '@/types'
 import styles from './TripMap.module.css'
 
-const MAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty'
+const MAP_STYLE = 'https://tiles.openfreemap.org/styles/bright'
 
 const lineLayerSpec = {
   id: 'route-line',
@@ -16,6 +16,19 @@ const lineLayerSpec = {
     'line-width': 3,
     'line-opacity': 0.85,
     'line-dasharray': [2, 3],
+  },
+}
+
+const buildings3dLayerSpec = {
+  id: 'buildings-3d',
+  type: 'fill-extrusion' as const,
+  source: 'openmaptiles',
+  'source-layer': 'building',
+  paint: {
+    'fill-extrusion-color': '#d6cfc4',
+    'fill-extrusion-height': ['get', 'render_height'] as unknown as number,
+    'fill-extrusion-base': ['get', 'render_min_height'] as unknown as number,
+    'fill-extrusion-opacity': 0.85,
   },
 }
 
@@ -30,6 +43,9 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
   const mapRef = useRef<MapRef>(null)
   const [selected, setSelected] = useState<Pin | null>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
+  const [is3D, setIs3D] = useState(false)
+  const [pulsePinId, setPulsePinId] = useState<number | null>(null)
+  const pulseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const navigateToView = useCallback((pinsToFit: Pin[], lat: number, lng: number) => {
     const map = mapRef.current
@@ -72,7 +88,22 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
       duration: 700,
     })
     setSelected(focusPinRequest.pin)
+    setPulsePinId(focusPinRequest.pin.id)
+    if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current)
+    pulseTimerRef.current = setTimeout(() => setPulsePinId(null), 3000)
   }, [focusPinRequest?.seq, mapLoaded])
+
+  useEffect(() => {
+    if (!mapLoaded) return
+    const map = mapRef.current?.getMap()
+    if (!map) return
+    const currentZoom = map.getZoom()
+    map.jumpTo({
+      pitch: is3D ? 52 : 0,
+      bearing: is3D ? -20 : 0,
+      zoom: is3D ? Math.max(currentZoom, 14) : currentZoom,
+    })
+  }, [is3D, mapLoaded])
 
   const route = {
     type: 'Feature' as const,
@@ -84,56 +115,68 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
   }
 
   return (
-    <Map
-      ref={mapRef}
-      initialViewState={{ longitude: centerLng, latitude: centerLat, zoom: 12 }}
-      mapStyle={MAP_STYLE}
-      style={{ width: '100%', height: '100%' }}
-      onLoad={handleMapLoad}
-    >
-      <NavigationControl position="top-right" />
+    <div className={styles.wrapper}>
+      <Map
+        ref={mapRef}
+        initialViewState={{ longitude: centerLng, latitude: centerLat, zoom: 12 }}
+        mapStyle={MAP_STYLE}
+        style={{ width: '100%', height: '100%' }}
+        onLoad={handleMapLoad}
+      >
+        <NavigationControl position="top-right" />
 
-      {pins.length > 1 && (
-        <Source id="route" type="geojson" data={route}>
-          <Layer {...lineLayerSpec} />
-        </Source>
-      )}
+        {is3D && <Layer {...buildings3dLayerSpec} />}
 
-      {pins.map((pin, i) => (
-        <Marker
-          key={pin.id}
-          longitude={pin.longitude}
-          latitude={pin.latitude}
-          anchor="bottom"
-          onClick={(e) => {
-            e.originalEvent.stopPropagation()
-            setSelected(s => s?.id === pin.id ? null : pin)
-          }}
-        >
-          <div className={styles.travelPin}>
-            <span className={styles.pinNum}>{i + 1}</span>
-          </div>
-        </Marker>
-      ))}
+        {pins.length > 1 && (
+          <Source id="route" type="geojson" data={route}>
+            <Layer {...lineLayerSpec} />
+          </Source>
+        )}
 
-      {selected && (
-        <Popup
-          longitude={selected.longitude}
-          latitude={selected.latitude}
-          anchor="bottom"
-          offset={34}
-          closeButton={false}
-          className={styles.pinPopup}
-          onClose={() => setSelected(null)}
-        >
-          <div className={styles.pinCard}>
-            <p className={styles.pinName}>{selected.name}</p>
-            {selected.description && (
-              <p className={styles.pinNote}>{selected.description}</p>
-            )}
-          </div>
-        </Popup>
-      )}
-    </Map>
+        {pins.map((pin, i) => (
+          <Marker
+            key={pin.id}
+            longitude={pin.longitude}
+            latitude={pin.latitude}
+            anchor="bottom"
+            onClick={(e) => {
+              e.originalEvent.stopPropagation()
+              setSelected(s => s?.id === pin.id ? null : pin)
+            }}
+          >
+            <div className={`${styles.travelPin} ${pulsePinId === pin.id ? styles.travelPinPulsing : ''}`}>
+              <span className={styles.pinNum}>{i + 1}</span>
+            </div>
+          </Marker>
+        ))}
+
+        {selected && (
+          <Popup
+            longitude={selected.longitude}
+            latitude={selected.latitude}
+            anchor="bottom"
+            offset={34}
+            closeButton={false}
+            className={styles.pinPopup}
+            onClose={() => setSelected(null)}
+          >
+            <div className={styles.pinCard}>
+              <p className={styles.pinName}>{selected.name}</p>
+              {selected.description && (
+                <p className={styles.pinNote}>{selected.description}</p>
+              )}
+            </div>
+          </Popup>
+        )}
+      </Map>
+
+      <button
+        className={`${styles.toggleBtn} ${is3D ? styles.toggleBtnActive : ''}`}
+        onClick={() => setIs3D(v => !v)}
+        title={is3D ? 'Disable 3D' : 'Enable 3D'}
+      >
+        3D
+      </button>
+    </div>
   )
 }
