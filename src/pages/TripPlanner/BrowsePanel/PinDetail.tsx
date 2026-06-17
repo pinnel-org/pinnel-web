@@ -68,11 +68,13 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onRemove, onClose }: 
 
             <section className={styles.infoCol}>
               <p className={styles.sectionLabel}>INFO</p>
-              {pin.description ? (
-                <p className={styles.description}>{pin.description}</p>
-              ) : (
-                <p className={styles.descriptionEmpty}>No description yet.</p>
-              )}
+              <article className={styles.article}>
+                {pin.description ? (
+                  <p className={styles.description}>{pin.description}</p>
+                ) : (
+                  <p className={styles.descriptionEmpty}>No description yet.</p>
+                )}
+              </article>
             </section>
           </div>
         </div>

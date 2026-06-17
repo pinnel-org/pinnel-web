@@ -124,11 +124,18 @@
 }
 
 .description {
-  font-family: var(--font-sans, 'DM Sans', sans-serif);
-  font-size: 14px;
-  color: #5a4a36;
-  line-height: 1.65;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #3a2c1a;
+  line-height: 1.85;
+  letter-spacing: 0.002em;
   margin: 0;
+}
+
+/* First line gets a touch of emphasis, like an article lede */
+.description::first-line {
+  color: #1A1208;
 }
 
 .descriptionEmpty {
@@ -204,16 +211,18 @@
 
 .lowerRow {
   display: flex;
-  gap: 28px;
+  align-items: flex-start;
+  gap: 40px;
   border-top: 1px solid rgba(42, 31, 18, 0.10);
   padding-top: 24px;
 }
 
+/* Only as wide as the 9:16 reel — no reserved empty space beside it */
 .shortsCol {
-  flex: 1.6;
-  min-width: 0;
+  flex: 0 0 auto;
 }
 
+/* Takes the rest of the row; the article inside caps its line length */
 .infoCol {
   flex: 1;
   min-width: 0;
@@ -226,4 +235,14 @@
   letter-spacing: 0.22em;
   color: #8B7355;
   margin: 0 0 14px;
+}
+
+/* Editorial "article" card for the pin's write-up */
+.article {
+  max-width: 620px;
+  background: #FBF8F1;
+  border: 1px solid rgba(42, 31, 18, 0.08);
+  border-radius: 14px;
+  padding: 28px 32px 30px;
+  box-shadow: 0 1px 3px rgba(42, 31, 18, 0.04);
 }
