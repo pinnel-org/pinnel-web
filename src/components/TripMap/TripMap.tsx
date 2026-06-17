@@ -44,6 +44,8 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
   const [selected, setSelected] = useState<Pin | null>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [is3D, setIs3D] = useState(false)
+  const [pulsePinId, setPulsePinId] = useState<number | null>(null)
+  const pulseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const navigateToView = useCallback((pinsToFit: Pin[], lat: number, lng: number) => {
     const map = mapRef.current
@@ -86,6 +88,9 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
       duration: 700,
     })
     setSelected(focusPinRequest.pin)
+    setPulsePinId(focusPinRequest.pin.id)
+    if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current)
+    pulseTimerRef.current = setTimeout(() => setPulsePinId(null), 3000)
   }, [focusPinRequest?.seq, mapLoaded])
 
   useEffect(() => {
@@ -139,7 +144,7 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
               setSelected(s => s?.id === pin.id ? null : pin)
             }}
           >
-            <div className={styles.travelPin}>
+            <div className={`${styles.travelPin} ${pulsePinId === pin.id ? styles.travelPinPulsing : ''}`}>
               <span className={styles.pinNum}>{i + 1}</span>
             </div>
           </Marker>

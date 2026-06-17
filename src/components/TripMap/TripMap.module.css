@@ -64,6 +64,15 @@
   box-shadow: 0 4px 10px rgba(42, 31, 18, 0.45);
 }
 
+@keyframes pinPulse {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50%       { transform: rotate(-45deg) scale(1.45); }
+}
+
+.travelPinPulsing {
+  animation: pinPulse 0.6s ease-in-out 5;
+}
+
 .pinNum {
   display: block;
   transform: rotate(45deg);
