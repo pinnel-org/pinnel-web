@@ -17,6 +17,7 @@
   border-radius: 10px;
   transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s, transform 0.15s;
   user-select: none;
+  cursor: pointer;
 }
 
 .listDragging .item:not(.dragging) {
@@ -25,8 +26,9 @@
 }
 
 .item:hover {
-  border-color: rgba(42, 31, 18, 0.22);
-  box-shadow: 0 2px 8px rgba(42, 31, 18, 0.06);
+  border-color: rgba(42, 31, 18, 0.18);
+  box-shadow: 0 6px 24px rgba(232, 71, 28, 0.18), 0 2px 6px rgba(232, 71, 28, 0.1);
+  transform: translateY(-2px);
 }
 
 /* ── Number badge ─── */
@@ -44,6 +46,13 @@
   display: grid;
   place-items: center;
   line-height: 1;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.num:hover {
+  opacity: 0.82;
+  transform: scale(1.1);
 }
 
 /* ── Text body ─── */

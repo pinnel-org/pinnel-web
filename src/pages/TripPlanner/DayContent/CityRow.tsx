@@ -41,6 +41,8 @@ interface CityRowProps {
   onDragHandleDown: (e: React.MouseEvent) => void
   onPinsChange: (pins: Pin[]) => void
   onPinReorderComplete?: (pinId: number, newOrder: number) => void
+  onViewPin?: (pin: Pin) => void
+  onFocusPin?: (pin: Pin) => void
 }
 
 export const CityRow = ({
@@ -54,6 +56,8 @@ export const CityRow = ({
   onDragHandleDown,
   onPinsChange,
   onPinReorderComplete,
+  onViewPin,
+  onFocusPin,
 }: CityRowProps) => {
   const count = entry.addedPins.length
 
@@ -112,6 +116,8 @@ export const CityRow = ({
                 onReorder={onPinsChange}
                 onRemove={handlePinRemove}
                 onPinReorderComplete={onPinReorderComplete}
+                onViewPin={onViewPin}
+                onFocusPin={onFocusPin}
               />
               <button className={styles.addMoreBtn} onClick={(e) => { e.stopPropagation(); onBrowse() }}>
                 <SearchIcon />

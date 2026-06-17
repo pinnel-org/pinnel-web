@@ -163,7 +163,7 @@
 
 .addBtn:hover { background: #16302c; }
 
-.addedBtn {
+.removeBtn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -172,13 +172,16 @@
   font-weight: 600;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: #8B7355;
-  background: transparent;
-  border: 1.5px solid rgba(42, 31, 18, 0.18);
+  color: #fff;
+  background: #e8471c;
+  border: none;
   border-radius: 8px;
   padding: 10px 20px;
-  cursor: default;
+  cursor: pointer;
+  transition: opacity 0.15s;
 }
+
+.removeBtn:hover { opacity: 0.82; }
 
 /* ── Coming soon placeholder ─── */
 

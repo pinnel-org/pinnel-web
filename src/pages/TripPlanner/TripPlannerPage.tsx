@@ -35,12 +35,14 @@ export const TripPlannerPage = () => {
   const [viewingPin, setViewingPin] = useState<Pin | null>(null)
   const [selectedCityId, setSelectedCityId] = useState<number | undefined>()
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+  const [focusPinRequest, setFocusPinRequest] = useState<{ pin: Pin; seq: number } | null>(null)
 
   // "dateStr-cityId" → TripDetail.id
   const detailIdsRef = useRef<Record<string, number>>({})
   // Pin.id → TripDetailPin.id
   const pinEntryIdsRef = useRef<Record<number, number>>({})
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const focusSeqRef = useRef(0)
 
   const mapCityId = selectedCityId
   const { data: mapCity } = useCity(mapCityId)
@@ -352,6 +354,29 @@ export const TripPlannerPage = () => {
     setView('browse')
   }
 
+  const handleViewPinFromSidebar = (pin: Pin, cityId: number, cityName: string) => {
+    if (viewingPin?.id === pin.id) {
+      setViewingPin(null)
+      setBrowseCityId(undefined)
+      setView('map')
+      return
+    }
+    setBrowseCityId(cityId)
+    setBrowseCityName(cityName)
+    setSelectedCityId(cityId)
+    setViewingPin(pin)
+    setView('browse')
+  }
+
+  const handleFocusPin = (pin: Pin, cityId: number) => {
+    focusSeqRef.current += 1
+    setSelectedCityId(cityId)
+    setBrowseCityId(undefined)
+    setViewingPin(null)
+    setView('map')
+    setFocusPinRequest({ pin, seq: focusSeqRef.current })
+  }
+
   const handleBrowseClose = () => {
     setBrowseCityId(undefined)
     setViewingPin(null)
@@ -426,6 +451,8 @@ export const TripPlannerPage = () => {
             selectedCityId={selectedCityId}
             onCityReorderComplete={handleCityReorderComplete}
             onPinReorderComplete={handlePinReorderComplete}
+            onViewPin={handleViewPinFromSidebar}
+            onFocusPin={handleFocusPin}
             onSelectCity={(cityId) => {
               setSelectedCityId(cityId)
               setBrowseCityId(undefined)
@@ -444,6 +471,7 @@ export const TripPlannerPage = () => {
               pins={mapPins}
               centerLat={mapCity?.latitude}
               centerLng={mapCity?.longitude}
+              focusPinRequest={focusPinRequest}
             />
           </div>
           {view === 'browse' && activeBrowseCityId && (
@@ -454,7 +482,7 @@ export const TripPlannerPage = () => {
               onAdd={handleAddPin}
               onRemove={handleRemovePin}
               onClose={handleBrowseClose}
-              onViewPin={setViewingPin}
+              onViewPin={(pin) => setViewingPin(vp => vp?.id === pin.id ? null : pin)}
             />
           )}
           {viewingPin && (
@@ -463,6 +491,7 @@ export const TripPlannerPage = () => {
               cityName={browseCityName}
               isAdded={browseCityAddedPinIds.includes(viewingPin.id)}
               onAdd={handleAddPin}
+              onRemove={handleRemovePin}
               onClose={() => setViewingPin(null)}
             />
           )}

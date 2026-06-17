@@ -21,9 +21,11 @@ interface PinListProps {
   onReorder: (pins: Pin[]) => void
   onRemove: (pinId: number) => void
   onPinReorderComplete?: (pinId: number, newOrder: number) => void
+  onViewPin?: (pin: Pin) => void
+  onFocusPin?: (pin: Pin) => void
 }
 
-export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete }: PinListProps) => {
+export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onViewPin, onFocusPin }: PinListProps) => {
   const [draggingIdx, setDraggingIdx] = useState<number | null>(null)
   const listRef = useRef<HTMLDivElement>(null)
   const pinsRef = useRef(pins)
@@ -73,8 +75,18 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete }: Pin
   return (
     <div ref={listRef} className={`${styles.list} ${draggingIdx !== null ? styles.listDragging : ''}`}>
       {pins.map((pin, idx) => (
-        <div key={pin.id} className={`${styles.item} ${draggingIdx === idx ? styles.dragging : ''}`}>
-          <span className={styles.num}>{idx + 1}</span>
+        <div
+          key={pin.id}
+          className={`${styles.item} ${draggingIdx === idx ? styles.dragging : ''}`}
+          onClick={() => onViewPin?.(pin)}
+        >
+          <span
+            className={styles.num}
+            onClick={(e) => { e.stopPropagation(); onFocusPin?.(pin) }}
+            title="Show on map"
+          >
+            {idx + 1}
+          </span>
           <div className={styles.body}>
             <span className={styles.name}>{pin.name}</span>
             {pin.description && (
@@ -83,14 +95,14 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete }: Pin
           </div>
           <button
             className={styles.removeBtn}
-            onClick={() => onRemove(pin.id)}
+            onClick={(e) => { e.stopPropagation(); onRemove(pin.id) }}
             aria-label={`Remove ${pin.name}`}
           >
             <TrashIcon />
           </button>
           <span
             className={styles.dragHandle}
-            onMouseDown={() => startDrag(idx)}
+            onMouseDown={(e) => { e.stopPropagation(); startDrag(idx) }}
           >
             <DragDots />
           </span>
