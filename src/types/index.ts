@@ -70,6 +70,8 @@ export interface Pin {
   userId: number | null
   createdAt: string
   updatedAt: string
+  logoUrlSmall: string | null
+  logoUrlBig: string | null
 }
 
 // Matches backend TripDto — used for user's own trip list (GET /api/trips)

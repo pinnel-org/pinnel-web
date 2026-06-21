@@ -44,7 +44,11 @@ export const PinCard = ({ pin, isAdded, onAdd, onRemove, onView }: PinCardProps)
       onClick={() => onView?.(pin)}
     >
       <div className={styles.imagePlaceholder}>
-        <ImageIcon size={26} strokeWidth={1.2} className={styles.imagePlaceholderIcon} />
+        {pin.logoUrlSmall ? (
+          <img src={pin.logoUrlSmall} alt={pin.name} className={styles.image} />
+        ) : (
+          <ImageIcon size={26} strokeWidth={1.2} className={styles.imagePlaceholderIcon} />
+        )}
       </div>
 
       <div className={styles.body}>
