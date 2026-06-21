@@ -467,16 +467,18 @@ export const TripPlannerPage = () => {
             <WeatherStrip days={weather} />
           )}
           <div className={styles.mapContainer}>
-            <TripMap
-              pins={mapPins}
-              centerLat={mapCity?.latitude}
-              centerLng={mapCity?.longitude}
-              focusPinRequest={focusPinRequest}
-            />
-            {mapCityLoading && (
-              <div className={styles.mapOverlay}>
-                <span className={styles.mapOverlayDot} />
+            {mapCityLoading ? (
+              <div className={styles.mapLoading}>
+                <div className={styles.mapLoadingBar} />
+                <span className={styles.mapLoadingLabel}>LOADING</span>
               </div>
+            ) : (
+              <TripMap
+                pins={mapPins}
+                centerLat={mapCity?.latitude}
+                centerLng={mapCity?.longitude}
+                focusPinRequest={focusPinRequest}
+              />
             )}
           </div>
           {view === 'browse' && activeBrowseCityId && (
