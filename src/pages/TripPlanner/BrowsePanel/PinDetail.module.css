@@ -28,127 +28,95 @@
   width: 30px;
   height: 30px;
   border: none;
-  background: rgba(42, 31, 18, 0.07);
-  color: #8B7355;
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   display: grid;
   place-items: center;
   border-radius: 7px;
   padding: 0;
-  z-index: 2;
+  z-index: 30;
   transition: color 0.15s, background 0.15s;
 }
 
-.closeBtn:hover { color: #1A1208; background: rgba(42, 31, 18, 0.13); }
+.closeBtn:hover { color: #fff; background: rgba(0, 0, 0, 0.55); }
 
-/* ── Scrollable content ─── */
+/* ── Hero ─── */
 
-.scroll {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-
-.scroll::-webkit-scrollbar { width: 4px; }
-.scroll::-webkit-scrollbar-thumb { background: rgba(42, 31, 18, 0.14); border-radius: 4px; }
-
-/* ── Image placeholder ─── */
-
-.imagePlaceholder {
+.hero {
+  position: relative;
   width: 100%;
-  height: 220px;
+  height: 180px;
   flex-shrink: 0;
   background: linear-gradient(145deg, #c4956a 0%, #d2a87c 28%, #e0bc94 58%, #cfa272 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
   overflow: hidden;
 }
 
-.imagePlaceholder::after {
-  content: '';
+.heroImg {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255,255,255,0) 0px,
-    rgba(255,255,255,0) 6px,
-    rgba(255,255,255,0.04) 6px,
-    rgba(255,255,255,0.04) 7px
-  );
-}
-
-.imageIcon {
-  color: rgba(255, 255, 255, 0.28);
-  position: relative;
-  z-index: 1;
-}
-
-.image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  position: relative;
-  z-index: 1;
 }
 
-/* ── Body ─── */
-
-.body {
-  padding: 22px 24px 32px;
+.heroFallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.meta {
-  margin-bottom: 8px;
+.heroFallbackIcon { color: rgba(255, 255, 255, 0.28); }
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(26, 18, 8, 0.78) 0%, rgba(26, 18, 8, 0.42) 55%, rgba(26, 18, 8, 0.12) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 26px;
+  gap: 16px;
 }
+
+.heroLeft {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Hero text ─── */
 
 .cityLabel {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.22em;
-  color: #8B7355;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .name {
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 500;
-  color: #1A1208;
+  color: #fff;
   line-height: 1.1;
   letter-spacing: -0.01em;
-  margin: 0 0 16px;
-}
-
-.description {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 17px;
-  font-weight: 400;
-  color: #2a2018;
-  line-height: 1.65;
-  letter-spacing: 0.002em;
-  /* Cap the measure at ~66 characters for a comfortable return sweep */
-  max-width: 66ch;
   margin: 0;
 }
-
-/* First line gets a touch of emphasis, like an article lede */
-.description::first-line {
-  color: #1A1208;
-}
-
-.descriptionEmpty {
-  font-family: var(--font-sans, 'DM Sans', sans-serif);
-  font-size: 13px;
-  color: #8B7355;
-  font-style: italic;
-  margin: 0;
-}
-
-/* ── Coordinates ─── */
 
 .coords {
   display: flex;
@@ -157,19 +125,25 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
-  color: #8B7355;
-  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.coordsIcon { flex-shrink: 0; color: #8B7355; }
+.coordsIcon { flex-shrink: 0; color: rgba(255, 255, 255, 0.5); }
 
-/* ── Actions ─── */
-
-.actions {
-  margin-bottom: 32px;
+.cityBig {
+  font-family: 'Fraunces', serif;
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.18);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
 }
 
-/* Match the top-nav "PLAN A TRIP" / "LOG OUT" pushable buttons */
+/* ── Add / Remove buttons — same form as nav PLAN A TRIP / LOG OUT ─── */
+
 .addBtn,
 .removeBtn {
   display: inline-flex;
@@ -190,7 +164,6 @@
 }
 
 .addBtn { background: #0c4a4a; }
-
 .removeBtn { background: #e8471c; }
 
 .addBtn:hover,
@@ -199,25 +172,45 @@
   transform: translate(2px, 2px);
 }
 
-/* ── Shorts + Info row ─── */
+/* ── Body (below hero) ─── */
 
-.lowerRow {
-  display: flex;
-  align-items: flex-start;
-  gap: 40px;
-  border-top: 1px solid rgba(42, 31, 18, 0.10);
-  padding-top: 24px;
-}
-
-/* Only as wide as the 9:16 reel — no reserved empty space beside it */
-.shortsCol {
-  flex: 0 0 auto;
-}
-
-/* Takes the rest of the row; the article inside caps its line length */
-.infoCol {
+.body {
   flex: 1;
-  min-width: 0;
+  display: flex;
+  min-height: 0;
+}
+
+/* ── Scrollable left side ─── */
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 28px 24px 48px 28px;
+}
+
+.scroll::-webkit-scrollbar { width: 4px; }
+.scroll::-webkit-scrollbar-thumb { background: rgba(42, 31, 18, 0.14); border-radius: 4px; }
+
+/* ── Columns ─── */
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.rightCol {
+  flex: 0 0 auto;
+  padding: 28px 28px 0 8px;
+}
+
+/* ── Sections ─── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .sectionLabel {
@@ -226,17 +219,88 @@
   font-weight: 500;
   letter-spacing: 0.22em;
   color: #8B7355;
-  margin: 0 0 14px;
+  margin: 0;
 }
 
-/* Editorial "article" card for the pin's write-up — soft off-white paper
-   for calm, low-glare reading; the text measure inside caps line length */
-.article {
-  /* Sized to the text measure + padding; leftover column space is margin */
-  max-width: 640px;
-  background: #F8F3E8;
-  border: 1px solid rgba(42, 31, 18, 0.08);
-  border-radius: 14px;
-  padding: 30px 34px 32px;
-  box-shadow: 0 1px 3px rgba(42, 31, 18, 0.04);
+.article {}
+
+.description {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #2a2018;
+  line-height: 1.65;
+  letter-spacing: 0.002em;
+  margin: 0;
+}
+
+.description::first-line { color: #1A1208; }
+
+.descriptionEmpty {
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 13px;
+  color: #8B7355;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Divider ─── */
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(42, 31, 18, 0.14);
+  margin: 0;
+}
+
+/* ── My Notes ─── */
+
+.notesForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notesTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid rgba(42, 31, 18, 0.12);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 14px;
+  color: #2a2018;
+  line-height: 1.55;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.notesTextarea::placeholder { color: #B5A48A; }
+.notesTextarea:focus { border-color: rgba(42, 31, 18, 0.28); }
+
+.notesSaveRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Same form as nav LOG OUT button */
+.saveBtn {
+  border: 2px solid #1A1208;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: #E25A2C;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #1A1208;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+.saveBtn:hover {
+  box-shadow: 1px 1px 0 #1A1208;
+  transform: translate(2px, 2px);
 }
