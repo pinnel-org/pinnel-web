@@ -113,6 +113,26 @@
   height: 100%;
 }
 
+/* ── Map loading overlay ────────────────── */
+.mapOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(239, 231, 211, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.mapOverlayDot {
+  width: 10px;
+  height: 10px;
+  background: #E25A2C;
+  border-radius: 50%;
+  animation: pulse 1s ease-in-out infinite;
+}
+
 /* ── Loading state ──────────────────────── */
 .loading {
   display: flex;

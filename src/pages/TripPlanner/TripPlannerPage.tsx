@@ -45,7 +45,7 @@ export const TripPlannerPage = () => {
   const focusSeqRef = useRef(0)
 
   const mapCityId = selectedCityId
-  const { data: mapCity } = useCity(mapCityId)
+  const { data: mapCity, isLoading: mapCityLoading } = useCity(mapCityId)
   const { data: weather } = useWeather(mapCity?.latitude, mapCity?.longitude)
 
   const showSaved = useCallback(() => {
@@ -473,6 +473,11 @@ export const TripPlannerPage = () => {
               centerLng={mapCity?.longitude}
               focusPinRequest={focusPinRequest}
             />
+            {mapCityLoading && (
+              <div className={styles.mapOverlay}>
+                <span className={styles.mapOverlayDot} />
+              </div>
+            )}
           </div>
           {view === 'browse' && activeBrowseCityId && (
             <BrowsePanel
