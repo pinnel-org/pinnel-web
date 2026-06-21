@@ -45,7 +45,7 @@ export const TripPlannerPage = () => {
   const focusSeqRef = useRef(0)
 
   const mapCityId = selectedCityId
-  const { data: mapCity } = useCity(mapCityId)
+  const { data: mapCity, isLoading: mapCityLoading } = useCity(mapCityId)
   const { data: weather } = useWeather(mapCity?.latitude, mapCity?.longitude)
 
   const showSaved = useCallback(() => {
@@ -467,12 +467,19 @@ export const TripPlannerPage = () => {
             <WeatherStrip days={weather} />
           )}
           <div className={styles.mapContainer}>
-            <TripMap
-              pins={mapPins}
-              centerLat={mapCity?.latitude}
-              centerLng={mapCity?.longitude}
-              focusPinRequest={focusPinRequest}
-            />
+            {mapCityLoading ? (
+              <div className={styles.mapLoading}>
+                <div className={styles.mapLoadingBar} />
+                <span className={styles.mapLoadingLabel}>LOADING</span>
+              </div>
+            ) : (
+              <TripMap
+                pins={mapPins}
+                centerLat={mapCity?.latitude}
+                centerLng={mapCity?.longitude}
+                focusPinRequest={focusPinRequest}
+              />
+            )}
           </div>
           {view === 'browse' && activeBrowseCityId && (
             <BrowsePanel

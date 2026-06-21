@@ -39,7 +39,7 @@ interface TripMapProps {
   focusPinRequest?: { pin: Pin; seq: number } | null
 }
 
-export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequest }: TripMapProps) => {
+export const TripMap = ({ pins, centerLat, centerLng, focusPinRequest }: TripMapProps) => {
   const mapRef = useRef<MapRef>(null)
   const [selected, setSelected] = useState<Pin | null>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
@@ -71,11 +71,13 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
 
   const handleMapLoad = useCallback(() => {
     setMapLoaded(true)
-    navigateToView(pins, centerLat, centerLng)
+    if (centerLat != null && centerLng != null) {
+      navigateToView(pins, centerLat, centerLng)
+    }
   }, [pins, centerLat, centerLng, navigateToView])
 
   useEffect(() => {
-    if (!mapLoaded) return
+    if (!mapLoaded || centerLat == null || centerLng == null) return
     setSelected(null)
     navigateToView(pins, centerLat, centerLng)
   }, [pins, centerLat, centerLng, mapLoaded, navigateToView])
@@ -118,7 +120,7 @@ export const TripMap = ({ pins, centerLat = 48.8, centerLng = 10.0, focusPinRequ
     <div className={styles.wrapper}>
       <Map
         ref={mapRef}
-        initialViewState={{ longitude: centerLng, latitude: centerLat, zoom: 12 }}
+        initialViewState={{ longitude: centerLng ?? 10.0, latitude: centerLat ?? 48.8, zoom: 12 }}
         mapStyle={MAP_STYLE}
         style={{ width: '100%', height: '100%' }}
         onLoad={handleMapLoad}
