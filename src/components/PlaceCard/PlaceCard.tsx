@@ -14,8 +14,8 @@ export const PlaceCard = ({ pin, index, onRemove }: PlaceCardProps) => (
 
     <div className={styles.body}>
       <span className={styles.name}>{pin.name}</span>
-      {pin.description && (
-        <p className={styles.description}>{pin.description}</p>
+      {pin.overview && (
+        <p className={styles.description}>{pin.overview}</p>
       )}
     </div>
 

@@ -62,7 +62,9 @@ export interface CityDto {
 export interface Pin {
   id: number
   name: string
-  description: string | null
+  overview: string | null
+  visitorTips: string | null
+  history: string | null
   latitude: number
   longitude: number
   isPublic: boolean
