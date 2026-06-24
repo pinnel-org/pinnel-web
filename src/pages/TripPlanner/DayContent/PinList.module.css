@@ -120,8 +120,11 @@
   color: rgba(42, 31, 18, 0.35);
   cursor: grab;
   border-radius: 5px;
-  transition: color 0.15s, background 0.15s;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
 }
+
+.item:hover .dragHandle { opacity: 1; }
 
 .dragHandle:hover {
   color: #E25A2C;
