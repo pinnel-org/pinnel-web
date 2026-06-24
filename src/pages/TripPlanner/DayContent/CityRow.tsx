@@ -4,10 +4,10 @@ import { PinList } from './PinList'
 import styles from './CityRow.module.css'
 
 const DragHandleIcon = () => (
-  <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
-    <circle cx="5" cy="3.5" r="1.1"/><circle cx="11" cy="3.5" r="1.1"/>
-    <circle cx="5" cy="8" r="1.1"/><circle cx="11" cy="8" r="1.1"/>
-    <circle cx="5" cy="12.5" r="1.1"/><circle cx="11" cy="12.5" r="1.1"/>
+  <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+    <circle cx="5" cy="3.5" r="1.4"/><circle cx="11" cy="3.5" r="1.4"/>
+    <circle cx="5" cy="8" r="1.4"/><circle cx="11" cy="8" r="1.4"/>
+    <circle cx="5" cy="12.5" r="1.4"/><circle cx="11" cy="12.5" r="1.4"/>
   </svg>
 )
 
@@ -72,6 +72,7 @@ export const CityRow = ({
           className={styles.dragHandle}
           onMouseDown={onDragHandleDown}
           onClick={(e) => e.stopPropagation()}
+          title="Drag to reorder"
         >
           <DragHandleIcon />
         </span>
