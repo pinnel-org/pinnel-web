@@ -23,7 +23,7 @@ export const BrowsePanel = ({ cityId, cityName, addedPinIds, onAdd, onRemove, on
     if (!searchQuery.trim()) return pins
     const q = searchQuery.toLowerCase()
     return pins.filter(
-      p => p.name.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q)
+      p => p.name.toLowerCase().includes(q) || p.overview?.toLowerCase().includes(q)
     )
   }, [pins, searchQuery])
 

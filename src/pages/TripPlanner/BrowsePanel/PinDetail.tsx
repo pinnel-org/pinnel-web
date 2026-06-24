@@ -13,7 +13,11 @@ interface PinDetailProps {
   onClose: () => void
 }
 
-const SECTIONS = ['OVERVIEW', 'VISITOR TIPS', 'HISTORY'] as const
+const SECTIONS = [
+  { label: 'OVERVIEW',      field: 'overview'     },
+  { label: 'VISITOR TIPS',  field: 'visitorTips'  },
+  { label: 'HISTORY',       field: 'history'      },
+] as const
 
 export const PinDetail = ({ pin, cityName, isAdded, onAdd, onRemove, onClose }: PinDetailProps) => {
   const [note, setNote] = useState('')
@@ -62,12 +66,12 @@ export const PinDetail = ({ pin, cityName, isAdded, onAdd, onRemove, onClose }: 
       <div className={styles.body}>
         <div className={styles.scroll}>
           <div className={styles.leftCol}>
-            {SECTIONS.map((label) => (
+            {SECTIONS.map(({ label, field }) => (
               <section key={label} className={styles.section}>
                 <p className={styles.sectionLabel}>{label}</p>
                 <article className={styles.article}>
-                  {pin.description
-                    ? <p className={styles.description}>{pin.description}</p>
+                  {pin[field]
+                    ? <p className={styles.description}>{pin[field]}</p>
                     : <p className={styles.descriptionEmpty}>No content yet.</p>
                   }
                 </article>
