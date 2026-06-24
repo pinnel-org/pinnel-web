@@ -53,9 +53,6 @@ export const PinCard = ({ pin, isAdded, onAdd, onRemove, onView }: PinCardProps)
 
       <div className={styles.body}>
         <span className={styles.name}>{pin.name}</span>
-        {pin.description && (
-          <p className={styles.description}>{pin.description}</p>
-        )}
       </div>
 
       <div className={styles.footer}>

@@ -113,17 +113,24 @@
 
 .dragHandle {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: grid;
   place-items: center;
-  color: rgba(42, 31, 18, 0.25);
+  color: rgba(42, 31, 18, 0.35);
   cursor: grab;
+  border-radius: 5px;
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
 }
 
 .item:hover .dragHandle { opacity: 1; }
+
+.dragHandle:hover {
+  color: #E25A2C;
+  background: rgba(226, 90, 44, 0.1);
+}
+
 .dragHandle:active { cursor: grabbing; }
 
 /* ── Dragging state ─── */

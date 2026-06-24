@@ -22,21 +22,27 @@
 
 .dragHandle {
   opacity: 0;
-  color: rgba(42, 31, 18, 0.3);
+  color: rgba(42, 31, 18, 0.35);
   cursor: grab;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   align-self: center;
-  width: 16px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   margin-left: -4px;
-  transition: opacity 0.15s;
+  border-radius: 5px;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
 }
 
 .row:hover .dragHandle,
 .dragging .dragHandle {
   opacity: 1;
+}
+
+.dragHandle:hover {
+  color: #E25A2C;
+  background: rgba(226, 90, 44, 0.1);
 }
 
 .dragHandle:active { cursor: grabbing; }

@@ -3,10 +3,10 @@ import { Pin } from '@/types'
 import styles from './PinList.module.css'
 
 const DragDots = () => (
-  <svg viewBox="0 0 16 16" fill="currentColor" width="11" height="11">
-    <circle cx="5" cy="3.5" r="1.1"/><circle cx="11" cy="3.5" r="1.1"/>
-    <circle cx="5" cy="8" r="1.1"/><circle cx="11" cy="8" r="1.1"/>
-    <circle cx="5" cy="12.5" r="1.1"/><circle cx="11" cy="12.5" r="1.1"/>
+  <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+    <circle cx="5" cy="3.5" r="1.4"/><circle cx="11" cy="3.5" r="1.4"/>
+    <circle cx="5" cy="8" r="1.4"/><circle cx="11" cy="8" r="1.4"/>
+    <circle cx="5" cy="12.5" r="1.4"/><circle cx="11" cy="12.5" r="1.4"/>
   </svg>
 )
 
@@ -92,9 +92,6 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
           </span>
           <div className={styles.body}>
             <span className={styles.name}>{pin.name}</span>
-            {pin.description && (
-              <span className={styles.desc}>{pin.description}</span>
-            )}
           </div>
           <button
             className={styles.removeBtn}
@@ -107,6 +104,7 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
             className={styles.dragHandle}
             onMouseDown={(e) => { e.stopPropagation(); startDrag(idx) }}
             onClick={(e) => e.stopPropagation()}
+            title="Drag to reorder"
           >
             <DragDots />
           </span>
