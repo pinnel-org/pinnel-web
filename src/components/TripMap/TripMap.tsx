@@ -164,9 +164,6 @@ export const TripMap = ({ pins, centerLat, centerLng, focusPinRequest }: TripMap
           >
             <div className={styles.pinCard}>
               <p className={styles.pinName}>{selected.name}</p>
-              {selected.description && (
-                <p className={styles.pinNote}>{selected.description}</p>
-              )}
             </div>
           </Popup>
         )}

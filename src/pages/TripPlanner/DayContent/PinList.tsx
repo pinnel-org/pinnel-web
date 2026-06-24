@@ -92,9 +92,6 @@ export const PinList = ({ pins, onReorder, onRemove, onPinReorderComplete, onVie
           </span>
           <div className={styles.body}>
             <span className={styles.name}>{pin.name}</span>
-            {pin.description && (
-              <span className={styles.desc}>{pin.description}</span>
-            )}
           </div>
           <button
             className={styles.removeBtn}
