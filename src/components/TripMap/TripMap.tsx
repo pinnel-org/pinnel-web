@@ -85,10 +85,12 @@ export const TripMap = ({ pins, centerLat, centerLng, focusPinRequest }: TripMap
   useEffect(() => {
     if (!focusPinRequest || !mapLoaded) return
     const { pin } = focusPinRequest
-    const bounds = mapRef.current?.getMap()?.getBounds()
+    const nativeMap = mapRef.current?.getMap()
+    const bounds = nativeMap?.getBounds()
     const isVisible = bounds?.contains([pin.longitude, pin.latitude]) ?? false
-    if (!isVisible) {
-      mapRef.current?.flyTo({ center: [pin.longitude, pin.latitude], zoom: 16, duration: 700 })
+    if (!isVisible && nativeMap && bounds) {
+      bounds.extend([pin.longitude, pin.latitude])
+      nativeMap.fitBounds(bounds, { padding: 80, duration: 700 })
     }
     setSelected(pin)
     setPulsePinId(pin.id)
