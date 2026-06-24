@@ -352,6 +352,7 @@ export const TripPlannerPage = () => {
     setSelectedCityId(cityId)
     setViewingPin(null)
     setView('browse')
+    setFocusPinRequest(null)
   }
 
   const handleViewPinFromSidebar = (pin: Pin, cityId: number, cityName: string) => {
@@ -366,6 +367,7 @@ export const TripPlannerPage = () => {
     setSelectedCityId(cityId)
     setViewingPin(pin)
     setView('browse')
+    setFocusPinRequest(null)
   }
 
   const handleFocusPin = (pin: Pin, cityId: number) => {
@@ -458,6 +460,7 @@ export const TripPlannerPage = () => {
               setBrowseCityId(undefined)
               setViewingPin(null)
               setView('map')
+              setFocusPinRequest(null)
             }}
           />
         </aside>
