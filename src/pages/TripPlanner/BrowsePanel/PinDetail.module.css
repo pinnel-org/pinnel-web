@@ -23,6 +23,24 @@
   .overlay {
     left: 0;
   }
+
+  .body {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .rightCol {
+    order: -1;
+    padding: 12px 16px 0;
+    flex-shrink: 0;
+  }
+
+  .scroll {
+    flex: none;
+    overflow-y: visible;
+    padding: 20px 16px 40px;
+    min-height: auto;
+  }
 }
 
 /* ── Close button ─── */

@@ -113,3 +113,11 @@
   font-size: 13px;
   color: #8B7355;
 }
+
+@media (max-width: 767px) {
+  .reel {
+    height: 280px;
+    width: 100%;
+    aspect-ratio: unset;
+  }
+}
