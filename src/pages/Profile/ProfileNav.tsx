@@ -19,6 +19,7 @@ export const ProfileNav = ({ homePath = '/' }: ProfileNavProps) => {
   const logout = useAuthStore((s) => s.logout)
   const [comingSoonFeature, setComingSoonFeature] = useState<string | null>(null)
   const [planModalOpen, setPlanModalOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const isActive = (path: string) => location.pathname === path
 
@@ -75,7 +76,44 @@ export const ProfileNav = ({ homePath = '/' }: ProfileNavProps) => {
               LOG OUT
             </button>
           )}
+          <button
+            className={`${styles.iconBtn} ${styles.burgerBtn}`}
+            aria-label="Menu"
+            onClick={() => setMenuOpen(v => !v)}
+          >
+            {menuOpen ? (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {menuOpen && (
+          <>
+            <div className={styles.mobileMenuBackdrop} onClick={() => setMenuOpen(false)} />
+            <nav className={styles.mobileMenu}>
+              <button
+                className={styles.mobileMenuItem}
+                onClick={() => { setPlanModalOpen(true); setMenuOpen(false) }}
+              >
+                + PLAN A TRIP
+              </button>
+              {user && (
+                <button
+                  className={`${styles.mobileMenuItem} ${styles.mobileMenuItemDanger}`}
+                  onClick={() => { logout(); setMenuOpen(false) }}
+                >
+                  LOG OUT
+                </button>
+              )}
+            </nav>
+          </>
+        )}
       </header>
 
       {comingSoonFeature && (

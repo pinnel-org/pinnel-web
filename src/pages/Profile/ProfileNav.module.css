@@ -91,6 +91,55 @@
   background: var(--lp-ink);
 }
 
+/* ── Burger menu ────────────────────────── */
+.burgerBtn {
+  display: none;
+}
+
+.mobileMenuBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--lp-paper);
+  border-bottom: 1.5px solid rgba(26, 20, 16, 0.16);
+  box-shadow: 0 8px 24px rgba(26, 20, 16, 0.12);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.mobileMenuItem {
+  width: 100%;
+  padding: 16px 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--lp-teal);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mobileMenuItem:hover {
+  background: rgba(26, 20, 16, 0.05);
+}
+
+.mobileMenuItemDanger {
+  color: var(--lp-sunset);
+}
+
 /* ── Responsive ─────────────────────────── */
 @media (max-width: 767px) {
   .nav {
@@ -106,15 +155,13 @@
     display: none;
   }
 
-  .planBtn {
+  .planBtn,
+  .logoutBtn {
     display: none;
   }
 
-  .logoutBtn {
-    font-size: 10px;
-    padding: 6px 10px;
-    letter-spacing: 0.04em;
-    box-shadow: 2px 2px 0 var(--lp-ink);
+  .burgerBtn {
+    display: flex;
   }
 }
 
