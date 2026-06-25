@@ -16,6 +16,12 @@
   to   { transform: translateX(0); }
 }
 
+@media (max-width: 767px) {
+  .overlay {
+    width: 100%;
+  }
+}
+
 .panel {
   width: 100%;
   height: 100%;

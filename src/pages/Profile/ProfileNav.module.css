@@ -91,6 +91,34 @@
   background: var(--lp-ink);
 }
 
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 767px) {
+  .nav {
+    padding: 0 16px;
+    height: 52px;
+  }
+
+  .links {
+    display: none;
+  }
+
+  .tagline {
+    display: none;
+  }
+
+  .planBtn {
+    font-size: 10px;
+    padding: 7px 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .logoutBtn {
+    font-size: 10px;
+    padding: 7px 12px;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* Right actions */
 .right {
   display: flex;

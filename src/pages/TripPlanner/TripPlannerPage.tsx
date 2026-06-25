@@ -19,6 +19,7 @@ import styles from './TripPlannerPage.module.css'
 
 type ViewMode = 'map' | 'browse'
 type SaveStatus = 'idle' | 'saving' | 'saved'
+type MobileTab = 'cards' | 'map'
 
 export const TripPlannerPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -27,6 +28,7 @@ export const TripPlannerPage = () => {
   const { data: trip, isLoading: tripLoading } = useTrip(tripId)
 
   const [view, setView] = useState<ViewMode>('map')
+  const [mobileTab, setMobileTab] = useState<MobileTab>('map')
   const [activeDay, setActiveDay] = useState(1)
   const [dayDates, setDayDates] = useState<Date[]>([])
   const [dayCities, setDayCities] = useState<Record<number, DayCityEntry[]>>({})
@@ -353,6 +355,7 @@ export const TripPlannerPage = () => {
     setViewingPin(null)
     setView('browse')
     setFocusPinRequest(null)
+    setMobileTab('map')
   }
 
   const handleViewPinFromSidebar = (pin: Pin, cityId: number, cityName: string) => {
@@ -368,6 +371,7 @@ export const TripPlannerPage = () => {
     setViewingPin(pin)
     setView('browse')
     setFocusPinRequest(null)
+    setMobileTab('map')
   }
 
   const handleFocusPin = (pin: Pin, cityId: number) => {
@@ -377,6 +381,7 @@ export const TripPlannerPage = () => {
     setViewingPin(null)
     setView('map')
     setFocusPinRequest({ pin, seq: focusSeqRef.current })
+    setMobileTab('map')
   }
 
   const handleBrowseClose = () => {
@@ -410,7 +415,7 @@ export const TripPlannerPage = () => {
     <div className={styles.wrapper}>
       <ProfileNav homePath="/profile" />
       <div className={styles.body}>
-        <aside className={styles.sidebar}>
+        <aside className={`${styles.sidebar} ${mobileTab === 'map' ? styles.sidebarHiddenMobile : ''}`}>
           <div className={styles.sidebarTop}>
             <div className={styles.breadcrumb}>
               <span>My Trips</span>
@@ -465,7 +470,7 @@ export const TripPlannerPage = () => {
           />
         </aside>
 
-        <main className={styles.panel}>
+        <main className={`${styles.panel} ${mobileTab === 'cards' ? styles.panelHiddenMobile : ''}`}>
           {weather && weather.length > 0 && (
             <WeatherStrip days={weather} />
           )}
@@ -507,6 +512,21 @@ export const TripPlannerPage = () => {
           )}
         </main>
       </div>
+
+      <nav className={styles.tabBar}>
+        <button
+          className={`${styles.tabBtn} ${mobileTab === 'cards' ? styles.tabBtnActive : ''}`}
+          onClick={() => setMobileTab('cards')}
+        >
+          PLACES
+        </button>
+        <button
+          className={`${styles.tabBtn} ${mobileTab === 'map' ? styles.tabBtnActive : ''}`}
+          onClick={() => { setMobileTab('map'); setView('map') }}
+        >
+          MAP
+        </button>
+      </nav>
     </div>
   )
 }

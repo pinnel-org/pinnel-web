@@ -19,6 +19,12 @@
   to   { transform: translateX(0); }
 }
 
+@media (max-width: 767px) {
+  .overlay {
+    left: 0;
+  }
+}
+
 /* ── Close button ─── */
 
 .closeBtn {
