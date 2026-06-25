@@ -63,7 +63,7 @@ export const AuthCallbackPage = () => {
         return
       }
 
-      const tokens = await res.json() as { id_token: string }
+      const tokens = await res.json() as { id_token: string; refresh_token: string }
       const payload = decodeIdToken(tokens.id_token)
 
       setCognitoSession({
@@ -71,6 +71,7 @@ export const AuthCallbackPage = () => {
         email: payload.email,
         username: payload['cognito:username'] ?? payload.email,
         idToken: tokens.id_token,
+        refreshToken: tokens.refresh_token,
       })
 
       navigate('/profile', { replace: true })
