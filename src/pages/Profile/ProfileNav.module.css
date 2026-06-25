@@ -107,15 +107,14 @@
   }
 
   .planBtn {
-    font-size: 10px;
-    padding: 7px 12px;
-    letter-spacing: 0.04em;
+    display: none;
   }
 
   .logoutBtn {
     font-size: 10px;
-    padding: 7px 12px;
+    padding: 6px 10px;
     letter-spacing: 0.04em;
+    box-shadow: 2px 2px 0 var(--lp-ink);
   }
 }
 

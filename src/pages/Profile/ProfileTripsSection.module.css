@@ -104,3 +104,31 @@
   padding: 40px 0;
   text-align: center;
 }
+
+@media (max-width: 767px) {
+  .section {
+    padding: 24px 16px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 26px;
+    white-space: normal;
+  }
+
+  .connector {
+    display: none;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
