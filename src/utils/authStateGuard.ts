@@ -1,5 +1,5 @@
 const LS_APP_VERSION = 'appVersion'
-const AUTH_KEYS = ['cognitoId', 'cognitoEmail', 'cognitoUsername', 'idToken'] as const
+const AUTH_KEYS = ['cognitoId', 'cognitoEmail', 'cognitoUsername', 'idToken', 'refreshToken'] as const
 
 const clearAuthState = () => {
   AUTH_KEYS.forEach((key) => localStorage.removeItem(key))
